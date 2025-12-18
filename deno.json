@@ -1,0 +1,31 @@
+{
+  "workspace": ["apps/*", "packages/*"],
+  "tasks": {
+    "api": "deno run -A --unstable-kv --watch apps/XmApi/main.js",
+    "web": "deno run -A --unstable-kv --watch apps/XmWeb/main.js"
+  },
+  "imports": {
+    "@alicloud/dysmsapi20170525": "npm:@alicloud/dysmsapi20170525@^4.3.1",
+    "@alicloud/openapi-client": "npm:@alicloud/openapi-client@^0.4.15",
+    "@alicloud/tea-util": "npm:@alicloud/tea-util@^1.4.11",
+    "@es-toolkit/es-toolkit": "jsr:@es-toolkit/es-toolkit@^1.43.0",
+    "ali-oss": "npm:ali-oss@^6.23.0",
+    "hono": "npm:hono@^4.10.6",
+    "@std/path": "jsr:@std/path@^1.1.3",
+    "@vue/compiler-sfc": "npm:@vue/compiler-sfc",
+    "@XmCore": "./packages/XmCore/mod.js",
+    "@XmDBs": "./packages/XmDBs/mod.js",
+    "@XmTableData": "./packages/XmTableData/mod.js",
+    "@XmMetaData": "./packages/XmMetaData/mod.js",
+    "@XmServer": "./packages/XmServer/mod.js",
+    "@XmService": "./packages/XmService/mod.js",
+    "@XmConfig": "./packages/XmConfig/mod.js",
+    "@XmProKVFS": "./packages/XmFS/mod.js",
+    "@XmCompiler": "./packages/XmCompiler/mod.js",
+    "@XmRuntime": "./packages/XmRuntime/mod.js",
+    "@XmControl": "./packages/XmControl/mod.js",
+    "mongodb": "npm:mongodb@^7.0.0",
+    "sequelize": "npm:sequelize@^6.37.7",
+    "xlsx-js-style": "npm:xlsx-js-style@^1.2.0"
+  }
+}

@@ -1,0 +1,5 @@
+data/xm*
+deno.lock
+module-lock.json
+node_modules/
+.env
