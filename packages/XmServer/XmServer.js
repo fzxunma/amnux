@@ -55,7 +55,16 @@ export class XmServer {
         autoSave: false,
       },
       { vfsPath: "/color", diskPath: "./packages/XmUI/color", autoSave: false },
-      { vfsPath: "/hooks", diskPath: "./packages/XmUI/hooks", autoSave: false },
+      {
+        vfsPath: "/composables",
+        diskPath: "./packages/XmUI/composables",
+        autoSave: false,
+      },
+      {
+        vfsPath: "/render",
+        diskPath: "./packages/XmUI/render",
+        autoSave: false,
+      },
     ]);
 
     // 2. 创建 Vue 运行时服务器（全局唯一）
@@ -99,7 +108,8 @@ export class XmServer {
     this.app.use("/utils/*", this.vueServer.middleware());
     this.app.use("/locales/*", this.vueServer.middleware());
     this.app.use("/color/*", this.vueServer.middleware());
-    this.app.use("/hooks/*", this.vueServer.middleware());
+    this.app.use("/composables/*", this.vueServer.middleware());
+    this.app.use("/render/*", this.vueServer.middleware());
 
     // Serve the Vue runtime from CDN
     this.app.get("/@modules/*", this.vueServer.loadVendor());
@@ -143,7 +153,7 @@ export class XmServer {
   }
   initRouter() {
     //this.app.use('/api', this.xmRouters.routes());
-    this.app.post('/api/meta', this.xmMetaRouter.meta());
+    this.app.post("/api/meta", this.xmMetaRouter.meta());
     //this.app.use('/api/table', this.xmTableRouter.routes());
   }
   initProxy() {

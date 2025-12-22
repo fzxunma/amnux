@@ -15,7 +15,7 @@ export class XmDbs {
   async init() {
     if (XmConfig.getSubConfig("mongodb", "using") === true) {
       this.mongoDBClient = new XmMongoDBClient();
-      this.mongoDBClient.Connect();
+      await this.mongoDBClient.Connect();
     }
     if (XmConfig.getSubConfig("mysql", "using") === true) {
       this.mysqlClient = new XmSqlDBClient("mysql");

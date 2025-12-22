@@ -51,7 +51,13 @@ export class XmRuntimeServer {
   }
 
   start() {
-    const paths = ["/components", "/pages", "/store"];
+    const paths = [
+      "/components",
+      "/pages",
+      "/store",
+      "/composables",
+      "/render",
+    ];
     try {
       this.watcher = this.kvfs.fallbackToFsWatch(paths, this.sfcCache);
       console.log("KV watch started:", paths);

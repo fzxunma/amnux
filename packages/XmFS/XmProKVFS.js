@@ -448,6 +448,8 @@ class XmProKVFS {
       "./packages/XmUI/components": "/components",
       "./packages/XmUI/pages": "/pages",
       "./packages/XmUI/store": "/store",
+      "./packages/XmUI/composables": "/composables",
+      "./packages/XmUI/render": "/render",
     };
 
     const vfsToDiskMap = Object.fromEntries(
@@ -535,6 +537,8 @@ class XmProKVFS {
       "./packages/components": "/components",
       "./packages/pages": "/pages",
       "./packages/stores": "/stores",
+      "./packages/composables": "/composables",
+      "./packages/render": "/render",
     };
     const baseVfs =
       Object.entries(map).find(([d, v]) => baseDisk.startsWith(d))?.[1] || "/";
