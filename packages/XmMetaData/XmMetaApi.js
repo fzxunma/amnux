@@ -1,4 +1,4 @@
-// XmMetaApi.js - 优化版：适配 XmMetadataManager 的内存缓存结构
+// XmMetaApi.js - 优化版：适配 XmMetaDataManager 的内存缓存结构
 export class XmMetaApi {
   // 项目名前缀（可根据实际项目调整，或从 manager 传入）
   static projectName = "xmmeeting"; // 不带 system_ 前缀

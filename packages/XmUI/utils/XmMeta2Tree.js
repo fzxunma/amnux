@@ -1,27 +1,77 @@
 export class XmMeta2Tree {
-  static buildTreeNodes(obj, parentPath = []) {
-    return Object.entries(obj)
-      .filter(([_, v]) => v && typeof v === "object")
-      .map(([key, value]) => {
-        const currentPath = [...parentPath, key];
-        const pathKey = currentPath.join("/");
+  static buildTreeNodes(flatData) {
+    if (!flatData || typeof flatData !== "object") return [];
 
-        const isLeaf = value.id && value.title && value.content !== undefined;
+    const root = [];
+    const nodeMap = new Map(); // key: "A/B/C" → node 对象
 
-        return {
-          key: pathKey,
-          label: value.title || key,
-          raw: isLeaf
-            ? {
-              id: value.id,
-              data: value,
-              path: pathKey,
-            }
-            : undefined,
-          children: isLeaf ? undefined : this.buildTreeNodes(value, currentPath),
-          isLeaf,
-        };
+    // 按路径长度排序，确保父节点先创建（可选，但更安全）
+    const entries = Object.entries(flatData);
+    entries.sort((a, b) => a[0].split("/").length - b[0].split("/").length);
+
+    for (const [fullPath, entity] of entries) {
+      const parts = fullPath.split("/").filter(Boolean); // ["XmMetaType", "XmFields"]
+      if (parts.length === 0) continue;
+
+      let currentPath = "";
+      let parentNode = null;
+
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        const isLeaf = i === parts.length - 1;
+        const currentKey = currentPath ? `${currentPath}/${part}` : part;
+
+        let node = nodeMap.get(currentKey);
+
+        if (!node) {
+          // 创建新节点
+          node = {
+            key: currentKey,
+            label: isLeaf ? (entity.title || part) : part, // 叶子显示 title，目录显示段名
+            children: [],
+            isLeaf: isLeaf,
+            raw: {
+              path: currentKey,        // 删除时用的完整路径
+              entity: isLeaf ? entity : undefined,
+            },
+          };
+
+          nodeMap.set(currentKey, node);
+
+          // 挂到父节点或根
+          if (parentNode) {
+            parentNode.children.push(node);
+            parentNode.isLeaf = false;
+          } else {
+            root.push(node);
+          }
+        } else {
+          // 已存在（可能是中间目录），更新 label 和 raw
+          if (isLeaf) {
+            node.label = entity.title || part;
+            node.raw.entity = entity;
+            node.isLeaf = true;
+          }
+        }
+
+        parentNode = node;
+        currentPath = currentKey;
+      }
+    }
+
+    // 递归排序：所有层级按 label 字母排序
+    const sortChildren = (nodes) => {
+      nodes.sort((a, b) => a.label.localeCompare(b.label, "zh")); // 支持中文排序
+      nodes.forEach((node) => {
+        if (node.children?.length > 0) {
+          sortChildren(node.children);
+        }
       });
+    };
+
+    sortChildren(root);
+
+    return root;
   }
   static convertMetaToTree(metaData) {
     if (!metaData || typeof metaData !== "object") return [];

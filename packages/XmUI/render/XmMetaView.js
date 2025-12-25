@@ -1,27 +1,81 @@
-// App.js 或 App.vue <script>
-import { h } from "vue";
-import { XmViewAdapter } from "./XmViewAdapter.js";
+// XmMetaView.js
+import { h, reactive, watch } from "vue";
 import XmMetaRenderer from "./XmMetaRenderer.js";
 import XmInterpreterShell from "./XmInterpreterShell.js";
-import { XmFormMate } from "./XmFormMate.js";
+import { useLoadMetaData } from "/composables/useXmMeta.js";
 
 export default {
   name: "XmMetaView",
 
-  setup() {
-    // 1️⃣ 创建视图适配器
-    const view = XmViewAdapter(XmFormMate);
+  props: {
+    /** Meta 声明（外部驱动） */
+    metaMap: {
+      type: Object,
+      required: true,
+    },
 
-    // 2️⃣ 注入列表数据（Table / List 用）
-    view.list = [
-      { username: "tom", role: "admin", enable: true },
-      { username: "jack", role: "user", enable: false },
-    ];
-    view.current = { type: "span", text: "Hello World" }; // 当前视图类型（form / table / list 等）
+    /** 当前渲染 schema */
+    current: {
+      type: Object,
+      default: null,
+    },
+
+    /** 上下文（选中态 / 权限 / 路由等） */
+    context: {
+      type: Object,
+      default: () => ({}),
+    },
+
+    /** 高级模式：直接注入 metas（可选） */
+    metas: {
+      type: Object,
+      default: null,
+    },
+  },
+
+  setup(props) {
+    const view = reactive({
+      metas: {},
+      current: null,
+      context: {},
+    });
+
+    /** metas 来源决策 */
+    watch(
+      () => [props.metaMap, props.metas],
+      () => {
+        if (props.metas) {
+          view.metas = props.metas;
+        } else {
+          view.metas = useLoadMetaData(props.metaMap);
+        }
+      },
+      { immediate: true, deep: true }
+    );
+
+    /** current 同步 */
+    watch(
+      () => props.current,
+      (val) => {
+        view.current = val;
+      },
+      { immediate: true }
+    );
+
+    /** context 同步 */
+    watch(
+      () => props.context,
+      (val) => {
+        view.context = { ...val };
+      },
+      { immediate: true, deep: true }
+    );
+
     return () =>
       h(XmInterpreterShell, {
         class: "bg-blue-500",
         render: () => {
+          if (!view.current) return null;
           return XmMetaRenderer(view.current, view);
         },
       });

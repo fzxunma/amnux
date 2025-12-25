@@ -1,13 +1,13 @@
 import { Hono } from "hono";
 
-import { XmTabledataManager } from "./XmTabledataManager.js";
+import { XmTableDataManager } from "./XmTableDataManager.js";
 import { AliOssSts } from "@XmService";
 import { XmMetaApi } from "@XmMetaData";
 
 export class XmTableRouters {
   constructor() {
     this.router = new Hono();
-    this.tableManager = new XmTabledataManager();
+    this.tableManager = new XmTableDataManager();
   }
 
   async init(control, metadata) {

@@ -1,73 +1,165 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useXmMeta } from '/composables/useXmMeta'
-import { useXmMessage } from '/composables/useXmMessage'
+import XmParamEditor from './XmParamEditor.vue'
+import XmParamSchemaEditor from './XmParamSchemaEditor.vue'
 import {
   NButton,
-  NInput,
-  NList,
-  NListItem,
-  NSpace,
   NCard,
-  NEmpty,
-  NPopconfirm,
-  NFormItem,
-  NTag,
-  NDivider,
-  NThing,
   NGrid,
   NGi,
+  NTree,
+  NDrawer,
+  NDrawerContent,
+  NForm,
+  NFormItem,
+  NSpace,
+  NTag,
+  NEmpty,
+  NPopconfirm,
+  NInput,
 } from 'naive-ui'
 
-
-// Props 定义（type 必须是字符串，如 'XmUser'、'XmPage' 等）
 const props = defineProps({
   type: { type: String, required: true },
   pageTitle: { type: String, default: '' },
-  idField: { type: String, default: 'id' },
-  titleField: { type: String, default: 'title' },
-  contentField: { type: String, default: 'content' },
 })
 
-// 页面标题
-const title = computed(() => {
-  return props.pageTitle
-})
+const title = computed(() => props.pageTitle || `${props.type} 配置管理`)
 
-const idField = props.idField
-const titleField = props.titleField
-const contentField = props.contentField
-
-// 使用组合函数（传入字符串 type）
 const {
-  xmMetaDataList,         // 现在是对象 { id1: {title:...}, id2: {...} }
   xmMetaTreeData,
   xmMetaDataCurrent,
   xmMetaDataForm,
   loadMetaData,
-  updateFieldMetaData,
+  saveMetaData,
   deleteMetaData,
+  reloadMetaDataList,
   addFormMetaData,
 } = useXmMeta([props.type])
 
-// 新增条目
-const { loading: addLoading, submit: addSubmit } = addFormMetaData()
-const addMsg = useXmMessage(addSubmit, '添加成功')
+const { submit: addSubmit, submitting: addSubmitting } = addFormMetaData()
 
-// 更新字段
-const updateMsg = useXmMessage(updateFieldMetaData, '更新成功')
+const selectedKey = ref('')
 
-// 删除条目
-const deleteMsg = useXmMessage(deleteMetaData, '删除成功')
+const handleSelect = (keys) => {
+  if (!keys.length) {
+    selectedKey.value = ''
+    xmMetaDataCurrent.value = { id: 0 }
+    return
+  }
+  selectedKey.value = keys[0]
+  loadMetaData(selectedKey.value)
+}
 
-// 防止输入首尾空格
-const trimWhitespace = (value) => value.trim()
-let keyPath = ""
-const handleSelect = (keys, { node }) => {
-  console.log('选中:', keys, node)
-  keyPath = keys[0]
-  // 打开编辑等逻辑
-  loadMetaData(keys[0])
+/* ================= 抽屉 ================= */
+
+const drawerVisible = ref(false)
+const drawerMode = ref('add')
+const drawerTitle = computed(() =>
+  drawerMode.value === 'add' ? '添加新条目' : '编辑条目'
+)
+
+/* ================= 动态字段表单 ================= */
+
+const editForm = ref({
+  title: '',
+  params: {},   // ⭐ 动态字段
+})
+
+/* 编辑时：反解 content */
+watch(
+  () => xmMetaDataCurrent.value,
+  (val) => {
+    if (!val?.id) return
+
+    let params = {}
+    try {
+      const content = typeof val.content === 'string'
+        ? JSON.parse(val.content)
+        : val.content
+
+      params = content?.params || {}
+    } catch { }
+
+    editForm.value = {
+      title: val.title || '',
+      params: { ...params },
+    }
+  },
+  { immediate: true }
+)
+
+/* ================= 抽屉操作 ================= */
+
+const openAddDrawer = () => {
+  drawerMode.value = 'add'
+  xmMetaDataForm.metaDataId = ''
+  xmMetaDataForm.metaDataTitle = ''
+  xmMetaDataForm.metaDataContent = ''
+  drawerVisible.value = true
+}
+
+const openEditDrawer = () => {
+  if (!selectedKey.value) {
+    window.$message.warning('请先选择条目')
+    return
+  }
+  drawerMode.value = 'edit'
+  drawerVisible.value = true
+}
+
+/* ================= 动态字段操作 ================= */
+
+const addParam = () => {
+  editForm.value.params[`field_${Date.now()}`] = ''
+}
+
+const removeParam = (key) => {
+  delete editForm.value.params[key]
+}
+
+/* ================= 保存 ================= */
+
+const saving = ref(false)
+
+const handleSave = async () => {
+  if (saving.value) return
+  saving.value = true
+
+  try {
+    if (drawerMode.value === 'add') {
+      await addSubmit()
+      window.$message.success('添加成功')
+    } else {
+      const updated = {
+        ...xmMetaDataCurrent.value,
+        title: editForm.value.title.trim(),
+        content: JSON.stringify({
+          params: editForm.value.params,
+        }, null, 2),
+      }
+      await saveMetaData(selectedKey.value, updated)
+      window.$message.success('修改成功')
+    }
+
+    drawerVisible.value = false
+    await reloadMetaDataList()
+  } catch (err) {
+    window.$message.error(err.message || '保存失败')
+  } finally {
+    saving.value = false
+  }
+}
+
+/* ================= 删除 ================= */
+
+const handleDelete = async () => {
+  if (!selectedKey.value) return
+  await deleteMetaData(selectedKey.value)
+  selectedKey.value = ''
+  xmMetaDataCurrent.value = { id: 0 }
+  await reloadMetaDataList()
 }
 </script>
 
@@ -75,88 +167,79 @@ const handleSelect = (keys, { node }) => {
   <div class="meta-editor">
     <h2>{{ title }}</h2>
 
-    <n-grid :cols="24" :x-gap="24" :y-gap="24" style="min-height: calc(100vh - 180px)">
-      <!-- 左侧：列表 + 新增 -->
+    <n-grid :cols="24" :x-gap="24">
+      <!-- 左侧 -->
       <n-gi :span="8">
-        <n-card embedded :bordered="false" class="left-panel">
-          <!-- 新增表单 -->
-          <n-space vertical :size="16">
-            <n-form-item label="ID（必填）" :label-width="80">
-              <n-input v-model:value="xmMetaDataForm.metaDataId" placeholder="ID" clearable
-                :allow-input="trimWhitespace" />
-            </n-form-item>
+        <n-card embedded>
+          <n-space vertical>
+            <n-space>
+              <n-button type="primary" @click="openAddDrawer">+ 添加</n-button>
+              <n-button @click="openEditDrawer" :disabled="!selectedKey">编辑</n-button>
+              <n-popconfirm @positive-click="handleDelete">
+                <template #trigger>
+                  <n-button type="error" :disabled="!selectedKey">删除</n-button>
+                </template>
+                确定删除？
+              </n-popconfirm>
+            </n-space>
 
-            <n-form-item label="标题" :label-width="80">
-              <n-input v-model:value="xmMetaDataForm.metaDataTitle" placeholder="可选" clearable
-                :allow-input="trimWhitespace" />
-            </n-form-item>
-
-            <n-button type="primary" block :loading="addLoading" :disabled="!xmMetaDataForm.metaDataId.trim()"
-              @click="addMsg">
-              添加
-            </n-button>
+            <n-tree :data="xmMetaTreeData" block-line selectable default-expand-all
+              @update:selected-keys="handleSelect" />
           </n-space>
-
-
-          <!-- 列表 -->
-          <div class="list-section">
-            <!-- 列表标题 -->
-            <h3 style="margin: 0 0 16px 0">
-              所有条目（{{ Array.isArray(xmMetaDataList) ? xmMetaDataList.length : Object.keys(xmMetaDataList || {}).length
-              }}）
-            </h3>
-            <n-tree :data="xmMetaTreeData" block-line expandable default-expand-all selectable
-              @update:selected-keys="handleSelect" show-line />
-
-          </div>
         </n-card>
       </n-gi>
 
-      <!-- 右侧：编辑区 -->
+      <!-- 右侧预览 -->
       <n-gi :span="16">
-        <n-card v-if="xmMetaDataCurrent?.[idField]" title="编辑详情" embedded class="right-panel">
+        <n-card v-if="xmMetaDataCurrent?.id" :title="xmMetaDataCurrent.id" embedded>
           <template #header-extra>
-            <n-tag type="info">{{ xmMetaDataCurrent[idField] }}</n-tag>
+            <n-tag type="info">{{ selectedKey }}</n-tag>
           </template>
-
           <n-space vertical size="large">
-            <n-input :placeholder="`标题（${titleField}）`" :value="xmMetaDataCurrent[titleField]"
-              @update:value="(val) => (xmMetaDataCurrent[titleField] = val)"
-              @blur="updateMsg(keyPath, titleField, xmMetaDataCurrent[titleField])" />
-
-            <!-- 内容字段（大文本） -->
-            <n-input type="textarea" :rows="12" :placeholder="`内容（${contentField}）`"
-              :value="xmMetaDataCurrent[contentField]" @update:value="(val) => (xmMetaDataCurrent[contentField] = val)"
-              @blur="updateMsg(keyPath, contentField, xmMetaDataCurrent[contentField])" />
+            <div><strong>标题：</strong>{{ xmMetaDataCurrent.title || '(无)' }}</div>
+            <div><strong>内容：</strong>
+              <pre>{{ xmMetaDataCurrent.content || '(空)' }}</pre>
+            </div>
           </n-space>
         </n-card>
-
-        <n-empty v-else description="请从左侧列表选择或新建一条记录进行编辑" />
+        <n-empty v-else description="请选择或添加一条记录" />
       </n-gi>
     </n-grid>
+
+    <!-- 抽屉 -->
+    <n-drawer v-model:show="drawerVisible" width="640">
+      <n-drawer-content :title="drawerTitle" closable>
+        <n-form label-width="100">
+          <template v-if="drawerMode === 'add'">
+            <n-form-item label="ID">
+              <n-input v-model:value="xmMetaDataForm.metaDataId" />
+            </n-form-item>
+            <n-form-item label="标题">
+              <n-input v-model:value="xmMetaDataForm.metaDataTitle" />
+            </n-form-item>
+          </template>
+
+          <template v-else>
+            <n-form-item label="标题">
+              <n-input v-model:value="editForm.title" />
+            </n-form-item>
+
+            <!-- <n-form-item label="参数">
+              <xm-param-editor v-model="editForm.params" />
+            </n-form-item> -->
+            <n-form-item label="参数">
+              <XmParamSchemaEditor v-model="editForm.params" />
+            </n-form-item>
+          </template>
+        </n-form>
+
+        <template #footer>
+          <n-space justify="end">
+            <n-button @click="drawerVisible = false">取消</n-button>
+            <n-button type="primary" :loading="saving" @click="handleSave">保存</n-button>
+          </n-space>
+        </template>
+      </n-drawer-content>
+    </n-drawer>
   </div>
 </template>
-
-<style scoped>
-.meta-editor {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.left-panel {
-  padding: 16px;
-}
-
-.right-panel {
-  padding: 16px;
-}
-
-.list-section {
-  margin-top: 24px;
-}
-
-.item-list .active {
-  background-color: #f5f5f5;
-}
-</style>

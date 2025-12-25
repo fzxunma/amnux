@@ -1,8 +1,8 @@
-import { XmMetadataManager } from "./XmMetadataManager.js";
+import { XmMetaDataManager } from "./XmMetaDataManager.js";
 
 export class XmMetaRouters {
   constructor(kvPath) {
-    this.metaManager = new XmMetadataManager(kvPath);
+    this.metaManager = new XmMetaDataManager(kvPath);
   }
 
   async init() {

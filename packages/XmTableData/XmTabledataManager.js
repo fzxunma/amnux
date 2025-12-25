@@ -1,10 +1,10 @@
-// XmTabledataManager.js - 优化重构版
-import { XmTabledata } from "./XmTabledata.js";
+// XmTableDataManager.js - 优化重构版
+import { XmTableData } from "./XmTableData.js";
 import { XmMetaApi } from "@XmMetaData"; // 假设路径正确
 
-export class XmTabledataManager {
+export class XmTableDataManager {
   constructor() {
-    // modelName -> XmTabledata 实例
+    // modelName -> XmTableData 实例
     this.tables = new Map();
 
     // modelName -> 当前最大 id（用于自增 id）
@@ -13,7 +13,7 @@ export class XmTabledataManager {
     // 控制层（MongoDB 操作封装）
     this.control = null;
 
-    // 元数据缓存（从 XmMetadataManager 获取）
+    // 元数据缓存（从 XmMetaDataManager 获取）
     this.metadata = null;
   }
 
@@ -43,10 +43,10 @@ export class XmTabledataManager {
     return next;
   }
 
-  /** 确保模型的 XmTabledata 实例存在 */
+  /** 确保模型的 XmTableData 实例存在 */
   _ensureTable(model, keywords = []) {
     if (!this.tables.has(model)) {
-      this.tables.set(model, new XmTabledata([], keywords));
+      this.tables.set(model, new XmTableData([], keywords));
     }
     return this.tables.get(model);
   }
@@ -80,7 +80,7 @@ export class XmTabledataManager {
               [];
 
             // 创建实例并初始化
-            const table = new XmTabledata(data, keywords);
+            const table = new XmTableData(data, keywords);
             this.tables.set(modelName, table);
             this.maxIds.set(modelName, maxId);
 

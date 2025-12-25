@@ -1,10 +1,11 @@
+import { normalize, fromFileUrl } from "@std/path";
 let _instance = null;
 let _kv = null;
 
 export async function getKVFS(dbPathOrKv = undefined) {
   if (_instance) return _instance;
   console.log("[KVFS] Initializing KVFS...", dbPathOrKv);
-  const absolutePath = new URL(dbPathOrKv, import.meta.url).pathname;
+  const absolutePath = normalize(fromFileUrl(new URL(dbPathOrKv, import.meta.url)));
   if (typeof dbPathOrKv === "string" || dbPathOrKv === undefined) {
     _kv = await Deno.openKv(absolutePath);
   } else if (dbPathOrKv?.atomic) {
@@ -208,7 +209,7 @@ class XmProKVFS {
 
         await Deno.mkdir(new URL(diskPath, import.meta.url).pathname, {
           recursive: true,
-        }).catch(() => {});
+        }).catch(() => { });
         await Deno.writeFile(
           new URL(diskPath, import.meta.url).pathname,
           entry.value,
@@ -265,8 +266,7 @@ class XmProKVFS {
 
       // 正确！这行不会炸
       console.log(
-        `[KVFS] 监听磁盘目录: ${absDiskPath} → ${vfsPath} (autoSave: ${
-          this.autoSavePaths.has(vfsPath)
+        `[KVFS] 监听磁盘目录: ${absDiskPath} → ${vfsPath} (autoSave: ${this.autoSavePaths.has(vfsPath)
         })`,
       );
 
@@ -448,6 +448,8 @@ class XmProKVFS {
       "./packages/XmUI/components": "/components",
       "./packages/XmUI/pages": "/pages",
       "./packages/XmUI/store": "/store",
+      "./packages/XmUI/views": "/views",
+      "./packages/XmUI/utils": "/utils",
       "./packages/XmUI/composables": "/composables",
       "./packages/XmUI/render": "/render",
     };
@@ -537,6 +539,8 @@ class XmProKVFS {
       "./packages/components": "/components",
       "./packages/pages": "/pages",
       "./packages/stores": "/stores",
+      "./packages/views": "/views",
+      "./packages/utils": "/utils",
       "./packages/composables": "/composables",
       "./packages/render": "/render",
     };
@@ -545,31 +549,3 @@ class XmProKVFS {
     return baseVfs + rel;
   }
 }
-
-// ==================== 使用示例（一键启动） ====================
-
-// main.js
-// import { getKVFS } from "./kvfs-pro.js";
-
-// const kvfs = await getKVFS(); // 单例
-// 第一次调用会初始化，后面所有调用都返回同一个实例
-// const fs = await getKVFS();                    // 默认本地数据库
-// // const fs = await getKVFS(":memory:");       // 内存数据库（重启即丢失）
-// // const fs = await getKVFS("./data/myapp.kv"); // 自定义路径
-
-// await fs.mkdir("/uploads/avatar", { recursive: true });
-// await fs.writeFile("/uploads/hello.txt", "Hello 单例 KVFS!");
-// // 一行代码完成：加载磁盘目录 → KVFS，并开启双向同步！
-// await kvfs.syncFromDisk([
-//   { vfsPath: "/public",   diskPath: "./public",   autoSave: true  }, // 修改后自动写回
-//   { vfsPath: "/uploads",  diskPath: "./uploads",  autoSave: false }, // 只读镜像
-//   { vfsPath: "/config",   diskPath: "./config",   autoSave: true  },
-// ]);
-
-// console.log(await kvfs.readdir("/public"));
-
-// 现在你可以这样用：
-//   http://localhost:8000/public/avatar.jpg  → 直接从 KVFS 读（超快 + 持久化 + 可编辑后自动保存！）
-
-// 手动触发一次全量保存
-// setInterval(() => kvfs.saveToDisk(), 60000); // 每分钟保存一次

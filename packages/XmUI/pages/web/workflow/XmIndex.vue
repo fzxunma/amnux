@@ -2,20 +2,14 @@
 import { ref, computed } from 'vue'
 import XmNodeEditor from './XmNodeEditor.vue'
 import { NTree, NPopconfirm } from "naive-ui"
-import { useXmMeta } from '/composables/useXmMeta'
+import { useLoadMetaData } from '/composables/useXmMeta'
+import XmMetaView from '/render/XmMetaView.js'
 
-const {
-  xmMetaTreeData,
-  deleteMetaData,
-  reloadMetaDataList
-} = useXmMeta("XmWorkflows")
-
-/** 流程基础信息 */
-const workflow = ref({
-  id: 'wf_demo',
-  name: '示例流程',
-  version: 1
+const metas = useLoadMetaData({
+  workflows: "XmWorkflows",
+  steps: "XmSteps",
 })
+
 
 /** 节点数据 */
 const nodes = ref([
@@ -57,7 +51,15 @@ function prev() {
     currentRef.value = 5;
   else currentRef.value--;
 }
+const currentSchema = ref({
+  type: "span",
+  text: "Hello World",
+});
 
+const context = ref({
+  selectedWorkflowId: null,
+  selectedStepId: null,
+});
 const handleSelect = (keys, { node }) => {
   console.log('选中:', keys, node)
   // 打开编辑等逻辑
@@ -73,24 +75,33 @@ const handleSelect = (keys, { node }) => {
     </n-layout-header>
     <n-layout has-sider position="absolute" style="top: 64px; bottom: 64px" bordered>
       <!-- 左侧：流程 + 节点列表 -->
-      <n-layout-sider bordered >
-        <n-tree :data="xmMetaTreeData" block-line expandable selectable @update:selected-keys="handleSelect" />
+      <n-layout-sider bordered>
+        <NTree :data="metas.workflows.xmMetaTreeData" block-line expandable selectable @update:selected-keys="handleSelect" />
+        <NTree :data="metas.steps.xmMetaTreeData" block-line expandable selectable @update:selected-keys="handleSelect" />
       </n-layout-sider>
 
       <!-- 右侧：节点编辑 -->
       <n-layout-content style="padding: 12px">
+  <XmMetaView
+    :meta-map="{
+      workflows: 'XmWorkflows',
+      steps: 'XmSteps'
+    }"
+    :current="currentSchema"
+    :context="context"
+  />
         <n-card title="页面流程">
           <n-space vertical>
             <n-steps vertical :current="current" :status="currentStatus">
-              <n-step title="I Me Mine">
-                <div class="n-step-description">
+              <n-step :title="step" v-for="step in metas.steps.xmMetaTreeData" :key="step">
+                <!-- <div class="n-step-description">
                   <p>Al through the day, I me mine I me mine, I me mine</p>
                   <XmNodeEditor v-if="selectedNode" :node="selectedNode" :nodes="nodes" @update-next="updateNodeNext" />
                   <n-empty v-else description="请选择一个节点" />
                   <n-button v-if="current === 1" size="small" @click="next">
                     Next
                   </n-button>
-                </div>
+                </div> -->
               </n-step>
               <n-step title="Let It Be" description="When I find myself in times of trouble Mother Mary comes to me" />
               <n-step title="Break" />

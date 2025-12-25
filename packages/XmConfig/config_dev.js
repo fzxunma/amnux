@@ -3,7 +3,7 @@ const config = {
   secretKey: "xunma8877",
   listen: 10011,
   mongodb: {
-    using: false,
+    using: true,
     // 连接池配置
     poolSize: 10, // 连接池中的连接数
     uri: "mongodb://localhost:27017", // MongoDB 连接 URI

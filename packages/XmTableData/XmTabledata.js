@@ -1,7 +1,7 @@
-// XmTabledata.js - 优化重构版
+// XmTableData.js - 优化重构版
 import { ObjectId } from "mongodb";
 
-export class XmTabledata {
+export class XmTableData {
   /**
    * @param {Array<Object>} data - 初始数据数组（每个对象必须有 _id）
    * @param {Array<string>} keywords - 用于生成唯一 key 的字段列表（如 ["moduleName", "modelName", "name"]）

@@ -1,150 +1,122 @@
-import { ref } from "vue";
+// /store/XmMeta.js
 import { XmFetch } from "/utils/XmFetch.js";
 
 export class XmMeta {
-  static metaDataCache = new Map(); // keyPath → ref(ID数组)
-  static entityCache = new Map(); // keyPath → ref(完整对象)
-  static fullListCache = new Map(); // keyStr → 完整对象
-
-  // ================= 工具方法 =================
+  /** 标准化 keyPath 为数组，并过滤空段 */
   static normalizeKeyPath(keyPath) {
-    return Array.isArray(keyPath) ? keyPath : keyPath.split("/");
+    if (Array.isArray(keyPath)) {
+      return keyPath.filter(Boolean);
+    }
+    return keyPath.split("/").filter(Boolean);
   }
 
+  /** 获取字符串 key，用于日志或调试 */
   static getKeyStr(keyPath) {
-    return Array.isArray(keyPath) ? keyPath.join("/") : keyPath;
+    return this.normalizeKeyPath(keyPath).join("/");
   }
 
-  // ================= Meta List =================
-  static ensure(keyPath) {
-    const keyStr = this.getKeyStr(keyPath);
-    let r = this.metaDataCache.get(keyStr);
-    if (!r) {
-      r = ref([]);
-      this.metaDataCache.set(keyStr, r);
-    }
-    return r;
-  }
-
-  static async load(keyPath) {
-    const keyStr = this.getKeyStr(keyPath);
-    const r = this.ensure(keyPath);
-
-    const data = await XmFetch.metaFetch({ opt: "get", keyPath });
-    const fullData = data || {};
-
-    r.value = Object.keys(fullData);
-    this.fullListCache.set(keyStr, fullData);
-
-    return r;
-  }
-
-  static getCachedFullList(keyPath) {
-    const keyStr = this.getKeyStr(keyPath);
-    return this.fullListCache.get(keyStr) || {};
-  }
-
-  static clearFullListCache(keyPath) {
+  // ==================== 列表 ====================
+  static async fetchList(keyPath) {
     const normalized = this.normalizeKeyPath(keyPath);
-    const keyStr = normalized.join("/");
-    this.fullListCache.delete(keyStr);
-
-    // 清空列表缓存，强制刷新
-    const listRef = this.metaDataCache.get(keyStr);
-    if (listRef) listRef.value = [];
+    const data = await XmFetch.metaFetch({ opt: "list", keyPath: normalized });
+    return data || {};
   }
 
-  // ================= Entity =================
-  static ensureEntity(keyPath) {
-    const keyStr = this.getKeyStr(keyPath);
-    let r = this.entityCache.get(keyStr);
-    if (!r) {
-      r = ref({ id: 0 });
-      this.entityCache.set(keyStr, r);
-    }
-    return r;
+  // ==================== 实体 ====================
+  static async fetchEntity(keyPath) {
+    const normalized = this.normalizeKeyPath(keyPath);
+    const data = await XmFetch.metaFetch({ opt: "get", keyPath: normalized });
+    return data || {};
   }
-
-  static async loadEntity(keyPath) {
-    //const keyStr = this.getKeyStr(keyPath);
-    const r = this.ensureEntity(keyPath);
-    const data = await XmFetch.metaFetch({ opt: "get", keyPath });
-    r.value = { ...(data || {}) };
-    return r;
-  }
-
   static async saveEntity(keyPath, value) {
-    if (!keyPath || (Array.isArray(keyPath) && keyPath.length === 0)) {
+    const normalized = this.normalizeKeyPath(keyPath);
+    if (normalized.length === 0) throw new Error("keyPath 不能为空");
+
+    for (const part of normalized) {
+      if (typeof part !== "string") {
+        throw new Error("keyPath 部分必须是字符串");
+      }
+      if (part.trim() === "") {
+        throw new Error("keyPath 部分不能为空");
+      }
+
+      // 禁止反斜杠和控制字符（核心安全）
+      if (/[\\\0-\x1F\x7F]/.test(part)) {
+        throw new Error(`keyPath 部分 "${part}" 包含非法控制字符或分隔符`);
+      }
+
+      // ⭐ 强烈建议保留：严格字符集限制（不影响多级目录）
+      if (!/^[\/a-zA-Z0-9._-]+$/.test(part)) {
+        throw new Error(`keyPath 部分 "${part}" 只能包含字母、数字、下划线、短横线和点号（建议遵守）`);
+      }
+
+      // 可选：长度限制
+      if (part.length > 128) {
+        throw new Error(`keyPath 部分 "${part}" 过长（最多128字符）`);
+      }
+    }
+
+    await XmFetch.metaFetch({ opt: "set", keyPath: normalized, value });
+  }
+
+  static async updateField(keyPath, path, value) {
+    const normalized = this.normalizeKeyPath(keyPath);
+    await XmFetch.metaFetch({ opt: "update", keyPath: normalized, path, value });
+  }
+
+  static async deleteEntity(keyPath) {
+    const normalized = this.normalizeKeyPath(keyPath);
+    if (normalized.length === 0) {
       throw new Error("keyPath 不能为空");
     }
 
-    // 强制转为数组，并防御非法字符
-    let normalized = Array.isArray(keyPath) ? keyPath : keyPath.split("/");
-    normalized = normalized.map((part) => {
-      if (
-        typeof part !== "string" || part.includes("/") || part.includes("\\")
-      ) {
-        throw new Error(`keyPath 部分 "${part}" 包含非法字符`);
+    // 第一步：检查是否有子节点
+    const hasChildren = await this.hasChildEntities(normalized);
+    if (hasChildren) {
+      throw new Error(`无法删除 "${normalized.join('/')}": 存在子节点，请先删除子节点或使用强制删除`);
+    }
+
+    // 第二步：执行删除
+    await XmFetch.metaFetch({ opt: "del", keyPath: normalized });
+  }
+
+  // 辅助方法：检查是否存在子节点（任意深度后代）
+  static async hasChildEntities(prefixPath) {
+    try {
+      // 调用后端 list，获取所有后代
+      const children = await XmFetch.metaFetch({
+        opt: "list",
+        keyPath: prefixPath,
+      });
+
+      // 如果返回的对象有任何键，说明有子节点
+      return Object.keys(children || {}).length > 0;
+    } catch (err) {
+      // 如果 list 失败（比如网络问题），保守策略：假设有子节点，拒绝删除
+      console.warn("检查子节点失败，默认拒绝删除:", err);
+      return true;
+    }
+  }
+  static async deleteEntityforce(keyPath, { force = false } = {}) {
+    const normalized = this.normalizeKeyPath(keyPath);
+    if (normalized.length === 0) {
+      throw new Error("keyPath 不能为空");
+    }
+
+    if (!force) {
+      const hasChildren = await this.hasChildEntities(normalized);
+      if (hasChildren) {
+        throw new Error(
+          `节点 "${normalized.join('/')}" 下存在子节点。使用 { force: true } 可强制删除整个目录树（慎用！）`
+        );
       }
-      return part;
+    }
+
+    // 执行删除（后端 del 支持 force 时可递归）
+    await XmFetch.metaFetch({
+      opt: "del",
+      keyPath: normalized,
+      value: { force }, // 传给后端，让后端决定是否递归
     });
-    // 关键：正确传 keyPath
-    await XmFetch.metaFetch({ opt: "set", keyPath: normalized, value });
-
-    // 更新缓存
-    const keyStr = normalized.join("/");
-    const entityRef = this.entityCache.get(keyStr);
-    if (entityRef) entityRef.value = { ...value };
-
-    // 清除父级缓存
-    if (normalized.length > 1) {
-      const parentKey = normalized.slice(0, -1);
-      this.clearFullListCache(parentKey);
-    }
-
-    return true;
-  }
-
-  static async updateEntityField(keyPath, path, value) {
-    await XmFetch.metaFetch({ opt: "update", keyPath, path, value });
-    const keyStr = this.getKeyStr(keyPath);
-    const entityRef = this.entityCache.get(keyStr);
-    if (entityRef) {
-      const fresh = await XmFetch.metaFetch({ opt: "get", keyPath });
-      entityRef.value = { ...(fresh || {}) };
-    }
-    const parentKey = this.normalizeKeyPath(keyPath).slice(0, -1);
-    this.clearFullListCache(parentKey);
-    return true;
-  }
-  static normalizeListKey(listKey) {
-    let keyArray;
-
-    if (typeof listKey === "string") {
-      // 字符串路径，用 / 分割，过滤空段（如 "meta/" 或 "//"）
-      keyArray = listKey.split("/").filter(Boolean);
-    } else if (Array.isArray(listKey)) {
-      keyArray = [...listKey];
-    } else {
-      throw new Error("LIST_KEY 必须是字符串或数组");
-    }
-
-    // 冻结数组，防止后续代码意外修改（如 push）
-    return Object.freeze(keyArray);
-  }
-  static async deleteEntity(keyPath) {
-    console.log(keyPath)
-    await XmFetch.metaFetch({ opt: "del", keyPath });
-    const keyStr = this.getKeyStr(keyPath);
-    this.entityCache.delete(keyStr);
-
-    const parentKey = this.normalizeKeyPath(keyPath).slice(0, -1);
-    this.clearFullListCache(parentKey);
-
-    // 刷新列表 ID
-    const listRef = this.metaDataCache.get(parentKey.join("/"));
-    if (listRef) await this.load(parentKey);
-
-    return true;
   }
 }

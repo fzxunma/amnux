@@ -55,6 +55,8 @@ export class XmRuntimeServer {
       "/components",
       "/pages",
       "/store",
+      "/views",
+      "/utils",
       "/composables",
       "/render",
     ];
