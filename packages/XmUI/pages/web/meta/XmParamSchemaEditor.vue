@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, nextTick, toRaw } from 'vue'
-import { NInput, NSelect, NButton, NCheckbox } from 'naive-ui'
+import { NInput, NSelect, NButton, NCheckbox, NTag } from 'naive-ui'
 import XmParamSchemaEditor from './XmParamSchemaEditor.vue'
 
 defineOptions({ name: 'XmParamSchemaEditor' })
@@ -28,9 +28,13 @@ const buildRows = (obj) => {
     if (v && typeof v === 'object' && v.type) {
       const schema = JSON.parse(JSON.stringify(v))
       if (schema.type === 'object') schema.properties ||= {}
-      if (schema.type === 'enum') schema.options ||= []
-      if (Array.isArray(schema.options)) schema.options = schema.options.join(',')
-      result.push({ key: k, schema, expanded: false })
+      if (schema.type === 'enum') {
+        if (!schema.options) schema.options = []
+        else if (typeof schema.options === 'string') {
+          schema.options = schema.options.split(',').map(s => s.trim())
+        }
+      }
+      result.push({ key: k, schema, expanded: false, newTag: '' })
     } else {
       const type = typeof v === 'number' ? 'number' :
                    typeof v === 'boolean' ? 'boolean' : 'string'
@@ -61,7 +65,7 @@ const updateModel = () => {
 
 // 行操作
 const addRow = () => {
-  rows.push({ key: '', schema: { type: 'string', required: false }, expanded: true })
+  rows.push({ key: '', schema: { type: 'string', required: false }, expanded: true, newTag: '' })
 }
 const removeRow = (i) => {
   rows.splice(i, 1)
@@ -83,6 +87,27 @@ const ensureObject = (row) => {
 const onChildUpdate = (row, newProperties) => {
   row.schema.properties = newProperties
   updateModel()
+}
+
+// 添加枚举 Tag
+const addTag = (row) => {
+  if (!Array.isArray(row.schema.options)) row.schema.options = []
+  const tag = row.newTag && row.newTag.trim()
+  if (tag && !row.schema.options.includes(tag)) {
+    row.schema.options.push(tag)
+    row.newTag = ''
+    updateModel()
+  }
+}
+
+// 删除枚举 Tag
+const removeTag = (row, tag) => {
+  if (!Array.isArray(row.schema.options)) return
+  const index = row.schema.options.indexOf(tag)
+  if (index >= 0) {
+    row.schema.options.splice(index, 1)
+    updateModel()
+  }
 }
 </script>
 
@@ -126,11 +151,23 @@ const onChildUpdate = (row, newProperties) => {
         </template>
 
         <template v-else-if="row.schema.type === 'enum'">
-          <n-input
-            v-model:value="row.schema.options"
-            placeholder="选项，用 , 分隔"
-            @blur="row.schema.options = String(row.schema.options).split(','); updateModel()"
-          />
+          <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px">
+            <n-tag
+              v-for="tag in row.schema.options"
+              :key="tag"
+              closable
+              @close="removeTag(row, tag)"
+            >{{ tag }}</n-tag>
+          </div>
+          <div style="display:flex;gap:4px">
+            <n-input
+              v-model:value="row.newTag"
+              placeholder="添加选项"
+              @keyup.enter="addTag(row)"
+              style="flex:1"
+            />
+            <n-button size="tiny" @click="addTag(row)">添加</n-button>
+          </div>
           <n-input v-model:value="row.schema.value" placeholder="当前值" style="margin-top:4px" @input="updateModel" />
         </template>
 
