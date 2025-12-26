@@ -7,4 +7,7 @@ export class XmApiConfig {
   static getMetaApiUrl() {
     return `${this.#apiBaseUrl}/meta`;
   }
+  static getMetaDataApiUrl() {
+    return `${this.#apiBaseUrl}/metaData`;
+  }
 }

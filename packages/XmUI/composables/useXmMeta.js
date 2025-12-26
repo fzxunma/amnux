@@ -3,9 +3,10 @@ import { ref, readonly, computed, onMounted, watch, reactive } from "vue";
 import { XmMeta } from "/store/XmMeta.js";
 import { XmMeta2Tree } from "/utils/XmMeta2Tree.js";
 
-export function useXmMeta(LIST_KEY) {
+export function useXmMeta(LIST_KEY, metaTyp = "meta") {
   const ROOT_KEY = XmMeta.normalizeKeyPath(LIST_KEY);
   const rootKeyStr = ROOT_KEY.join("/");
+  const metaFetchType = `${metaTyp}Fetch`;
 
   // ==================== 状态 ====================
   const listIds = ref([]);                  // ID 数组
@@ -37,7 +38,7 @@ export function useXmMeta(LIST_KEY) {
         requestKeyPath = ["xm"];
       }
       // ⭐ 关键：改为 list 操作
-      const data = await XmMeta.fetchList(requestKeyPath);
+      const data = await XmMeta.fetchList(requestKeyPath, metaFetchType);
       fullListData.value = data; // {id1: obj1, id2: obj2}
       listIds.value = Object.keys(data);
 
@@ -60,7 +61,7 @@ export function useXmMeta(LIST_KEY) {
     const keyPath = [...ROOT_KEY, id];
     entityLoading.value = true;
     try {
-      const data = await XmMeta.fetchEntity(keyPath);
+      const data = await XmMeta.fetchEntity(keyPath, metaFetchType);
       currentEntity.value = { ...data, id }; // 确保 id 在对象上
     } catch (err) {
       console.error(`[${XmMeta.getKeyStr(keyPath)}] 加载实体失败:`, err);
@@ -73,7 +74,7 @@ export function useXmMeta(LIST_KEY) {
   // ==================== 保存完整实体 ====================
   const saveMetaData = async (id, content) => {
     const keyPath = [...ROOT_KEY, id];
-    await XmMeta.saveEntity(keyPath, content);
+    await XmMeta.saveEntity(keyPath, content, metaFetchType);
     await reloadMetaDataList();
 
     if (currentEntity.value.id === id) {
@@ -84,7 +85,7 @@ export function useXmMeta(LIST_KEY) {
   // ==================== 局部更新字段 ====================
   const updateFieldMetaData = async (id, path, value) => {
     const keyPath = [...ROOT_KEY, id];
-    await XmMeta.updateField(keyPath, path, value);
+    await XmMeta.updateField(keyPath, path, value, metaFetchType);
 
     // 乐观更新当前实体
     if (currentEntity.value.id === id) {
@@ -105,7 +106,7 @@ export function useXmMeta(LIST_KEY) {
   // ==================== 删除实体 ====================
   const deleteMetaData = async (id) => {
     const keyPath = [...ROOT_KEY, id];
-    await XmMeta.deleteEntity(keyPath);
+    await XmMeta.deleteEntity(keyPath, metaFetchType);
     await reloadMetaDataList();
 
     if (currentEntity.value.id === id) {
@@ -175,7 +176,7 @@ export function useXmMeta(LIST_KEY) {
           content: xmMetaDataForm.value.metaDataContent.trim(),
         };
 
-        await XmMeta.saveEntity(fullKeyPath, newEntity);
+        await XmMeta.saveEntity(fullKeyPath, newEntity, metaFetchType);
 
         await reloadMetaDataList();
 

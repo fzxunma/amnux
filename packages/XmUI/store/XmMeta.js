@@ -16,19 +16,19 @@ export class XmMeta {
   }
 
   // ==================== 列表 ====================
-  static async fetchList(keyPath) {
+  static async fetchList(keyPath, metaFetch = "metaDataFetch") {
     const normalized = this.normalizeKeyPath(keyPath);
-    const data = await XmFetch.metaFetch({ opt: "list", keyPath: normalized });
+    const data = await XmFetch[metaFetch]({ opt: "list", keyPath: normalized });
     return data || {};
   }
 
   // ==================== 实体 ====================
-  static async fetchEntity(keyPath) {
+  static async fetchEntity(keyPath, metaFetch = "metaDataFetch") {
     const normalized = this.normalizeKeyPath(keyPath);
-    const data = await XmFetch.metaFetch({ opt: "get", keyPath: normalized });
+    const data = await XmFetch[metaFetch]({ opt: "get", keyPath: normalized });
     return data || {};
   }
-  static async saveEntity(keyPath, value) {
+  static async saveEntity(keyPath, value, metaFetch = "metaDataFetch") {
     const normalized = this.normalizeKeyPath(keyPath);
     if (normalized.length === 0) throw new Error("keyPath 不能为空");
 
@@ -56,15 +56,15 @@ export class XmMeta {
       }
     }
 
-    await XmFetch.metaFetch({ opt: "set", keyPath: normalized, value });
+    await XmFetch[metaFetch]({ opt: "set", keyPath: normalized, value });
   }
 
-  static async updateField(keyPath, path, value) {
+  static async updateField(keyPath, path, value,  metaFetch = "metaDataFetch") {
     const normalized = this.normalizeKeyPath(keyPath);
-    await XmFetch.metaFetch({ opt: "update", keyPath: normalized, path, value });
+    await XmFetch[metaFetch]({ opt: "update", keyPath: normalized, path, value });
   }
 
-  static async deleteEntity(keyPath) {
+  static async deleteEntity(keyPath, metaFetch = "metaDataFetch") {
     const normalized = this.normalizeKeyPath(keyPath);
     if (normalized.length === 0) {
       throw new Error("keyPath 不能为空");
@@ -77,7 +77,7 @@ export class XmMeta {
     }
 
     // 第二步：执行删除
-    await XmFetch.metaFetch({ opt: "del", keyPath: normalized });
+    await XmFetch[metaFetch]({ opt: "del", keyPath: normalized });
   }
 
   // 辅助方法：检查是否存在子节点（任意深度后代）
@@ -97,7 +97,7 @@ export class XmMeta {
       return true;
     }
   }
-  static async deleteEntityforce(keyPath, { force = false } = {}) {
+  static async deleteEntityforce(keyPath, metaFetch = "metaDataFetch", { force = false } = {}) {
     const normalized = this.normalizeKeyPath(keyPath);
     if (normalized.length === 0) {
       throw new Error("keyPath 不能为空");
@@ -113,7 +113,7 @@ export class XmMeta {
     }
 
     // 执行删除（后端 del 支持 force 时可递归）
-    await XmFetch.metaFetch({
+    await XmFetch[metaFetch]({
       opt: "del",
       keyPath: normalized,
       value: { force }, // 传给后端，让后端决定是否递归

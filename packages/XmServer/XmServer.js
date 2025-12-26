@@ -26,7 +26,7 @@ export class XmServer {
     this.app = new Hono();
 
     this.xmRouters = new XmRouters();
-    this.xmMetaRouter = new XmMetaRouters("../../data/xmm");
+    this.xmMetaRouter = new XmMetaRouters("../../data/xmm", "../../data/xmd");
     this.xmTableRouter = new XmTableRouters();
     this.xmControl = new XmControl();
   }
@@ -72,7 +72,7 @@ export class XmServer {
     await this.vueServer.start(); // 启动热更新监听
     await this.xmControl.init();
     await this.xmMetaRouter.init();
-    const metadata = this.xmMetaRouter.getMetaAllData();
+    const metadata = this.xmMetaRouter.getMetaAll();
     await this.xmRouters.init(this.xmControl);
     await this.xmTableRouter.init(this.xmControl, metadata);
   }
@@ -154,6 +154,7 @@ export class XmServer {
   initRouter() {
     //this.app.use('/api', this.xmRouters.routes());
     this.app.post("/api/meta", this.xmMetaRouter.meta());
+    this.app.post("/api/metaData", this.xmMetaRouter.metaData());
     //this.app.use('/api/table', this.xmTableRouter.routes());
   }
   initProxy() {

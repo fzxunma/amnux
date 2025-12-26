@@ -53,7 +53,7 @@ const renderLabel = ({ option: node }) => {
     },
     [
       // 节点名称
-      h("span", node.label),
+      h("span", node.label+'['+node.key+']'),
 
       // 删除按钮（用 Popconfirm 包裹）
       h(
