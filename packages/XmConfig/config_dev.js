@@ -1,6 +1,6 @@
 const config = {
   projectName: "xunma",
-  secretKey: "xunma8877",
+  secretKey: "xunma",
   listen: 10011,
   mongodb: {
     using: false,

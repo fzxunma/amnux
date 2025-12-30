@@ -23,16 +23,16 @@ export class XmRuntimeServer {
 
     // CDN 映射表
     this.vendorCdnMap = {
-      "/@modules/vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
-      "/@modules/naive-ui":
-        "https://unpkg.com/naive-ui@2.43.2/dist/index.prod.mjs",
-      "/@modules/unocss":
-        "https://unpkg.com/@unocss/runtime@66.5.10/uno.global.js",
-      "/@modules/@vueuse/core": "https://unpkg.com/@vueuse/core",
-      "/@modules/pinia":
-        "https://unpkg.com/pinia@latest/dist/pinia.iife.prod.js",
-      "/@modules/vue-router":
-        "https://unpkg.com/vue-router@latest/dist/vue-router.esm-browser.js",
+      // "/@modules/vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+      // "/@modules/naive-ui":
+      //   "https://unpkg.com/naive-ui@2.43.2/dist/index.prod.mjs",
+      // "/@modules/unocss":
+      //   "https://unpkg.com/@unocss/runtime@66.5.10/uno.global.js",
+      // "/@modules/@vueuse/core": "https://unpkg.com/@vueuse/core",
+      // "/@modules/pinia":
+      //   "https://unpkg.com/pinia@latest/dist/pinia.iife.prod.js",
+      // "/@modules/vue-router":
+      //   "https://unpkg.com/vue-router@latest/dist/vue-router.esm-browser.js"
     };
   }
   // 代理函数，用于 API 代理
@@ -58,6 +58,7 @@ export class XmRuntimeServer {
       "/views",
       "/utils",
       "/composables",
+      "/theme",
       "/render",
     ];
     try {
@@ -147,6 +148,14 @@ export class XmRuntimeServer {
         /\bfrom\s*(['"])@vueuse\/core\1/g,
         `from "/@modules/@vueuse/core"`,
       )
+      .replace(
+        /\bfrom\s*(['"])vue-draggable-plus\1/g,
+        `from "/@modules/vue-draggable-plus"`,
+      )
+      .replace(
+        /\bfrom\s*(['"])xion\1/g,
+        `from "/@modules/vue-draggable-plus"`,
+      )
       // pinia
       .replace(/\bfrom\s*(['"])pinia\1/g, `from "/@modules/pinia"`)
       // vue-router
@@ -193,9 +202,8 @@ export class XmRuntimeServer {
                 if (k.startsWith(p + "::")) sfcCache.delete(k);
               }
 
-              const message = `data: ${
-                JSON.stringify({ type: "reload", path: p })
-              }\n\n`;
+              const message = `data: ${JSON.stringify({ type: "reload", path: p })
+                }\n\n`;
               for (const c of Array.from(this.hmrControllers)) {
                 try {
                   c.enqueue(message);

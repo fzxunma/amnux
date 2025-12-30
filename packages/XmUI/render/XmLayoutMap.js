@@ -178,6 +178,43 @@ export const XmLayout3_s_hcf = {
   ]
 }
 
+
+// 工厂函数：生成可动态修改的 layout meta
+export function createLayoutMeta(baseMeta, overrideProps = {}, overrideSlots = {}) {
+  if (!baseMeta) return null
+  const clone = JSON.parse(JSON.stringify(baseMeta)) // 简单深拷贝
+  // 遍历 children，根据 overrideProps/overrideSlots 替换 props/slots
+  function applyOverrides(node) {
+    if (!node) return
+    const typeKey = node.type
+    if (overrideProps[typeKey]) node.props = { ...node.props, ...overrideProps[typeKey] }
+    if (overrideSlots[typeKey]) node.slots = { default: overrideSlots[typeKey] }
+    if (Array.isArray(node.children)) node.children.forEach(applyOverrides)
+  }
+  applyOverrides(clone)
+  return clone
+}
+
+// base layout meta
+export const XmLayout3_h_scs_f_base = {
+  id: 'XmLayout3-h-scs-f',
+  title: '三行布局(header-sider-content-sider-footer)',
+  type: 'XmLayout',
+  props: { class: 'h-full', hasSider: true },
+  children: [
+    { type: 'XmLayoutHeader', slots: { default: () => 'Header' } },
+    {
+      type: 'XmLayout',
+      props: { hasSider: true },
+      children: [
+        { type: 'XmLayoutSider', props: { width: 200 }, slots: { default: () => 'Left Sider' } },
+        { type: 'XmLayoutContent', props: { contentStyle: { padding: '24px' } }, slots: { default: () => 'Content' } },
+        { type: 'XmLayoutSider', props: { width: 200 }, slots: { default: () => 'Right Sider' } }
+      ]
+    },
+    { type: 'XmLayoutFooter', slots: { default: () => 'Footer' } }
+  ]
+}
 // ===================== 注册到 Registry =====================
 
 XmLayoutRegistryInstance.registerBatch([

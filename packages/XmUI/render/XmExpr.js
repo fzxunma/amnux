@@ -9,11 +9,12 @@ export function createExprContext(model, extra = {}) {
   }
 }
 
-export function resolveExpr(expr, ctx) {
-  if (expr === undefined) return true
+export function resolveExpr(expr, ctx, defaultValue = true) {
+  if (expr === undefined) return defaultValue
   if (typeof expr === 'boolean') return expr
   if (typeof expr === 'function') {
     return !!expr(ctx)
   }
-  return true
+  return defaultValue
 }
+

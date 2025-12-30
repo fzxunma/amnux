@@ -1,1 +1,15 @@
-@import url("./main.css");
+@import './reset.css';
+@import './nprogress.css';
+@import './transition.css';
+@import './main.css';
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+html {
+  overflow-x: hidden;
+  color: rgb(var(--base-text-color));
+}

@@ -61,6 +61,11 @@ export class XmServer {
         autoSave: false,
       },
       {
+        vfsPath: "/theme",
+        diskPath: "./packages/XmUI/theme",
+        autoSave: false,
+      },
+      {
         vfsPath: "/render",
         diskPath: "./packages/XmUI/render",
         autoSave: false,
@@ -109,6 +114,7 @@ export class XmServer {
     this.app.use("/locales/*", this.vueServer.middleware());
     this.app.use("/color/*", this.vueServer.middleware());
     this.app.use("/composables/*", this.vueServer.middleware());
+    this.app.use("/theme/*", this.vueServer.middleware());
     this.app.use("/render/*", this.vueServer.middleware());
 
     // Serve the Vue runtime from CDN
@@ -179,7 +185,7 @@ export class XmServer {
     this.initRouter();
     this.initProxy();
     // 启动服务器并处理热更新
-    Deno.serve({ port: XmConfig.getConfig("listen") }, this.app.fetch);
+    Deno.serve({  hostname: "0.0.0.0",port: XmConfig.getConfig("listen") }, this.app.fetch);
 
     console.log("XmRuntimeServer 已启动！", XmConfig.getConfig("listen"));
   }

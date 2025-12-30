@@ -451,6 +451,7 @@ class XmProKVFS {
       "./packages/XmUI/views": "/views",
       "./packages/XmUI/utils": "/utils",
       "./packages/XmUI/composables": "/composables",
+      "./packages/XmUI/theme": "/theme",
       "./packages/XmUI/render": "/render",
     };
 
@@ -542,6 +543,7 @@ class XmProKVFS {
       "./packages/views": "/views",
       "./packages/utils": "/utils",
       "./packages/composables": "/composables",
+      "./packages/theme": "/theme",
       "./packages/render": "/render",
     };
     const baseVfs =

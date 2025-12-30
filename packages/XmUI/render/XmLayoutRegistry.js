@@ -34,6 +34,7 @@ class XmLayoutRegistry {
    * @param {string} id
    */
   get(id) {
+    if (!id) return null
     const key = id.replace(/-/g, "_") // "XmLayout3_h_c_f"
     return this.registry.get(key) || null
   }

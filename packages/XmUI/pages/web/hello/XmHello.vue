@@ -5,5 +5,5 @@ const counter = useCounterStore();
 <template>
   <div @click="counter.increment" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Count vue is hello1:
     {{ counter.count }}</div>
-  <n-button type="error" @click="counter.increment">Click Me</n-button>
+  <n-button type="error" @click="counter.increment">Click Me1</n-button>
 </template>

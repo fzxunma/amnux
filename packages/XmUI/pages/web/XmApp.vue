@@ -14,18 +14,18 @@ import {
   useNotification
 } from 'naive-ui'
 import { createTextVNode, defineComponent, h } from 'vue'
+import { ThemePresets } from '/theme/index.js'
 
 defineOptions({
   name: 'XmApp'
 })
-
 const osTheme = useOsTheme()
-const theme = computed(() => (osTheme.value === 'light' ? darkTheme : null))
+const theme = computed(() => (osTheme.value === 'dark' ? darkTheme : null))
 
 watchEffect(() => {
   document.documentElement.setAttribute(
     'data-theme',
-    osTheme.value === 'dark' ? 'light' : 'light'
+    osTheme.value === 'dark' ? 'dark' : 'light'
   )
 })
 
@@ -68,19 +68,19 @@ const ContextHolder = defineComponent({
 <template>
   <!-- 外层 wrapper 负责全屏背景渐变 -->
   <div class="app-wrapper">
-    <n-config-provider class="h-full" :theme="theme">
-      <n-loading-bar-provider>
-        <n-dialog-provider>
-          <n-notification-provider>
-            <n-message-provider>
+    <NConfigProvider class="h-full" :theme="theme" :theme-overrides="ThemePresets.default">
+      <NLoadingBarProvider>
+        <NDialogProvider>
+          <NNotificationProvider>
+            <NMessageProvider>
               <ContextHolder />
               <router-view />
               <!-- 可选水印 -->
               <!-- <n-watermark v-bind="watermarkProps" /> -->
-            </n-message-provider>
-          </n-notification-provider>
-        </n-dialog-provider>
-      </n-loading-bar-provider>
-    </n-config-provider>
+            </NMessageProvider>
+          </NNotificationProvider>
+        </NDialogProvider>
+      </NLoadingBarProvider>
+    </NConfigProvider>
   </div>
 </template>
