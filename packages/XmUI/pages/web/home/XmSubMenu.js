@@ -37,10 +37,8 @@ const menuUserOptions = [
 
 export const menuOptionsMap = {
     user: menuUserOptions,
-    dashboard: menuAnalyticsOptions,
     order: menuOrderOptions,
     group: menuGroupOptions,
-    message: menuMessageOptions,
 }
 
 
