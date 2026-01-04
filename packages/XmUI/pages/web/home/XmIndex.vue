@@ -5,7 +5,7 @@ import XmSubRight from './XmSubRight.vue'
 import XmSubSider from './XmSubSider.vue'
 </script>
 <template>
-    <NLayout has-sider>
+    <NLayout bordered has-sider>
         <XmSubSider />
         <XmSubIndex />
         <XmSubRight />

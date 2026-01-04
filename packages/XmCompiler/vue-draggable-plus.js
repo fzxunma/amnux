@@ -1,3 +1,3 @@
-import { useDraggable,VueDraggable } from 'vue-draggable-plus';
+import { useDraggable, VueDraggable, vDraggable } from 'vue-draggable-plus';
 
-export { useDraggable,VueDraggable };
+export { useDraggable, VueDraggable, vDraggable };

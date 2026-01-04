@@ -99,7 +99,7 @@ const groupTypeOptions = [
       <label>选择模式: </label>
       <n-select v-model:value="currentGroupType" :options="groupTypeOptions" placeholder="请选择模式">
       </n-select>
-    </div>
+    </div> 
     <XmLowCodeUI :meta="meta" :model-value="meta.data" />
   </n-layout>
 </template>

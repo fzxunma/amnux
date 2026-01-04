@@ -1,4 +1,4 @@
-// ../node_modules/vue-draggable-plus/dist/vue-draggable-plus.js
+// node_modules/vue-draggable-plus/dist/vue-draggable-plus.js
 import { getCurrentInstance as ft, unref as U, watch as an, onUnmounted as ln, onMounted as sn, nextTick as Yt, isRef as $e, defineComponent as un, computed as yt, toRefs as cn, ref as fn, reactive as dn, h as hn, isProxy as pn } from "vue";
 var rn = Object.defineProperty;
 var Ne = Object.getOwnPropertySymbols;
@@ -603,14 +603,14 @@ var Ue = typeof document != "undefined";
 var Fe = kt;
 var Pt = Ae || ie ? "cssFloat" : "float";
 var Hn = Ue && !Ht && !kt && "draggable" in document.createElement("div");
-var Vt = function() {
+var Vt = (function() {
   if (Ue) {
     if (ie)
       return false;
     var t = document.createElement("x");
     return t.style.cssText = "pointer-events:auto", t.style.pointerEvents === "auto";
   }
-}();
+})();
 var $t = function(e, n) {
   var o = h(e), r = parseInt(o.width) - parseInt(o.paddingLeft) - parseInt(o.paddingRight) - parseInt(o.borderLeftWidth) - parseInt(o.borderRightWidth), i = we(e, 0, n), a = we(e, 1, n), l = i && h(i), s = a && h(a), u = l && parseInt(l.marginLeft) + parseInt(l.marginRight) + M(i).width, d = s && parseInt(s.marginLeft) + parseInt(s.marginRight) + M(a).width;
   if (o.display === "flex")
@@ -1430,7 +1430,7 @@ function no() {
     clonedData: en
   };
 }
-var Rt = Symbol("cloneElement");
+var Rt = /* @__PURE__ */ Symbol("cloneElement");
 function tn(...t) {
   var j, Q;
   const e = (j = ft()) == null ? void 0 : j.proxy;
@@ -1672,7 +1672,8 @@ var so = {
 };
 export {
   lo as VueDraggable,
-  tn as useDraggable
+  tn as useDraggable,
+  so as vDraggable
 };
 /*! Bundled license information:
 

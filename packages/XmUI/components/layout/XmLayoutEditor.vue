@@ -1,26 +1,11 @@
 <template>
-  <div class="flex flex-col h-screen p-5 gap-5">
-    <div class="flex gap-2">
-      <n-button type="primary" @click="addRoot('row')">+ 新建横向布局</n-button>
-      <n-button type="primary" @click="addRoot('column')">+ 新建纵向布局</n-button>
-    </div>
-
+  <div class="flex flex-col h-full  ">
     <div class="flex flex-wrap gap-4 flex-1 overflow-auto">
-      <xm-layout-panel
-        v-for="(panel, index) in rootPanels"
-        :key="panel.id"
-        :panel="panel"
-        :selected-id="selectedId"
-        :prefix="String(index + 1)"
-        @select="selectedId = $event"
-        @split="handleSplit"
-        @delete="handleDelete"
-      />
+      <xm-layout-panel v-for="(panel, index) in rootPanels" :key="panel.id" :panel="panel"
+        :selected-id="layoutStore.activePanelId" :prefix="String(index + 1)" @select="layoutStore.selectPanel($event)"
+        @split="handleSplit" @delete="handleDelete" />
 
-      <n-empty
-        v-if="rootPanels.length === 0"
-        description="点击上方按钮创建第一个布局"
-      />
+      <n-empty v-if="rootPanels.length === 0" description="点击上方按钮创建第一个布局" />
     </div>
   </div>
 </template>
@@ -29,29 +14,24 @@
 import { ref } from 'vue'
 import XmLayoutPanel from './XmLayoutPanel.vue'
 import { NButton, NEmpty, useMessage } from 'naive-ui'
+import { useLayoutData } from '/store/XmLayoutData'
 
+const layoutStore = useLayoutData()
 const message = useMessage()
 
 // ✅ 防止 id 冲突
 let counter = Date.now()
 const nextId = () => ++counter
 
-const rootPanels = ref([])
-const selectedId = ref(null)
-
-/* ---------------- 新建 root ---------------- */
-
-const addRoot = (direction) => {
-  rootPanels.value.push({
+const rootPanels = ref([
+  {
     id: nextId(),
-    type: direction,
+    type: 'row', // 或 'column'
     children: [
-      { id: nextId(), type: 'leaf' },
       { id: nextId(), type: 'leaf' }
     ]
-  })
-  selectedId.value = null
-}
+  }
+])
 
 /* ---------------- split ---------------- */
 
@@ -73,7 +53,6 @@ const handleSplit = (targetId, direction) => {
 
   if (split(rootPanels.value)) {
     message.success('分割成功')
-    selectedId.value = null
   }
 }
 
@@ -102,7 +81,6 @@ const handleDelete = (targetId) => {
 
   if (remove(rootPanels.value)) {
     message.success('删除成功')
-    selectedId.value = null
   }
 }
 </script>
