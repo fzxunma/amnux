@@ -1,5 +1,6 @@
 // XmMetaDataManager.js
-import { normalize, fromFileUrl } from "@std/path";
+import { stdpath } from "@XmVendor";
+const { normalize, fromFileUrl } = stdpath;
 
 export class XmMetaDataManager {
   constructor(kvPath = undefined) {

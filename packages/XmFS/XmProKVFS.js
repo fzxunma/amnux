@@ -1,11 +1,14 @@
-import { normalize, fromFileUrl } from "@std/path";
+import { stdpath } from "@XmVendor";
+const { normalize, fromFileUrl } = stdpath;
 let _instance = null;
 let _kv = null;
 
 export async function getKVFS(dbPathOrKv = undefined) {
   if (_instance) return _instance;
   console.log("[KVFS] Initializing KVFS...", dbPathOrKv);
-  const absolutePath = normalize(fromFileUrl(new URL(dbPathOrKv, import.meta.url)));
+  const absolutePath = normalize(
+    fromFileUrl(new URL(dbPathOrKv, import.meta.url)),
+  );
   if (typeof dbPathOrKv === "string" || dbPathOrKv === undefined) {
     _kv = await Deno.openKv(absolutePath);
   } else if (dbPathOrKv?.atomic) {
@@ -209,7 +212,7 @@ class XmProKVFS {
 
         await Deno.mkdir(new URL(diskPath, import.meta.url).pathname, {
           recursive: true,
-        }).catch(() => { });
+        }).catch(() => {});
         await Deno.writeFile(
           new URL(diskPath, import.meta.url).pathname,
           entry.value,
@@ -266,7 +269,8 @@ class XmProKVFS {
 
       // 正确！这行不会炸
       console.log(
-        `[KVFS] 监听磁盘目录: ${absDiskPath} → ${vfsPath} (autoSave: ${this.autoSavePaths.has(vfsPath)
+        `[KVFS] 监听磁盘目录: ${absDiskPath} → ${vfsPath} (autoSave: ${
+          this.autoSavePaths.has(vfsPath)
         })`,
       );
 

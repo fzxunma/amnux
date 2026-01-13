@@ -5,8 +5,8 @@ import {
   compileTemplate,
   parse,
 } from "@vue/compiler-sfc";
-import { dirname, fromFileUrl, isAbsolute, join, normalize } from "@std/path";
-
+import { stdpath } from "@XmVendor";
+const { dirname, fromFileUrl, isAbsolute, join, normalize} = stdpath
 let _instance = null;
 
 export class XmRuntimeServer {
