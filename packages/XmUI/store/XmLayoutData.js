@@ -1,126 +1,142 @@
-import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
 
-let uid = 1
-const nextId = () => ++uid
+// 浏览器原生 UUID 或简单的随机 ID
+export const generateId = () => {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return 'xm-' + Math.random().toString(36).slice(2, 11);
+};
 
-function findPanel(panel, id) {
-  if (!panel) return null
-  if (panel.id === id) return panel
-  if (panel.children) {
-    for (const c of panel.children) {
-      const r = findPanel(c, id)
-      if (r) return r
+// 递归查找面板
+const findPanel = (panels, id) => {
+  for (const p of panels) {
+    if (p.id === id) return p;
+    if (p.children) {
+      const found = findPanel(p.children, id);
+      if (found) return found;
     }
   }
-  return null
-}
-function removePanel(parent, id) {
-  if (!parent?.children) return false
+  return null;
+};
 
-  // 1. 直接在当前层查找并删除
-  const idx = parent.children.findIndex(c => c.id === id)
-  if (idx !== -1) {
-    parent.children.splice(idx, 1)
-
-    // 删除后，如果当前容器变空了，向上通知（由调用者处理坍缩）
-    return true
-  }
-
-  // 2. 递归到子节点删除
-  for (let i = 0; i < parent.children.length; i++) {
-    const child = parent.children[i]
-    if (removePanel(child, id)) {
-      // 删除成功后，检查当前容器是否变空
-      if (child.children && child.children.length === 0) {
-        // 如果子容器空了，删除这个空容器
-        parent.children.splice(i, 1)
-      } else if (child.children && child.children.length === 1) {
-        // 如果子容器只剩一个子节点，坍缩一层（提升孙子到儿子位置）
-        parent.children[i] = child.children[0]
+// 递归删除并坍缩
+const removePanelRecursive = (panels, id) => {
+  for (let i = 0; i < panels.length; i++) {
+    const p = panels[i];
+    if (p.id === id) {
+      panels.splice(i, 1);
+      return true;
+    }
+    if (p.children && p.children.length > 0) {
+      const isDeletedInChild = removePanelRecursive(p.children, id);
+      if (isDeletedInChild) {
+        if (p.children.length === 0) {
+          panels.splice(i, 1);
+          i--;
+        } else if (p.children.length === 1) {
+          // 如果子节点只剩一个，将其提升（坍缩）
+          const survivor = p.children[0];
+          // 保留父级的样式或属性（可视情况调整）
+          panels[i] = { ...survivor, style: { ...p.style, ...survivor.style } };
+        }
+        return true;
       }
-      return true
     }
   }
+  return false;
+};
 
-  return false
-}
-function buildTree(panel, prefix = '1') {
-  const node = {
-    label: prefix,
-    key: panel.id,
-    value: panel.id
-  }
-  if (panel.children?.length) {
-    node.children = panel.children.map((c, i) =>
-      buildTree(c, `${prefix}.${i + 1}`)
-    )
-  }
-  return node
-}
+// 默认空布局生成器
+const createDefaultLayout = () => [
+  {
+    id: generateId(),
+    type: "row",
+    style: {},
+    children: [{ 
+      id: generateId(), 
+      type: "leaf", 
+      style: { minHeight: "200px" },
+      // 初始化 content 结构，防止 XmLowCode 报错
+      content: { lowCode: {} }
+    }],
+  },
+];
 
-export const useLayoutData = defineStore('XmLayoutData', () => {
-  const rootPanel = ref({
-    id: nextId(),
-    type: 'row',
-    children: [
-      { id: nextId(), type: 'leaf' }
-    ]
-  })
-
-  const activePanelId = ref(null)
-  const showDrawer = ref(false)
+export const useLayoutData = defineStore("XmLayoutData", () => {
+  const rootPanels = ref(createDefaultLayout());
+  const activePanelId = ref(null);
+  const showDrawer = ref(false);
 
   const activePanel = computed(() =>
-    findPanel(rootPanel.value, activePanelId.value)
-  )
+    findPanel(rootPanels.value, activePanelId.value)
+  );
 
-  const treeOptions = computed(() => [
-    buildTree(rootPanel.value)
-  ])
-
-  const selectPanel = (id, show) => {
-    activePanelId.value = id
-    if (show === true) {
-      showDrawer.value = true
-    }
-  }
-
-  const closeDrawer = () => {
-    showDrawer.value = false
-    activePanelId.value = null
-  }
+  const selectPanel = (id, openDrawer = false) => {
+    activePanelId.value = id;
+    if (openDrawer) showDrawer.value = true;
+  };
 
   const deleteActive = () => {
-    if (!activePanelId.value || activePanelId.value === rootPanel.value.id) {
-      console.warn('不能删除根节点')
-      return
+    if (!activePanelId.value) return;
+    removePanelRecursive(rootPanels.value, activePanelId.value);
+    if (rootPanels.value.length === 0) {
+      resetToDefault();
+    }
+    activePanelId.value = null;
+    showDrawer.value = false;
+  };
+
+  const resetToDefault = () => {
+    rootPanels.value = createDefaultLayout();
+    activePanelId.value = null;
+    showDrawer.value = false;
+  };
+
+  // 🔥 核心修改：loadLayout (深拷贝)
+  const loadLayout = (layoutData) => {
+    if (!layoutData) {
+      resetToDefault();
+      return;
     }
 
-    const deleted = removePanel(rootPanel.value, activePanelId.value)
+    let sourceData = null;
 
-    if (deleted) {
-      activePanelId.value = null
-      showDrawer.value = false
-      console.log('删除成功')
+    // 1. 兼容多种数据格式
+    if (Array.isArray(layoutData)) {
+      sourceData = layoutData;
+    } else if (layoutData && Array.isArray(layoutData.rootPanels)) {
+      sourceData = layoutData.rootPanels;
+    }
 
-      // 保底：确保根节点至少有一个 leaf
-      if (!rootPanel.value.children || rootPanel.value.children.length === 0) {
-        rootPanel.value.children = [{ id: nextId(), type: 'leaf' }]
+    if (sourceData && sourceData.length > 0) {
+      // 🔥 2. 使用 JSON 序列化进行深拷贝 (Deep Copy)
+      // 这确保了 layoutStore 中的数据与 menuStore 完全断开联系
+      // 也就是你说的 "第二份数据"
+      try {
+        rootPanels.value = JSON.parse(JSON.stringify(sourceData));
+      } catch (e) {
+        console.error("[LayoutStore] Layout Parse Error", e);
+        resetToDefault();
       }
     } else {
-      console.warn('未找到要删除的节点')
+      resetToDefault();
     }
-  }
+
+    activePanelId.value = null;
+    showDrawer.value = false;
+  };
 
   return {
-    rootPanel,
+    rootPanels,
     activePanelId,
     activePanel,
-    treeOptions,
     showDrawer,
     selectPanel,
-    closeDrawer,
-    deleteActive
-  }
-})
+    deleteActive,
+    resetToDefault,
+    loadLayout,
+    generateId,
+  };
+});

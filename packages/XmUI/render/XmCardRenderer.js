@@ -28,22 +28,48 @@ export default {
 
         const cardTitle = g !== '_default' ? g : (props.showDefaultGroupTitle ? '默认分组' : null)
 
-        const cardNode = h(NCard, { title: cardTitle, class: 'mb-4' }, () =>
-          h(NGrid, { xGap: 16, yGap: 16 }, () =>
-            fieldsInGroup.map(f =>
-              h(NGridItem, { span: f.span || 12 }, () =>
-                renderFields({
-                  list: [f],
-                  meta: props.meta,
-                  formModel: props.modelValue,
-                  exprCtx,
-                  updateField: (key, val) => emit('update:modelValue', { ...props.modelValue, [key]: val }),
-                  resolveFieldProps,
-                  readonly: f.editable === false
-                })
-              )
+        // NCard 内部 flex 布局：竖线 + 内容
+        const cardNode = h(
+          NCard,
+          {
+            title: null,
+            class: ['mb-4'],
+            bordered: !!props.meta?.border // 控制边框开关
+          },
+          () =>
+            h(
+              'div',
+              { style: { display: 'flex', alignItems: 'flex-start' } },
+              [
+                // vertical 开关控制竖线
+                props.meta?.vertical
+                  ? h('div', { style: { marginRight: '8px', fontWeight: 'bold', color: '#999' } }, '|')
+                  : null,
+
+                // 分组内容：标题 + 字段
+                h('div', { style: { flex: 1 } }, [
+                  cardTitle
+                    ? h('div', { style: { fontWeight: 'bold', marginBottom: '8px' } }, cardTitle)
+                    : null,
+                  h(NGrid, { xGap: 16, yGap: 16 }, () =>
+                    fieldsInGroup.map(f =>
+                      h(NGridItem, { span: f.span || 12 }, () =>
+                        renderFields({
+                          list: [f],
+                          meta: props.meta,
+                          formModel: props.modelValue,
+                          exprCtx,
+                          updateField: (key, val) =>
+                            emit('update:modelValue', { ...props.modelValue, [key]: val }),
+                          resolveFieldProps,
+                          readonly: f.editable === false
+                        })
+                      )
+                    )
+                  )
+                ])
+              ]
             )
-          )
         )
 
         nodes.push(cardNode)

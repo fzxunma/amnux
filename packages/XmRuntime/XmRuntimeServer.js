@@ -134,6 +134,21 @@ export class XmRuntimeServer {
     }
     return (h >>> 0).toString(36);
   }
+  /**
+ * 将 @/ 路径转换为绝对路径 /src/ (或你需要的其他路径)
+ */
+ resolveAliasImports(code) {
+  return code.replace(
+    /import\s+(?:([\w\d_]+)|\{([\s\w\d_,]+)\})\s+from\s+['"]@\/(.*?)['"]/g,
+    (_match, defaultImport, namedImports, path) => {
+      // 这里将 @/ 替换为 /src/，你可以根据需要修改为其他前缀
+      const newPath = `/${path}`;
+      const importPart = defaultImport ? defaultImport : `{ ${namedImports} }`;
+      return `import ${importPart} from '${newPath}'`;
+    }
+  );
+}
+
   rewriteVueImports(code) {
     let updated = code;
 
@@ -146,7 +161,15 @@ export class XmRuntimeServer {
       // @vueuse/core
       .replace(
         /\bfrom\s*(['"])@vueuse\/core\1/g,
-        `from "/@modules/@vueuse/core"`,
+        `from "/@modules/vueusecore"`,
+      )
+      .replace(
+        /\bfrom\s*(['"])echarts\1/g,
+        `from "/@modules/echarts"`,
+      )
+      .replace(
+        /\bfrom\s*(['"])wecom\1/g,
+        `from "/@modules/wecom"`,
       )
       .replace(
         /\bfrom\s*(['"])vue-draggable-plus\1/g,
@@ -170,6 +193,10 @@ export class XmRuntimeServer {
       /\bfrom\s*(['"])@vicons\/ionicons5\1/g,
       `from "/@modules/@vicons/ionicons5"`,
     );
+    updated = updated.replace(
+      /^\s*import\s+.*?['"]@s+.*['"];\s*(\n|$)/gm,
+      "const setupDevtoolsPlugin = () =>{}",
+    );
     // 副作用导入
     updated = updated.replace(
       /\bimport\s*(['"])unocss\1/g,
@@ -180,7 +207,7 @@ export class XmRuntimeServer {
       `import "/uno.css"`,
     );
 
-    return updated;
+    return this.resolveAliasImports(updated);
   }
   // 支持热更新监听
   startHmrPolling() {

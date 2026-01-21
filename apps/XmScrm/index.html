@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>企业微信会话存档展示</title>
+    <!-- 1. 引入企业微信数智专区 SDK -->
+    <script src="https://wwcdn.weixin.qq.com/node/wework/ww_data_intelligence_sdk/index.js"></script>
+    <style>
+        /* 容器必须要有高度，否则可能显示不出来 */
+        #chat-container {
+            width: 100%;
+            height: 600px; 
+            border: 1px solid #e0e0e0;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h3>客户沟通记录</h3>
+    <!-- 2. 准备一个容器 -->
+    <div id="chat-container"></div>
+
+    <script>
+        // 假设这是从后端 API 获取到的配置信息 (即上面 Python 代码生成的)
+        const config = {
+            corpid: 'ww12345678...', 
+            agentid: 100001,           // 你的应用 AgentId
+            timestamp: 1678888888,     // 后端传来的时间戳
+            nonceStr: 'Wm3WZYTPz0wzccnW', // 后端传来的随机串
+            signature: '3920958183204958...', // 后端算好的签名
+            jsApiList: ['renderConversation'] // 必填：需要使用的功能列表
+        };
+
+        // 3. 初始化 SDK
+        // WWDataIntelligence 是 SDK 注入的全局变量
+        WWDataIntelligence.init(config).then(() => {
+            console.log("SDK 初始化成功");
+            
+            // 4. 开始渲染会话
+            renderChat();
+        }).catch((err) => {
+            console.error("SDK 初始化失败:", err);
+            alert("权限验证失败，请检查签名");
+        });
+
+        function renderChat() {
+            // 获取容器 DOM
+            const container = document.getElementById('chat-container');
+
+            // 调用渲染接口
+            WWDataIntelligence.renderConversation({
+                container: container, // 必填：DOM 元素
+                
+                // 核心参数：告诉 SDK 你要看哪段聊天
+                // 这些数据通常来自你的业务数据库（你存下来的 msgid）
+                conversationId: 'R_12345_67890', // 会话ID (单聊或群聊ID)
+                
+                // 可选：高亮某条特定的消息
+                highlightMsgId: 'MSG_123456789', 
+                
+                // 可选：指定查看的时间范围
+                filter: {
+                    startTime: 1609459200, // 2021-01-01
+                    endTime: 1640995200    // 2022-01-01
+                },
+                
+                // 样式配置 (部分支持)
+                theme: 'light', // 'light' | 'dark'
+            }).then((res) => {
+                console.log('渲染完成', res);
+            }).catch((err) => {
+                console.error('渲染失败', err);
+            });
+        }
+    </script>
+</body>
+</html>

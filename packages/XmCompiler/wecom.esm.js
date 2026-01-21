@@ -1,0 +1,2111 @@
+var __defProp = Object.defineProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+
+// node_modules/@wecom/jssdk/dist/wecom.prod.js
+var wecom_prod_exports = {};
+__export(wecom_prod_exports, {
+  CameraMode: () => it,
+  ChooseMessageFileType: () => Xe,
+  ColorScheme: () => Wi,
+  CreateExternalPaymentType: () => mn,
+  EntryType: () => Sn,
+  EnvVersion: () => Vn,
+  FrameCanvas: () => No,
+  IS_WECOM_SDK: () => Yo,
+  InTalkType: () => Zn,
+  InputCorpGroupContactMode: () => rr,
+  InputCorpGroupContactType: () => ir,
+  LiveType: () => Ct,
+  LocationType: () => Be,
+  NetworkType: () => Ve,
+  OAType: () => Cr,
+  OaExtDataType: () => br,
+  OpenAppManagePageType: () => jn,
+  OpenUserProfileType: () => Gn,
+  PrintFileIdType: () => Hn,
+  ProductViewType: () => nn,
+  Proximity: () => oe,
+  SDK_VERSION: () => xi,
+  ScanQRCodeType: () => tr,
+  SelectEnterpriseContactMode: () => ar,
+  SelectEnterpriseContactType: () => sr,
+  SelectExternalContactType: () => fr,
+  SelectPrivilegedContactMode: () => dr,
+  SizeType: () => nt,
+  SourceType: () => rt,
+  TempFileType: () => Ye,
+  WWLoginLangType: () => Ai,
+  WWLoginPanelSizeType: () => Ti,
+  WWLoginRedirectType: () => Mi,
+  WWLoginType: () => _i,
+  WedocSelectedFileType: () => _t,
+  addCard: () => Xt,
+  addDevice: () => cn,
+  checkJsApi: () => un,
+  checkSchedule: () => ln,
+  chooseCard: () => Yt,
+  chooseImage: () => ot,
+  chooseInvoice: () => dn,
+  chooseMessageFile: () => et,
+  chooseWXPay: () => on,
+  claimClassAdmin: () => pn,
+  closeBLEConnection: () => fe,
+  closeBluetoothAdapter: () => ye,
+  closeWindow: () => Bt,
+  connectWifi: () => Je,
+  consumeAndShareCard: () => tn,
+  createBLEConnection: () => ue,
+  createChatWithMsg: () => hn,
+  createCorpGroupChat: () => gn,
+  createDoc: () => xt,
+  createExternalPayment: () => wn,
+  createJSAPIPanel: () => Vr,
+  createOpenDataFrameFactory: () => Si,
+  createSchoolPayment: () => vn,
+  createScrollViewContext: () => zo,
+  createWWLoginPanel: () => Pi,
+  discoverDevice: () => yn,
+  downloadImage: () => ct,
+  downloadLivingReplay: () => St,
+  downloadVoice: () => vt,
+  ensureAgentConfigReady: () => H,
+  ensureConfigReady: () => Y,
+  ensureCorpConfigReady: () => Q,
+  enterHWOpenTalk: () => Cn,
+  enterpriseVerify: () => bn,
+  env: () => Xo,
+  getApprovalSelectedItems: () => kn,
+  getBLEDeviceCharacteristics: () => pe,
+  getBLEDeviceServices: () => de,
+  getBeacons: () => Pe,
+  getBluetoothAdapterState: () => Ce,
+  getBluetoothDevices: () => Ie,
+  getCanvas: () => qo,
+  getClipboardData: () => Te,
+  getConnectedBluetoothDevices: () => _e,
+  getConnectedWifi: () => Ke,
+  getContext: () => In,
+  getCurCorpGroupChat: () => xn,
+  getCurCorpGroupContact: () => _n,
+  getCurExternalChat: () => An,
+  getCurExternalContact: () => Mn,
+  getLocalFileData: () => tt,
+  getLocalImgData: () => ut,
+  getLocation: () => Re,
+  getNetworkType: () => qe,
+  getNodeInfo: () => Fo,
+  getShareInfo: () => Tn,
+  getSignature: () => Zo,
+  getVerifyParams: () => k,
+  getWifiList: () => Ge,
+  hideAllNonBaseMenuItem: () => jt,
+  hideChatAttachmentMenu: () => Wn,
+  hideMenuItems: () => Et,
+  hideOptionMenu: () => Dt,
+  initOpenData: () => Ar,
+  invoke: () => $,
+  isWeixinJSBridgeReady: () => U,
+  launchMiniprogram: () => Ln,
+  navigateToAddCustomer: () => Dn,
+  navigateToKfChat: () => On,
+  notifyBLECharacteristicValueChange: () => me,
+  on: () => q,
+  onBLECharacteristicValueChange: () => we,
+  onBLEConnectionStateChange: () => le,
+  onBeaconServiceChange: () => Oe,
+  onBeaconUpdate: () => De,
+  onBluetoothAdapterStateChange: () => be,
+  onBluetoothDeviceFound: () => xe,
+  onGetWifiList: () => Qe,
+  onHistoryBack: () => Pt,
+  onLocationChange: () => Ue,
+  onMenuShareAppMessage: () => qt,
+  onMenuShareQQ: () => Ft,
+  onMenuShareQZone: () => Gt,
+  onMenuShareTimeline: () => $t,
+  onMenuShareWechat: () => zt,
+  onMenuShareWeibo: () => Jt,
+  onNetworkStatusChange: () => $e,
+  onSearchBeacons: () => ce,
+  onUserCaptureScreen: () => Vt,
+  onVoicePlayEnd: () => mt,
+  onVoiceRecordEnd: () => dt,
+  onWeixinJSBridgeReady: () => V,
+  onWifiConnected: () => He,
+  openAddress: () => Bn,
+  openAppComment: () => En,
+  openAppDeviceDataAuth: () => Rn,
+  openAppManage: () => Nn,
+  openAppPurchase: () => Un,
+  openBluetoothAdapter: () => ve,
+  openBusinessView: () => qn,
+  openCard: () => en,
+  openDefaultBrowser: () => Ut,
+  openDeviceProfile: () => $n,
+  openEnterpriseChat: () => zn,
+  openEnterpriseRedPacket: () => an,
+  openExistedChatWithMsg: () => Fn,
+  openLocation: () => Ee,
+  openProductSpecificView: () => rn,
+  openThirdAppServiceChat: () => Jn,
+  openUserProfile: () => Qn,
+  pauseVoice: () => ht,
+  playVoice: () => pt,
+  previewFile: () => Ze,
+  previewImage: () => at,
+  printFile: () => Kn,
+  queryCurrHWOpenTalk: () => Xn,
+  readBLECharacteristicValue: () => he,
+  refundExternalPayment: () => Yn,
+  register: () => te,
+  replayLiving: () => kt,
+  saveApprovalSelectedItems: () => er,
+  scanQRCode: () => nr,
+  selectCorpGroupContact: () => or,
+  selectEnterpriseContact: () => cr,
+  selectExternalChat: () => ur,
+  selectExternalContact: () => lr,
+  selectPrivilegedContact: () => pr,
+  sendChatMessage: () => hr,
+  setClipboardData: () => Me,
+  setKeepScreenOn: () => _r,
+  setShareAttr: () => gr,
+  shareAppMessage: () => Qt,
+  shareToExternalChat: () => mr,
+  shareToExternalContact: () => wr,
+  shareToExternalMoments: () => vr,
+  shareWechatMessage: () => Ht,
+  showAllNonBaseMenuItem: () => Nt,
+  showMenuItems: () => Rt,
+  showOptionMenu: () => Ot,
+  showSecurityGatewayConfirmModal: () => Ii,
+  startAutoLBS: () => je,
+  startBeaconDiscovery: () => We,
+  startBluetoothDevicesDiscovery: () => ke,
+  startLiving: () => bt,
+  startMeeting: () => It,
+  startRecord: () => ft,
+  startSearchBeacons: () => ae,
+  startWecast: () => yr,
+  startWifi: () => ze,
+  stopAutoLBS: () => Ne,
+  stopBeaconDiscovery: () => Le,
+  stopBluetoothDevicesDiscovery: () => Se,
+  stopRecord: () => lt,
+  stopSearchBeacons: () => se,
+  stopVoice: () => gt,
+  stopWifi: () => Fe,
+  thirdPartyOpenPage: () => kr,
+  translateVoice: () => yt,
+  updateAppMessageShareData: () => Zt,
+  updateCorpGroupChat: () => Sr,
+  updateEnterpriseChat: () => Ir,
+  updateMomentsSetting: () => xr,
+  updateTimelineShareData: () => Kt,
+  uploadImage: () => st,
+  uploadVoice: () => wt,
+  wedocSelectDoc: () => At,
+  wedriveSelectDir: () => Mt,
+  wedriveSelectFile: () => Tt,
+  wedriveSelectFileForDownload: () => Lt,
+  wedriveSelectFileForShare: () => Wt,
+  writeBLECharacteristicValue: () => ge
+});
+var e = "undefined" != typeof window ? window : void 0;
+var t = "undefined" != typeof document ? document : void 0;
+var n = "undefined" != typeof navigator ? navigator : void 0;
+var r = "undefined" != typeof location ? location : void 0;
+function i() {
+  return r?.href || "";
+}
+function o() {
+  return t?.title || "";
+}
+var a = n?.userAgent || "";
+var s = n?.platform || "";
+var c = a?.match(/wxwork\/([\d.]+)/i)?.[1];
+var u = !!c;
+var f = !u && /micromessenger/i.test(a);
+var l = /\bAndroid\b/i.test(a);
+var d = /Win/i.test(s);
+var { isIOS: p, isMac: h } = (function() {
+  const e2 = n?.maxTouchPoints ?? 1, t2 = /Mac/i.test(s);
+  if (t2 && e2 > 2) return { isMac: false, isIOS: true };
+  return { isMac: t2, isIOS: /\b(iPhone|iPad|iPod)\b/i.test(a) };
+})();
+var g;
+var m;
+var w;
+function v() {
+  return g;
+}
+function y() {
+  return m?.getResult()?.params;
+}
+function C() {
+  return w?.getResult()?.params;
+}
+function b() {
+  const e2 = v();
+  if (u && e2?.getAgentConfigSignature) {
+    const e3 = C();
+    return e3?.corpid;
+  }
+  const t2 = y();
+  return t2?.appId;
+}
+function k() {
+  const e2 = (function() {
+    const e3 = v();
+    return u && e3?.getAgentConfigSignature ? C() : y();
+  })();
+  if (!e2) return;
+  const t2 = b();
+  return { appId: t2, verifyAppId: t2, verifySignType: "sha1", verifyTimestamp: e2.timestamp, verifyNonceStr: e2.nonceStr, verifySignature: e2.signature };
+}
+var S = { config: "preVerifyJsApi", onMenuShareTimeline: "menu:share:timeline", onMenuShareAppMessage: "menu:share:appmessage", onMenuShareWechat: "menu:share:wechat", onMenuShareQQ: "menu:share:qq", onMenuShareWeibo: "menu:share:weiboApp", onMenuShareQZone: "menu:share:QZone", previewImage: "imagePreview", getLocation: "geoLocation", openProductSpecificView: "openProductViewWithPid", addCard: "batchAddCard", openCard: "batchViewCard", chooseWXPay: "getBrandWCPayRequest", openEnterpriseRedPacket: "getRecevieBizHongBaoRequest", startSearchBeacons: "startMonitoringBeacons", stopSearchBeacons: "stopMonitoringBeacons", onSearchBeacons: "onBeaconsInRange", consumeAndShareCard: "consumedShareCard", openAddress: "editAddress", getBrandWCPayRequest: "getBrandWCPayRequest" };
+var I = {};
+for (const ea of Object.keys(S)) I[S[ea]] = ea;
+function x(e2) {
+  return S[e2] || e2;
+}
+function _(e2) {
+  return I[e2] || e2;
+}
+function A(e2) {
+  return e2.map(x);
+}
+var M = i();
+function T(e2) {
+  if ("undefined" != typeof Buffer) return Buffer.from(e2).toString("base64");
+  let t2 = "";
+  const n2 = new Uint8Array(e2), r2 = n2.byteLength;
+  for (let i2 = 0; i2 < r2; i2++) t2 += String.fromCharCode(n2[i2]);
+  return btoa(t2);
+}
+function W(e2) {
+  if ("undefined" != typeof Buffer) return Buffer.from(e2, "base64").buffer;
+  const t2 = atob(e2), n2 = t2.length, r2 = new Uint8Array(n2);
+  for (let i2 = 0; i2 < n2; i2++) r2[i2] = t2.charCodeAt(i2);
+  return r2.buffer;
+}
+function L(e2, t2, n2) {
+  if (R(e2)) try {
+    return e2.call(n2, t2);
+  } catch (r2) {
+    !(function(...e3) {
+      console.error("[wwsdk]", ...e3);
+    })(r2);
+  }
+}
+function P(e2, t2) {
+  return e2.slice(0, t2.length) === t2;
+}
+function D(e2) {
+  return e2 ? M.split("#")[0] : i().split("#")[0];
+}
+function O(e2) {
+  return j(e2) ? e2.slice(e2.indexOf(":") + 1) : "";
+}
+function B(e2) {
+  return false === e2 || 0 === e2;
+}
+function E(e2) {
+  return !!e2 && "object" == typeof e2;
+}
+function R(e2) {
+  return "function" == typeof e2;
+}
+function j(e2) {
+  return "string" == typeof e2;
+}
+function N(e2) {
+  return e2 ? j(e2) ? e2 : e2.join(";") : e2;
+}
+var U = !!e?.WeixinJSBridge;
+var V = Promise.resolve();
+async function q(t2, n2) {
+  U || await V, e.WeixinJSBridge.on(t2, n2);
+}
+async function $(t2, n2 = {}, r2) {
+  U || await V;
+  const i2 = await new Promise((r3) => {
+    const i3 = { ...n2, ...k() };
+    e.WeixinJSBridge.invoke(t2, i3, r3);
+  });
+  i2.errMsg || (i2.errMsg = (function(e2, t3) {
+    const n3 = _(e2);
+    if (!t3) return `${n3}:ok`;
+    let r3 = O(t3);
+    "confirm" === r3 && (r3 = "ok");
+    "failed" === r3 && (r3 = "fail");
+    P(r3, "failed_") && (r3 = r3.slice(7));
+    P(r3, "fail_") && (r3 = r3.slice(5));
+    r3 = r3.replace(/_/g, "").toLowerCase(), ("access denied" === r3 || "no permission to execute" === r3) && (r3 = "permission denied");
+    "config" === n3 && "function not exist" === r3 && (r3 = "ok");
+    r3 || (r3 = "fail");
+    return `${n3}:${r3}`;
+  })(t2, i2.err_msg || i2.errmsg));
+  const o2 = O(i2.errMsg);
+  if (null == i2.errCode && (i2.errCode = null != i2.err_code ? i2.err_code : "ok" === o2 ? 0 : -1), L(r2, i2), "ok" !== o2 && "yes" !== o2) throw i2;
+  return i2;
+}
+U || (V = new Promise((e2) => {
+  t?.addEventListener("WeixinJSBridgeReady", () => {
+    U = true, e2();
+  });
+}));
+var z = class extends Error {
+  constructor(e2) {
+    super(`SDK Error: ${e2}`);
+  }
+};
+var F = class extends z {
+  constructor() {
+    super("Aborted");
+  }
+};
+function J(e2, t2, n2) {
+  return t2 in e2 ? Object.defineProperty(e2, t2, { value: n2, enumerable: true, configurable: true, writable: true }) : e2[t2] = n2, e2;
+}
+var G = class {
+  checkValid() {
+    return u && this.url !== D(this.useOriginalURL) && (this.error = new F()), !this.error;
+  }
+  getResult() {
+    if (this.checkValid()) return this.result;
+  }
+  async awaitPromise(e2) {
+    try {
+      return this.result = await e2, this.result;
+    } catch (t2) {
+      throw this.error = t2, t2;
+    }
+  }
+  constructor(e2, t2) {
+    J(this, "type", void 0), J(this, "url", void 0), J(this, "promise", void 0), J(this, "result", void 0), J(this, "error", void 0), J(this, "useOriginalURL", void 0), this.type = e2, this.useOriginalURL = f && !d && !h && 1 === e2, this.url = D(this.useOriginalURL), this.promise = this.awaitPromise(t2(this.url));
+  }
+};
+async function Q() {
+  const e2 = m;
+  if (e2?.checkValid()) return e2.promise;
+  const t2 = new G(1, async (e3) => {
+    const n2 = v();
+    if (!n2?.getConfigSignature) throw new z("Missing getConfigSignature");
+    const r2 = await n2.getConfigSignature(e3);
+    if (!t2.checkValid()) throw new F();
+    const i2 = (function(e4, t3) {
+      return { appId: e4.corpId, timestamp: `${t3.timestamp}`, nonceStr: t3.nonceStr, signature: t3.signature, jsApiList: A(e4.jsApiList || ["config"]), openTagList: A(e4.openTagList || []) };
+    })(n2, r2), o2 = await $("preVerifyJSAPI", { appId: i2.appId, verifyJsApiList: i2.jsApiList, verifyOpenTagList: i2.openTagList, verifyAppId: i2.appId, verifySignType: "sha1", verifyTimestamp: i2.timestamp, verifyNonceStr: i2.nonceStr, verifySignature: i2.signature });
+    if (!t2.checkValid()) throw new F();
+    return { params: i2, result: o2 };
+  });
+  return t2.promise.then((e3) => {
+    const t3 = v();
+    L(t3?.onConfigSuccess, e3.result), L(t3?.onConfigComplete, e3.result);
+  }, (e3) => {
+    const t3 = v();
+    L(t3?.onConfigFail, e3), L(t3?.onConfigComplete, e3);
+  }), (function(e3) {
+    m = e3;
+  })(t2), t2.promise;
+}
+async function H() {
+  const e2 = w;
+  if (e2?.checkValid()) return e2.promise;
+  const t2 = new G(2, async (e3) => {
+    let n2;
+    u && (function(e4, t3) {
+      const n3 = e4?.split(".") || [], r3 = t3?.split(".") || [];
+      for (let i3 = 0, o2 = Math.max(n3.length, r3.length); i3 < o2; i3++) {
+        const e5 = parseInt(n3[i3]) || 0, t4 = parseInt(r3[i3]) || 0;
+        if (e5 > t4) return 1;
+        if (e5 < t4) return -1;
+      }
+      return 0;
+    })(c, "3.0.24") < 0 && (n2 = Q());
+    const [r2] = await Promise.all([K(e3), n2]);
+    if (!t2.checkValid()) throw new F();
+    const i2 = await $("agentConfig", r2);
+    if (!t2.checkValid()) throw new F();
+    return { params: r2, result: i2 };
+  });
+  return t2.promise.then((e3) => Z(e3.result), (e3) => X(e3)), (function(e3) {
+    w = e3;
+  })(t2), t2.promise;
+}
+async function K(e2) {
+  const t2 = v();
+  if (!t2?.getAgentConfigSignature) throw new z("Missing getAgentConfigSignature");
+  const n2 = await t2.getAgentConfigSignature(e2);
+  return { corpid: t2.corpId, agentid: `${t2.agentId}`, timestamp: `${n2.timestamp}`, nonceStr: n2.nonceStr, signature: n2.signature, jsApiList: A(t2.jsApiList || ["agentConfig"]) };
+}
+function Z(e2) {
+  const t2 = v();
+  L(t2?.onAgentConfigSuccess, e2), L(t2?.onAgentConfigComplete, e2);
+}
+function X(e2) {
+  const t2 = v();
+  L(t2?.onAgentConfigFail, e2), L(t2?.onAgentConfigComplete, e2);
+}
+function Y() {
+  const e2 = v();
+  return u && e2?.getAgentConfigSignature ? H() : Q();
+}
+function ee() {
+  const e2 = v();
+  if (e2) return u && e2.getAgentConfigSignature ? H() : e2.getConfigSignature ? Q() : void 0;
+}
+function te(e2) {
+  !(function(e3) {
+    if (!e3.corpId) throw new Error("Missing corpId");
+    g = e3;
+  })(e2), (f || u) && ee();
+}
+async function ne(e2, t2, n2 = t2) {
+  return ie(t2, async () => (await ee(), $(e2, n2)));
+}
+async function re(e2, t2, n2) {
+  await ee(), q(e2, () => {
+    ie(t2, n2);
+  });
+}
+function ie(e2, t2) {
+  return t2(e2).then((t3) => (L(e2?.success, t3), L(e2?.complete, t3), t3), (t3) => {
+    throw L("cancel" === O(t3.errMsg) ? e2?.cancel : e2?.fail, t3), L(e2?.complete, t3), t3;
+  });
+}
+var oe = (function(e2) {
+  return e2.CLProximityUnknown = "0", e2.CLProximityImmediate = "1", e2.CLProximityNear = "2", e2.CLProximityFar = "3", e2;
+})({});
+function ae(e2 = {}) {
+  return ne("startMonitoringBeacons", e2);
+}
+function se(e2 = {}) {
+  return ne("stopMonitoringBeacons", e2);
+}
+function ce(e2) {
+  q("onBeaconsInRange", e2);
+}
+function ue(e2) {
+  return ne("createBLEConnection", e2);
+}
+function fe(e2) {
+  return ne("closeBLEConnection", e2);
+}
+function le(e2) {
+  q("onBLEConnectionStateChange", e2);
+}
+function de(e2) {
+  return ne("getBLEDeviceServices", e2);
+}
+function pe(e2) {
+  return ne("getBLEDeviceCharacteristics", e2);
+}
+function he(e2) {
+  return ne("readBLECharacteristicValue", e2);
+}
+function ge(e2) {
+  return ne("writeBLECharacteristicValue", e2, { deviceId: e2.deviceId, serviceId: e2.serviceId, characteristicId: e2.characteristicId, value: T(e2.value) });
+}
+function me(e2) {
+  return ne("notifyBLECharacteristicValueChange", e2);
+}
+function we(e2) {
+  q("onBLECharacteristicValueChange", (t2) => {
+    "string" == typeof t2?.value && (t2.value = W(t2.value)), e2(t2);
+  });
+}
+function ve(e2 = {}) {
+  return ne("openBluetoothAdapter", e2);
+}
+function ye(e2 = {}) {
+  return ne("closeBluetoothAdapter", e2);
+}
+function Ce(e2 = {}) {
+  return ne("getBluetoothAdapterState", e2);
+}
+function be(e2) {
+  q("onBluetoothAdapterStateChange", e2);
+}
+function ke(e2 = {}) {
+  return ne("startBluetoothDevicesDiscovery", e2);
+}
+function Se(e2 = {}) {
+  return ne("stopBluetoothDevicesDiscovery", e2);
+}
+function Ie(e2 = {}) {
+  return ie(e2, async () => {
+    await ee();
+    const e3 = await $("getBluetoothDevices");
+    for (const t2 of e3.devices || []) Ae(t2);
+    return e3;
+  });
+}
+function xe(e2) {
+  q("onBluetoothDeviceFound", (t2) => {
+    for (const e3 of t2.devices || []) Ae(e3);
+    e2(t2);
+  });
+}
+function _e(e2) {
+  return ne("getConnectedBluetoothDevices", e2);
+}
+function Ae(e2) {
+  if ("string" == typeof e2.advertisData && (e2.advertisData = W(e2.advertisData)), e2.serviceDataV2) {
+    const t2 = e2.serviceDataV2;
+    for (const e3 of Object.keys(t2)) "string" == typeof t2[e3] && (t2[e3] = W(t2[e3]));
+    e2.serviceData = t2, delete e2.serviceDataV2;
+  }
+}
+function Me(e2) {
+  return ne("setClipboardData", e2);
+}
+function Te(e2 = {}) {
+  return ne("getClipboardData", e2);
+}
+function We(e2) {
+  return ne("startBeaconDiscovery", e2);
+}
+function Le(e2 = {}) {
+  return ne("stopBeaconDiscovery", e2);
+}
+function Pe(e2 = {}) {
+  return ne("getBeacons", e2);
+}
+function De(e2) {
+  q("onBeaconUpdate", e2);
+}
+function Oe(e2) {
+  q("onBeaconServiceChange", e2);
+}
+var Be = (function(e2) {
+  return e2.wgs84 = "wgs84", e2.gcj02 = "gcj02", e2;
+})({});
+function Ee(e2) {
+  return ne("openLocation", e2, { latitude: e2.latitude, longitude: e2.longitude, name: e2.name || "", address: e2.address || "", scale: e2.scale || 28, infoUrl: e2.infoUrl || "" });
+}
+function Re(e2 = {}) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("geoLocation", { type: e2.type || "wgs84" });
+    return delete t2.type, t2;
+  });
+}
+function je(e2) {
+  return ne("startAutoLBS", e2);
+}
+function Ne(e2 = {}) {
+  return ne("stopAutoLBS", e2);
+}
+function Ue(e2) {
+  q("auto:location:report", e2);
+}
+var Ve = (function(e2) {
+  return e2.wifi = "wifi", e2.network2g = "2g", e2.network3g = "3g", e2.network4g = "4g", e2.none = "none", e2.unknown = "unknown", e2;
+})({});
+function qe(e2 = {}) {
+  return ne("getNetworkType", e2);
+}
+function $e(e2) {
+  q("onNetworkStatusChange", e2);
+}
+function ze(e2 = {}) {
+  return ne("startWifi", e2);
+}
+function Fe(e2 = {}) {
+  return ne("stopWifi", e2);
+}
+function Je(e2) {
+  return ne("connectWifi", e2);
+}
+function Ge(e2 = {}) {
+  return ne("getWifiList", e2);
+}
+function Qe(e2) {
+  q("onGetWifiList", e2);
+}
+function He(e2) {
+  q("onWifiConnected", e2);
+}
+function Ke(e2 = {}) {
+  return ne("getConnectedWifi", e2);
+}
+function Ze(e2) {
+  return ne("previewFile", e2);
+}
+var Xe = (function(e2) {
+  return e2.video = "video", e2.image = "image", e2.file = "file", e2.video_and_image = "video_and_image", e2;
+})({});
+var Ye = (function(e2) {
+  return e2.video = "video", e2.image = "image", e2.file = "file", e2;
+})({});
+function et(e2) {
+  return ne("chooseMessageFile", e2);
+}
+function tt(e2) {
+  return ne("getLocalFileData", e2);
+}
+var nt = (function(e2) {
+  return e2.original = "original", e2.compressed = "compressed", e2;
+})({});
+var rt = (function(e2) {
+  return e2.album = "album", e2.camera = "camera", e2;
+})({});
+var it = (function(e2) {
+  return e2.normal = "normal", e2.batch = "batch", e2.front = "front", e2.batch_front = "batch_front", e2;
+})({});
+function ot(e2 = {}) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("chooseImage", { scene: "1|2", count: e2.count || 9, sizeType: e2.sizeType || ["original", "compressed"], sourceType: e2.sourceType || ["album", "camera"], defaultCameraMode: e2.defaultCameraMode || "normal", isSaveToAlbum: B(e2.isSaveToAlbum) ? 0 : 1 });
+    if (l && t2.localIds) {
+      t2.localIds = t2.localIds || "[]";
+      try {
+        t2.localIds = JSON.parse(t2.localIds);
+      } catch (n2) {
+      }
+    }
+    return t2;
+  });
+}
+function at(e2) {
+  return ne("imagePreview", e2);
+}
+function st(e2) {
+  return ne("uploadImage", e2, { localId: e2.localId, isShowProgressTips: B(e2.isShowProgressTips) ? 0 : 1 });
+}
+function ct(e2) {
+  return ne("downloadImage", e2, { serverId: e2.serverId, isShowProgressTips: B(e2.isShowProgressTips) ? 0 : 1 });
+}
+function ut(e2) {
+  return ne("getLocalImgData", e2);
+}
+function ft(e2 = {}) {
+  return ne("startRecord", e2);
+}
+function lt(e2 = {}) {
+  return ne("stopRecord", e2);
+}
+function dt(e2) {
+  q("onVoiceRecordEnd", e2);
+}
+function pt(e2) {
+  return ne("playVoice", e2);
+}
+function ht(e2) {
+  return ne("pauseVoice", e2);
+}
+function gt(e2) {
+  return ne("stopVoice", e2);
+}
+function mt(e2) {
+  q("onVoicePlayEnd", e2);
+}
+function wt(e2) {
+  return ne("uploadVoice", e2, { localId: e2.localId, isShowProgressTips: B(e2.isShowProgressTips) ? 0 : 1 });
+}
+function vt(e2) {
+  return ne("downloadVoice", e2, { serverId: e2.serverId, isShowProgressTips: B(e2.isShowProgressTips) ? 0 : 1 });
+}
+function yt(e2) {
+  return ne("translateVoice", e2, { localId: e2.localId, isShowProgressTips: B(e2.isShowProgressTips) ? 0 : 1 });
+}
+var Ct = (function(e2) {
+  return e2[e2.common = 0] = "common", e2[e2.corp_training = 1] = "corp_training", e2[e2.edu_normal_class = 2] = "edu_normal_class", e2[e2.edu_small_class = 3] = "edu_small_class", e2;
+})({});
+function bt(e2 = {}) {
+  return ne("startLiving", e2);
+}
+function kt(e2) {
+  return ne("replayLiving", e2);
+}
+function St(e2) {
+  return ne("downloadLivingReplay", e2);
+}
+function It(e2 = {}) {
+  return ne("startMeeting", e2);
+}
+function xt(e2) {
+  return ne("createDoc", e2);
+}
+var _t = (function(e2) {
+  return e2[e2.other = 0] = "other", e2[e2.doc = 3] = "doc", e2[e2.sheet = 4] = "sheet", e2[e2.form = 5] = "form", e2[e2.slide = 6] = "slide", e2[e2.mindmap = 7] = "mindmap", e2[e2.flowchart = 8] = "flowchart", e2[e2.smartsheet = 10] = "smartsheet", e2;
+})({});
+function At(e2) {
+  return ne("wedocSelectDoc", e2);
+}
+function Mt(e2 = {}) {
+  return ne("wedriveSelectDir", e2);
+}
+function Tt(e2) {
+  return ne("wedriveSelectFile", e2);
+}
+function Wt(e2) {
+  return ne("wedriveSelectFileForShare", e2);
+}
+function Lt(e2) {
+  return ne("wedriveSelectFileForDownload", e2);
+}
+function Pt(e2) {
+  q("historyBack", e2);
+}
+function Dt(e2 = {}) {
+  return ne("hideOptionMenu", e2);
+}
+function Ot(e2 = {}) {
+  return ne("showOptionMenu", e2);
+}
+function Bt(e2 = {}) {
+  return ne("closeWindow", e2);
+}
+function Et(e2) {
+  return ne("hideMenuItems", e2);
+}
+function Rt(e2) {
+  return ne("showMenuItems", e2);
+}
+function jt(e2 = {}) {
+  return ne("hideAllNonBaseMenuItem", e2);
+}
+function Nt(e2 = {}) {
+  return ne("showAllNonBaseMenuItem", e2);
+}
+function Ut(e2) {
+  return ne("openDefaultBrowser", e2);
+}
+function Vt(e2) {
+  q("onUserCaptureScreen", e2);
+}
+function qt(e2) {
+  re("menu:share:appmessage", e2, () => $("sendAppMessage", { title: e2.title || o(), desc: e2.desc || "", link: e2.link || i(), img_url: e2.imgUrl || "", type: e2.type || "link", data_url: e2.dataUrl || "", finder_feed: e2.finderFeed || e2.finder_feed, finder_topic: e2.finderTopic || e2.finder_topic, finder_profile: e2.finderProfile || e2.finder_profile, enableIdTrans: e2.enableIdTrans ? 1 : 0 }));
+}
+function $t(e2) {
+  re("menu:share:timeline", e2, () => $("shareTimeline", { title: e2.title || o(), desc: e2.title || o(), img_url: e2.imgUrl || "", link: e2.link || i(), type: e2.type || "link", data_url: e2.dataUrl || "", enableIdTrans: e2.enableIdTrans ? 1 : 0 }));
+}
+function zt(e2) {
+  re("menu:share:wechat", e2, () => $("shareWechat", { title: e2.title || o(), desc: e2.desc || "", link: e2.link || i(), img_url: e2.imgUrl || "", type: e2.type || "link", data_url: e2.dataUrl || "", enableIdTrans: e2.enableIdTrans ? 1 : 0 }));
+}
+function Ft(e2) {
+  re("menu:share:qq", e2, () => $("shareQQ", { title: e2.title || o(), desc: e2.desc || "", img_url: e2.imgUrl || "", link: e2.link || i() }));
+}
+function Jt(e2) {
+  re("menu:share:weiboApp", e2, () => $("shareWeiboApp", { title: e2.title || o(), desc: e2.desc || "", img_url: e2.imgUrl || "", link: e2.link || i() }));
+}
+function Gt(e2) {
+  re("menu:share:QZone", e2, () => $("shareQZone", { title: e2.title || o(), desc: e2.desc || "", img_url: e2.imgUrl || "", link: e2.link || i() }));
+}
+function Qt(e2) {
+  return ne("shareAppMessage", e2);
+}
+function Ht(e2) {
+  return ne("shareWechatMessage", e2);
+}
+function Kt(e2 = {}) {
+  return ne("updateTimelineShareData", e2);
+}
+function Zt(e2 = {}) {
+  return ne("updateAppMessageShareData", e2);
+}
+function Xt(e2) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("batchAddCard", { card_list: e2.cardList.map((e3) => ({ card_id: e3.cardId, card_ext: e3.cardExt })) });
+    if (!t2.card_list) return t2;
+    for (const e3 of t2.card_list) e3.cardId = e3.card_id, delete e3.card_id, e3.cardExt = e3.card_ext, delete e3.card_ext, e3.isSuccess = !!e3.is_succ, delete e3.is_succ;
+    return t2.cardList = t2.card_list, delete t2.card_list, t2;
+  });
+}
+function Yt(e2) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("chooseCard", { app_id: b(), location_id: e2.shopId || "", sign_type: e2.signType || "SHA1", card_id: e2.cardId || "", card_type: e2.cardType || "", card_sign: e2.cardSign, time_stamp: `${e2.timestamp}`, nonce_str: e2.nonceStr });
+    return t2.cardList = t2.choose_card_info, delete t2.choose_card_info, t2;
+  });
+}
+function en(e2) {
+  return ne("batchViewCard", e2, { card_list: e2.cardList.map((e3) => ({ card_id: e3.cardId, code: e3.code })) });
+}
+function tn(e2) {
+  return ne("consumedShareCard", e2, { consumedCardId: e2.cardId, consumedCode: e2.code });
+}
+var nn = (function(e2) {
+  return e2[e2.normal = 0] = "normal", e2[e2.scan = 1] = "scan", e2;
+})({});
+function rn(e2) {
+  return ne("openProductViewWithPid", e2, { pid: e2.productId, view_type: e2.viewType || 0, ext_info: e2.extInfo });
+}
+function on(e2) {
+  return ne("getBrandWCPayRequest", e2, sn(e2));
+}
+function an(e2) {
+  return ne("getRecevieBizHongBaoRequest", e2, sn(e2));
+}
+function sn(e2) {
+  return { timeStamp: `${e2.timestamp}`, nonceStr: e2.nonceStr, package: e2.package, paySign: e2.paySign, signType: e2.signType || "SHA1" };
+}
+function cn(e2) {
+  return ne("addDevice", e2);
+}
+async function un(e2) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("checkJsApi", { jsApiList: A(e2.jsApiList) });
+    if ("string" == typeof t2.checkResult) try {
+      t2.checkResult = JSON.parse(t2.checkResult);
+    } catch (n2) {
+      t2.checkResult = {};
+    }
+    return t2.checkResult = (function(e3) {
+      const t3 = { ...e3 };
+      for (const n2 of Object.keys(e3)) t3[_(n2)] = e3[n2];
+      return t3;
+    })(fn(t2.checkResult)), t2;
+  });
+}
+function fn(e2) {
+  const t2 = {};
+  for (const n2 of Object.keys(e2)) {
+    if (!E(e2[n2])) {
+      t2[n2] = e2[n2];
+      continue;
+    }
+    const r2 = fn(e2[n2]);
+    for (const e3 of Object.keys(r2)) t2[`${n2}.${e3}`] = r2[e3];
+  }
+  return t2;
+}
+function ln(e2) {
+  return ne("checkSchedule", e2);
+}
+function dn(e2) {
+  return ne("chooseInvoice", e2);
+}
+function pn(e2 = {}) {
+  return ne("claimClassAdmin", e2);
+}
+function hn(e2) {
+  return ne("createChatWithMsg", e2);
+}
+function gn(e2) {
+  return ne("createCorpGroupChat", e2, { groupName: e2.groupName || "", userIds: e2.userIds, openUserIds: e2.openUserIds, externalUserIds: e2.externalUserIds, corpGroupUserIds: e2.corpGroupUserIds });
+}
+var mn = (function(e2) {
+  return e2[e2.chat = 0] = "chat", e2[e2.qrcode = 1] = "qrcode", e2;
+})({});
+function wn(e2 = {}) {
+  return ne("createExternalPayment", e2);
+}
+function vn(e2) {
+  return ne("createSchoolPayment", e2);
+}
+function yn(e2) {
+  return ne("discoverDevice", e2);
+}
+function Cn(e2) {
+  return ne("enterHWOpenTalk", e2);
+}
+function bn(e2 = {}) {
+  return ne("enterpriseVerify", e2);
+}
+function kn(e2) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("getApprovalSelectedItems", { key: e2.key });
+    if (!t2.selectedData) return t2;
+    try {
+      t2.selectedData = JSON.parse(t2.selectedData);
+    } catch (n2) {
+      t2.selectedData = [];
+    }
+    return t2;
+  });
+}
+var Sn = (function(e2) {
+  return e2.contact_profile = "contact_profile", e2.single_chat_tools = "single_chat_tools", e2.group_chat_tools = "group_chat_tools", e2.chat_attachment = "chat_attachment", e2.single_kf_tools = "single_kf_tools", e2.chain_single_chat_tools = "chain_single_chat_tools", e2.chain_group_chat_tools = "chain_group_chat_tools", e2.internal_group_chat_board = "internal_group_chat_board", e2.normal = "normal", e2;
+})({});
+function In(e2 = {}) {
+  return ne("getContext", e2);
+}
+function xn(e2 = {}) {
+  return ne("getCurCorpGroupChat", e2);
+}
+function _n(e2) {
+  return ne("getCurCorpGroupContact", e2);
+}
+function An(e2 = {}) {
+  return ne("getCurExternalChat", e2);
+}
+function Mn(e2 = {}) {
+  return ne("getCurExternalContact", e2);
+}
+function Tn(e2) {
+  return ne("getShareInfo", e2);
+}
+function Wn(e2) {
+  return ne("hideChatAttachmentMenu", e2);
+}
+function Ln(e2) {
+  return ne("launchMiniprogram", e2, { appid: e2.appid, path: Pn(e2.path), envVersion: e2.envVersion });
+}
+function Pn(e2) {
+  if (!e2 || !j(e2)) return;
+  const [t2, ...n2] = e2.split("?");
+  return n2.length ? `${t2}.html?${n2.join("?")}` : `${t2}.html`;
+}
+function Dn(e2 = {}) {
+  return ne("navigateToAddCustomer", e2);
+}
+function On(e2) {
+  return ne("navigateToKfChat", e2);
+}
+function Bn(e2 = {}) {
+  return ie(e2, async () => {
+    await ee();
+    const e3 = await $("editAddress");
+    return e3.postalCode = e3.addressPostalCode, delete e3.addressPostalCode, e3.provinceName = e3.proviceFirstStageName, delete e3.proviceFirstStageName, e3.cityName = e3.addressCitySecondStageName, delete e3.addressCitySecondStageName, e3.countryName = e3.addressCountiesThirdStageName, delete e3.addressCountiesThirdStageName, e3.detailInfo = e3.addressDetailInfo, delete e3.addressDetailInfo, e3;
+  });
+}
+function En(e2 = {}) {
+  return ne("openAppComment", e2);
+}
+function Rn(e2 = {}) {
+  return ne("openAppDeviceDataAuth", e2);
+}
+var jn = (function(e2) {
+  return e2.permission = "permission", e2.datazone_permission = "datazone_permission", e2;
+})({});
+function Nn(e2 = {}) {
+  return ne("openAppManage", e2);
+}
+function Un(e2) {
+  return ne("openAppPurchase", e2);
+}
+var Vn = (function(e2) {
+  return e2.release = "release", e2.trial = "trial", e2.develop = "develop", e2;
+})({});
+function qn(e2) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("openBusinessView", { businessType: e2.businessType, queryString: e2.queryString || "", envVersion: e2.envVersion });
+    if (!l || !t2.extraData) return t2;
+    try {
+      t2.extraData = JSON.parse(t2.extraData);
+    } catch (n2) {
+      t2.extraData = {};
+    }
+    return t2;
+  });
+}
+function $n(e2) {
+  return ne("openDeviceProfile", e2);
+}
+function zn(e2 = {}) {
+  return ne("openEnterpriseChat", e2, { chatId: e2.chatId || "", chatname: e2.groupName || "", groupName: e2.groupName || "", useridlist: N(e2.userIds), userIds: N(e2.userIds), openIds: N(e2.openIds), externalUserIds: N(e2.externalUserIds) });
+}
+function Fn(e2) {
+  return ne("openExistedChatWithMsg", e2);
+}
+function Jn(e2 = {}) {
+  return ne("openThirdAppServiceChat", e2);
+}
+var Gn = (function(e2) {
+  return e2[e2.internal = 1] = "internal", e2[e2.external = 2] = "external", e2;
+})({});
+function Qn(e2) {
+  return ne("openUserProfile", e2);
+}
+var Hn = (function(e2) {
+  return e2[e2.mediaid = 1] = "mediaid", e2[e2.url = 2] = "url", e2[e2.localId = 4] = "localId", e2;
+})({});
+function Kn(e2) {
+  return ne("printFile", e2);
+}
+var Zn = (function(e2) {
+  return e2.None = "None", e2.HWOpenTalk = "HWOpenTalk", e2.VoIP = "VoIP", e2.SystemCall = "SystemCall", e2;
+})({});
+function Xn(e2 = {}) {
+  return ne("queryCurrHWOpenTalk", e2);
+}
+function Yn(e2) {
+  return ne("refundExternalPayment", e2);
+}
+function er(e2) {
+  return ne("saveApprovalSelectedItems", e2, { key: e2.key, selectedData: "string" == typeof e2.selectedData ? e2.selectedData : JSON.stringify(e2.selectedData) });
+}
+var tr = (function(e2) {
+  return e2.qrCode = "qrCode", e2.barCode = "barCode", e2;
+})({});
+function nr(e2 = {}) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("scanQRCode", { needResult: e2.needResult ? 1 : 0, scanType: e2.scanType || ["qrCode", "barCode"] });
+    if (!p) return t2;
+    const n2 = t2.resultStr;
+    if (!n2) return t2;
+    let r2;
+    try {
+      r2 = JSON.parse(n2);
+    } catch (i2) {
+    }
+    return t2.resultStr = r2?.scan_code?.scan_result, t2;
+  });
+}
+var rr = (function(e2) {
+  return e2.single = "single", e2.multi = "multi", e2;
+})({});
+var ir = (function(e2) {
+  return e2.department = "department", e2.user = "user", e2;
+})({});
+function or(e2) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("selectCorpGroupContact", e2);
+    if (!j(t2.result)) return t2;
+    try {
+      t2.result = JSON.parse(t2.result);
+    } catch (n2) {
+    }
+    return t2;
+  });
+}
+var ar = (function(e2) {
+  return e2.single = "single", e2.multi = "multi", e2;
+})({});
+var sr = (function(e2) {
+  return e2.department = "department", e2.user = "user", e2;
+})({});
+function cr(e2) {
+  return ie(e2, async () => {
+    await ee();
+    const t2 = await $("selectEnterpriseContact", e2);
+    if (!j(t2.result)) return t2;
+    try {
+      t2.result = JSON.parse(t2.result);
+    } catch (n2) {
+    }
+    return t2;
+  });
+}
+function ur(e2 = {}) {
+  return ne("selectExternalChat", e2);
+}
+var fr = (function(e2) {
+  return e2[e2.all = 0] = "all", e2[e2.unselected = 1] = "unselected", e2;
+})({});
+function lr(e2 = {}) {
+  return ne("selectExternalContact", e2);
+}
+var dr = (function(e2) {
+  return e2.single = "single", e2.multi = "multi", e2;
+})({});
+function pr(e2) {
+  return ne("selectPrivilegedContact", e2);
+}
+function hr(e2) {
+  return ne("sendChatMessage", e2);
+}
+function gr(e2 = {}) {
+  return ne("setShareAttr", e2);
+}
+function mr(e2) {
+  return ne("shareToExternalChat", e2);
+}
+function wr(e2) {
+  return ne("shareToExternalContact", e2);
+}
+function vr(e2) {
+  return ne("shareToExternalMoments", e2);
+}
+function yr(e2 = {}) {
+  return ne("startWecast", e2);
+}
+var Cr = (function(e2) {
+  return e2.create_approval = "10001", e2.view_approval = "10002", e2;
+})({});
+var br = (function(e2) {
+  return e2.link = "link", e2.text = "text", e2;
+})({});
+function kr(e2) {
+  return ne("thirdPartyOpenPage", e2);
+}
+function Sr(e2) {
+  return ne("updateCorpGroupChat", e2);
+}
+function Ir(e2) {
+  return ne("updateEnterpriseChat", e2, { chatId: e2.chatId, userIdsToAdd: N(e2.userIdsToAdd) });
+}
+function xr(e2) {
+  return ne("updateMomentsSetting", e2);
+}
+function _r(e2) {
+  return ne("setKeepScreenOn", e2);
+}
+function Ar(t2 = {}) {
+  return ie(t2, async () => {
+    if (!u) return (async function() {
+      if (!e?.WWOpenData?.agentConfig) throw new z("Missing WWOpenData.agentConfig");
+      const t4 = await K(D()), n2 = new Promise((n3, r2) => {
+        e.WWOpenData.agentConfig({ ...t4, success: n3, fail: r2 });
+      });
+      return n2.then(Z, X), n2;
+    })();
+    const { result: t3 } = await H();
+    if (!d && !e?.WeixinSandBox) throw new z("Missing WeixinSandBox");
+    if (e?.WWOpenData || await $("wwapp.initWwOpenData"), !e?.WWOpenData) throw new z("Init WWOpenData failed");
+    return e.WWOpenData.initJSSDK && e.WWOpenData.initJSSDK({ invoke: $, ensureAgentConfigReady: H }), t3;
+  });
+}
+function Mr(e2) {
+  const t2 = document.createElement("iframe"), { style: n2 } = t2;
+  n2.display = "block", n2.border = "none", n2.background = "transparent", t2.referrerPolicy = "origin", t2.setAttribute("frameborder", "0"), t2.setAttribute("allowtransparency", "true");
+  const r2 = (function(e3) {
+    if ("string" == typeof e3) return document.querySelector(e3);
+    return e3;
+  })(e2);
+  return r2 && r2.appendChild(t2), t2;
+}
+var Tr = Dr();
+var Wr;
+var Lr = 0;
+function Pr() {
+  return `${Tr}-${Lr++}`;
+}
+function Dr() {
+  return Math.random().toString(36).slice(2);
+}
+function Or(e2) {
+  return e2 && "object" == typeof e2 ? { ...e2, message: e2.message, stack: e2.stack } : e2;
+}
+function Br(e2) {
+  try {
+    return "string" == typeof e2 ? JSON.parse(e2) : e2;
+  } catch (t2) {
+  }
+}
+function Er(e2, t2, n2) {
+  const r2 = [];
+  let i2 = false, o2 = false;
+  function a2(n3) {
+    if (n3.origin !== t2 || e2.contentWindow !== n3.source) return;
+    const r3 = Br(n3.data);
+    "string" == typeof r3?.type && r3.type.startsWith("ww-iframe-handle:") && l2(r3, n3);
+  }
+  window.addEventListener("message", a2);
+  const s2 = new MessageChannel();
+  s2.port1.onmessage = (e3) => {
+    l2(Br(e3.data), e3);
+  };
+  const { invoke: c2, handleCallMessage: u2, handleResponseMessage: f2 } = /* @__PURE__ */ (function(e3, t3) {
+    const n3 = /* @__PURE__ */ new Map();
+    return { invoke: function(t4, r3) {
+      return r3?.dropResult ? (e3({ type: "ww-iframe-handle:call", args: t4 }, r3), Promise.resolve(void 0)) : new Promise((i3, o3) => {
+        const a3 = Pr();
+        n3.set(a3, { resolve: i3, reject: o3 }), e3({ type: "ww-iframe-handle:call", uid: a3, args: t4 }, r3);
+      });
+    }, handleCallMessage: async function(n4, r3) {
+      if (!n4.uid) return t3(n4.args, r3);
+      try {
+        e3({ type: "ww-iframe-handle:response", uid: n4.uid, kind: "resolve", args: await t3(n4.args, r3) });
+      } catch (i3) {
+        throw e3({ type: "ww-iframe-handle:response", uid: n4.uid, kind: "reject", args: Or(i3) }), i3;
+      }
+    }, handleResponseMessage: function(e4) {
+      const t4 = n3.get(e4.uid);
+      t4 && (t4[e4.kind](e4.args), n3.delete(e4.uid));
+    } };
+  })(function(e3, t3) {
+    i2 ? d2(e3, t3) : r2.push({ msg: e3, opts: t3 });
+  }, n2);
+  function l2(e3, t3) {
+    switch (e3.type) {
+      case "ww-iframe-handle:ready":
+        return (function(e4) {
+          if (i2) return;
+          i2 = true, e4.supportChannel && (d2({ type: "ww-iframe-handle:set-port", port: s2.port2 }, { transfer: [s2.port2], serialize: false }), o2 = true);
+          for (const t4 of r2) d2(t4.msg, t4.opts);
+        })(e3);
+      case "ww-iframe-handle:call":
+        return u2(e3, t3);
+      case "ww-iframe-handle:response":
+        return void f2(e3);
+    }
+  }
+  function d2(n3, r3) {
+    const i3 = false === r3?.serialize ? n3 : JSON.stringify(n3);
+    o2 ? s2.port1.postMessage(i3, r3?.transfer) : e2.contentWindow?.postMessage(i3, t2, r3?.transfer);
+  }
+  return e2.addEventListener("load", () => {
+    i2 || d2({ type: "ww-iframe-handle:init" });
+  }), { el: e2, invoke: c2, dispose: function() {
+    window.removeEventListener("message", a2), s2.port1.onmessage = null;
+  } };
+}
+function Rr(e2, t2) {
+  return Object.prototype.hasOwnProperty.call(e2, t2);
+}
+function jr(e2, t2, n2) {
+  L(t2[e2.name], e2.payload || e2.data, n2);
+}
+function Nr() {
+  const e2 = /* @__PURE__ */ new Map();
+  return { subscribe: function(t2, n2) {
+    e2.set(t2, n2);
+  }, handleMessage: function(t2) {
+    return e2.get(t2.type)?.(t2);
+  } };
+}
+function Ur(e2, t2) {
+  Wr?.();
+  const n2 = Mr(document.body), { style: r2 } = n2;
+  r2.position = "fixed", r2.left = "0", r2.top = "0", r2.zIndex = "1000", r2.width = "100vw", r2.height = "100vh", n2.classList.add("wecom-jssdk-modal"), n2.setAttribute("src", e2);
+  const { origin: i2 } = new URL(e2), o2 = Er(n2, i2, (e3) => ("close" === e3.type && a2(), t2?.(e3)));
+  function a2() {
+    o2.dispose(), n2.parentNode?.removeChild(n2);
+  }
+  return Wr = a2, o2;
+}
+function Vr(e2, t2) {
+  const n2 = Mr(t2.el), { style: r2 } = n2;
+  r2.width = "100%", r2.height = "100%";
+  const i2 = /* @__PURE__ */ new Map(), { subscribe: o2, handleMessage: a2 } = Nr(), { dispose: s2 } = Er(n2, "https://login.work.weixin.qq.com", a2);
+  return o2("call", (e3) => {
+    jr(e3, t2);
+  }), o2("getStaticOptions", () => ({ name: e2, options: { ...t2, el: void 0, params: void 0 } })), o2("jsapiCallback", (e3) => {
+    if (!i2.has(e3.seq)) return;
+    const t3 = i2.get(e3.seq);
+    i2.delete(e3.seq), L("success" === e3.kind ? t3?.success : t3?.fail, e3.payload), L(t3?.complete, e3.payload);
+  }), o2("getJSAPIParams", async (n3) => {
+    const r3 = R(t2.params) ? await t2.params() : t2.params, o3 = D();
+    return i2.set(n3.seq, r3), { webToken: t2.webToken, url: o3, configParams: n3.payload?.skipSignature ? void 0 : await $r(o3, n3.payload?.preferSignatureTypeList || ["agentConfig"]), jsapi: e2, jsapiParams: r3 };
+  }), o2("openModalFrame", (e3) => {
+    Ur(e3.payload.url);
+  }), n2.style.opacity = "0", n2.src = "https://login.work.weixin.qq.com/wwopen/ww-jsapi-transparent-frame", { el: n2, unmount() {
+    s2(), n2.parentNode?.removeChild(n2);
+  } };
+}
+var qr = { agentConfig: K, suiteConfig: async function(e2) {
+  const t2 = v();
+  if (!t2?.getSuiteConfigSignature) throw new z("Missing getSuiteConfigSignature");
+  const n2 = await t2.getSuiteConfigSignature(e2);
+  return { suiteid: t2.suiteId, timestamp: `${n2.timestamp}`, nonceStr: n2.nonceStr, signature: n2.signature, jsApiList: A(t2.jsApiList || ["agentConfig"]) };
+} };
+async function $r(e2, t2) {
+  let n2 = new Error("Missing signature handler");
+  for (const i2 of t2) try {
+    if (!Rr(qr, i2)) continue;
+    return { type: i2, params: await qr[i2](e2) };
+  } catch (r2) {
+    n2 = r2;
+  }
+  throw n2;
+}
+function zr(e2, t2) {
+  return Object.prototype.hasOwnProperty.call(e2, t2);
+}
+function Fr(e2) {
+  return "object" == typeof e2 && null !== e2;
+}
+function Jr(e2, t2) {
+  return !!e2 && e2.indexOf(t2) >= 0;
+}
+var Gr = Hr("Identifier", "name");
+var Qr = Hr("Literal", "value");
+function Hr(e2, t2) {
+  return function(n2) {
+    var r2;
+    return (r2 = { type: e2 })[t2] = n2, r2;
+  };
+}
+function Kr(e2) {
+  return ei(e2, 65, 90) || ei(e2, 97, 122) || 36 === e2 || 95 === e2;
+}
+function Zr(e2) {
+  return Kr(e2) || Xr(e2);
+}
+function Xr(e2) {
+  return ei(e2, 48, 57);
+}
+function Yr(e2) {
+  return Xr(e2) || ei(e2, 65, 70) || ei(e2, 97, 102);
+}
+function ei(e2, t2, n2) {
+  return e2 >= t2 && e2 <= n2;
+}
+for (ti = { null: null, true: true, false: false, NaN: NaN, Infinity: 1 / 0 }, ni = "await break case catch class const continue debugger default delete do else enum export extends false finally for function if import in instanceof new null return super switch this throw true try typeof var void while with yield".split(" "), ri = {}, ii = 0, oi = ni; ii < oi.length; ii++) {
+  ri[oi[ii]] = true;
+}
+var ti;
+var ni;
+var ri;
+var ii;
+var oi;
+function ai(e2) {
+  Kr(e2.peek()) || e2.unexpected();
+  var t2 = e2.index;
+  do {
+    e2.next();
+  } while (Zr(e2.peek()));
+  return e2.expr.slice(t2, e2.index);
+}
+var si = { n: "\n", r: "\r", t: "	" };
+function ci(e2) {
+  var t2 = e2.peek();
+  return Xr(t2) || 46 === t2 ? (function(e3) {
+    for (var t3 = ""; Xr(e3.peek()); ) t3 += e3.nextCh();
+    if ("0" === t3) {
+      if (e3.eat(120) || e3.eat(88)) {
+        for (t3 = ""; Yr(e3.peek()); ) t3 += e3.nextCh();
+        return t3 || e3.unexpected(), e3.build(Qr(parseInt(t3, 16)));
+      }
+      if (e3.eat(98) || e3.eat(66)) {
+        for (t3 = ""; 48 === e3.peek() || 49 === e3.peek(); ) t3 += e3.nextCh();
+        return t3 || e3.unexpected(), e3.build(Qr(parseInt(t3, 2)));
+      }
+    }
+    if (46 === e3.peek()) for (t3 += e3.nextCh(); Xr(e3.peek()); ) t3 += e3.nextCh();
+    if (101 === e3.peek() || 69 === e3.peek()) {
+      t3 += e3.nextCh(), 43 !== e3.peek() && 45 !== e3.peek() || (t3 += e3.nextCh());
+      for (var n2 = false; Xr(e3.peek()); ) n2 = true, t3 += e3.nextCh();
+      n2 || e3.unexpected();
+    }
+    return Kr(e3.peek()) && e3.throw("Variable name cannot start with a number (".concat(t3).concat(e3.peekCh(), ").")), 46 !== e3.peek() && "." !== t3 || e3.unexpected(), e3.build(Qr(parseFloat(t3)));
+  })(e2) : 39 === t2 || 34 === t2 ? (function(e3) {
+    for (var t3, n2 = e3.nextCh(), r2 = ""; t3 = e3.nextCh(); ) {
+      if (t3 === n2) return e3.build(Qr(r2));
+      "\\" === t3 ? (t3 = e3.nextCh(), zr(si, t3) ? r2 += si[t3] : r2 += t3) : r2 += t3;
+    }
+    e3.unexpected();
+  })(e2) : Kr(t2) ? (function(e3) {
+    var t3 = ai(e3);
+    return zr(ti, t3) ? e3.build(Qr(ti[t3])) : (zr(ri, t3) && e3.unexpected(t3), e3.build(Gr(t3)));
+  })(e2) : void e2.unexpected();
+}
+function ui(e2, t2, n2) {
+  var r2;
+  return void 0 === n2 && (n2 = false), n2 ? (e2.expect(91), r2 = fi(e2), e2.expect(93)) : r2 = (function(e3) {
+    var t3 = ai(e3);
+    return e3.build(Gr(t3));
+  })(e2), e2.build({ type: "MemberExpression", object: t2, property: r2, computed: n2 });
+}
+function fi(e2) {
+  return (function(e3) {
+    for (var t2, n2 = ci(e3); t2 = e3.peek(); ) if (91 !== t2) {
+      if (!e3.eat(46)) break;
+      n2 = ui(e3, n2);
+    } else n2 = ui(e3, n2, true);
+    return n2;
+  })(e2);
+}
+function li(e2) {
+  var t2, n2 = { expr: t2 = e2.trim(), index: 0, peek: function() {
+    return this.expr.charCodeAt(this.index);
+  }, peekCh: function() {
+    return this.expr.charAt(this.index);
+  }, next: function() {
+    this.index += 1;
+  }, nextCh: function() {
+    return this.index += 1, this.expr.charAt(this.index - 1);
+  }, eat: function(e3) {
+    return this.peek() === e3 && (this.next(), this.skipWhitespace(), true);
+  }, expect: function(e3) {
+    this.eat(e3) || this.unexpected();
+  }, skip: function(e3) {
+    this.index += e3, this.skipWhitespace();
+  }, skipWhitespace: function() {
+    for (var e3 = t2.charCodeAt(this.index); 32 === e3 || 9 === e3 || 13 === e3 || 10 === e3; ) this.index += 1, e3 = t2.charCodeAt(this.index);
+    return this.index;
+  }, build: function(e3) {
+    return this.skipWhitespace(), e3;
+  }, unexpected: function(e3) {
+    if (!e3 && this.index >= t2.length) throw this.throw("Unexpected end of input.");
+    throw this.throw("Unexpected token '".concat(e3 || this.peekCh(), "'."));
+  }, throw: function(e3) {
+    throw new SyntaxError("".concat(e3, " (1:").concat(this.index, ")"));
+  } }, r2 = fi(n2);
+  return n2.index !== n2.expr.length && n2.unexpected(), r2;
+}
+var di = ["constrcutor", "prototype", "__proto__"];
+function pi(e2, t2, n2) {
+  if (void 0 === t2 && (t2 = []), void 0 === n2 && (n2 = []), "Identifier" === e2.type) return n2.unshift(e2.name), n2;
+  if ("MemberExpression" === e2.type) {
+    var r2 = e2.object, i2 = e2.property;
+    if (e2.computed) {
+      if ("Literal" !== i2.type) return;
+      var o2 = i2.value;
+      if (Jr(t2, o2)) return;
+      n2.unshift(o2);
+    } else {
+      if ("Identifier" !== i2.type) return;
+      var a2 = i2.name;
+      if (Jr(t2, a2)) return;
+      n2.unshift(a2);
+    }
+    return pi(r2, t2, n2);
+  }
+}
+function hi(e2, t2, n2, r2) {
+  for (var i2 = e2, o2 = 0, a2 = t2.length - 1; o2 < a2; o2++) {
+    var s2 = t2[o2];
+    zr(i2, s2) && Fr(i2[s2]) || r2(i2, s2, "string" == typeof t2[o2 + 1] ? {} : []), i2 = i2[s2];
+  }
+  return r2(i2, t2[t2.length - 1], n2), i2;
+}
+function gi(e2, t2, n2) {
+  e2[t2] = n2;
+}
+function mi(e2) {
+  if (Array.isArray(e2)) return e2.map(mi);
+  if (null == e2 || "object" != typeof e2) return e2;
+  const t2 = {};
+  for (const n2 of Object.keys(e2)) t2[n2] = mi(e2[n2]);
+  return t2;
+}
+var wi = /* @__PURE__ */ new WeakMap();
+function vi(e2) {
+  return Object.keys(e2).filter((t2) => "function" == typeof e2[t2]);
+}
+function yi(e2) {
+  return Object.entries(e2).reduce((e3, [t2, n2]) => ("function" != typeof n2 && (e3[t2] = n2), e3), {});
+}
+var Ci = "https://open.work.weixin.qq.com";
+var bi = `${Ci}/wwopen/ww-open-data-frame`;
+var ki = ["constructor", "prototype", "__proto__", "__ob__"];
+function Si(t2) {
+  const n2 = u ? Ar() : void 0;
+  let r2 = i2();
+  async function i2() {
+    if (u) try {
+      return await n2, (function(t3) {
+        return new Promise((n3, r3) => {
+          e.WWOpenData.createOpenSessionInjector(t3, (e2, t4) => {
+            e2 || !t4 ? r3(e2 || new Error("System error")) : n3(t4);
+          });
+        });
+      })({ url: bi });
+    } catch (r3) {
+      throw L(t2?.onError, r3), L(t2?.handleError, r3), r3;
+    }
+  }
+  async function o2(e2) {
+    if (!u) return;
+    const t3 = await r2;
+    t3 && t3(e2);
+  }
+  return { createOpenDataFrame: function(t3) {
+    if (!t3.template) throw new Error("options.template is required");
+    const a2 = Mr(t3.el), s2 = n2?.then(() => e?.WWOpenData?.registerOpenFrame(a2)), { subscribe: c2, handleMessage: f2 } = Nr(), { invoke: l2, dispose: d2 } = Er(a2, Ci, f2), p2 = { el: a2, data: mi(t3.data) || {}, setData: async function(e2) {
+      (function(e3, t4, n3) {
+        void 0 === n3 && (n3 = {});
+        for (var r3 = n3.protectedKeys || di, i3 = n3.set || gi, o3 = 0, a3 = Object.keys(t4); o3 < a3.length; o3++) {
+          var s3 = a3[o3];
+          if (!Jr(r3, s3)) if (Jr(s3, "[") || Jr(s3, ".")) try {
+            var c3 = pi(li(s3), r3 || []);
+            c3 ? hi(e3, c3, t4[s3], i3) : i3(e3, s3, t4[s3]);
+          } catch (u2) {
+            i3(e3, s3, t4[s3]);
+          }
+          else i3(e3, s3, t4[s3]);
+        }
+      })(p2.data, e2, { protectedKeys: ki }), await l2({ type: "update", options: { data: e2 } });
+    }, dispose: function() {
+      d2(), s2?.then((t4) => {
+        e?.WWOpenData?.unregisterOpenFrame(t4);
+      });
+    }, ...t3.methods };
+    return wi.set(p2, { frame: p2, invoke: l2, subscribe: c2 }), a2.src = bi, c2("init", async () => ({ id: u ? await s2 : void 0, hooks: vi(t3), options: yi({ ...t3, el: void 0, methods: void 0, data: p2.data }), config: { support: ["injectSession"] } })), c2("call", (e2) => {
+      let n3 = t3;
+      return "method" === e2.kind && (n3 = n3.methods), jr(e2, n3, p2);
+    }), c2("injectSession", async () => {
+      await o2(a2);
+    }), c2("refreshSession", async () => {
+      r2 = i2(), await o2(a2);
+    }), c2("invokeJsapi", (e2) => $("wwapp.invokeJsApiByCallInfo", { callInfo: e2.callInfo })), c2("invokeDownload", (e2) => {
+      if (!e2.url.startsWith("https://open.work.weixin.qq.com/")) throw new Error("Invalid download url");
+      const t4 = document.createElement("a");
+      t4.href = e2.url, t4.target = "_blank", t4.style.display = "none", t4.click();
+    }), c2("agentConfig", async () => {
+      const e2 = D();
+      return { url: e2, params: await K(e2) };
+    }), c2("modal", async (e2) => {
+      const n3 = u ? "wecom-window" : void 0;
+      if ("function" != typeof t3.handleModal) return { modalType: n3 };
+      return { modalType: false === t3.handleModal({ modalUrl: e2.modalUrl, modalSize: e2.modalSize }) ? "iframe" : n3 };
+    }), p2;
+  } };
+}
+function Ii(e2) {
+  const t2 = new URL("https://open.work.weixin.qq.com/wwopen/secureGateway/confirm");
+  if (t2.searchParams.set("confirm_id", e2.confirmId), p || l) return void (location.href = t2.href);
+  t2.searchParams.set("modal", "true");
+  const n2 = Ur(t2.href, (t3) => {
+    switch (t3.type) {
+      case "call":
+        return jr(t3, e2);
+      case "close":
+        return;
+      default:
+        throw new Error(`Unknown message type '${t3.type}'`);
+    }
+  });
+  return { el: n2.el, unmount() {
+    n2.dispose(), n2.el.parentNode?.removeChild(n2.el);
+  } };
+}
+var xi = "2.3.3";
+var _i = (function(e2) {
+  return e2.serviceApp = "ServiceApp", e2.corpApp = "CorpApp", e2;
+})({});
+var Ai = (function(e2) {
+  return e2.zh = "zh", e2.en = "en", e2;
+})({});
+var Mi = (function(e2) {
+  return e2.top = "top", e2.callback = "callback", e2.self = "self", e2;
+})({});
+var Ti = (function(e2) {
+  return e2.middle = "middle", e2.small = "small", e2;
+})({});
+var Wi = (function(e2) {
+  return e2.Light = "light", e2.Dark = "dark", e2.Auto = "auto", e2;
+})({});
+var Li = { [Ti.middle]: ["480px", "416px"], [Ti.small]: ["320px", "380px"] };
+function Pi(e2) {
+  const { width: t2, height: n2 } = (function(e3 = Ti.middle) {
+    const t3 = Li[e3] || Li[Ti.middle];
+    return { width: t3[0], height: t3[1] };
+  })(e2.params?.panel_size), r2 = Mr(e2.el);
+  if (r2.setAttribute("allow", "local-network-access"), e2.params?.redirect_type === Mi.top) {
+    (function() {
+      let e3;
+      try {
+        e3 = Di(window.top?.origin ?? "");
+      } catch (t3) {
+        e3 = Di(document.referrer);
+      }
+      return e3;
+    })() !== Di(e2.params?.redirect_uri) && r2.setAttribute("sandbox", "allow-top-navigation allow-scripts allow-same-origin");
+  }
+  const { style: i2 } = r2;
+  i2.width = t2, i2.height = n2;
+  const { dispose: o2 } = Er(r2, "https://login.work.weixin.qq.com", (t3) => {
+    if ("call" === t3.type) return jr(t3, e2);
+    throw new Error(`Unknown message type '${t3.type}'`);
+  }), a2 = new URL("https://login.work.weixin.qq.com/wwlogin/sso/login");
+  for (const s2 of Object.keys(e2.params || {})) a2.searchParams.set(s2, e2.params[s2]);
+  return a2.searchParams.set("version", xi), r2.src = a2.href, { el: r2, unmount() {
+    o2(), r2.parentNode?.removeChild(r2);
+  } };
+}
+function Di(e2 = "") {
+  try {
+    return new URL(e2)?.origin;
+  } catch (t2) {
+    return "";
+  }
+}
+function Oi(e2) {
+  const t2 = /* @__PURE__ */ new WeakMap();
+  return (n2, ...r2) => (t2.has(n2) || t2.set(n2, e2(n2, ...r2)), t2.get(n2));
+}
+function Bi(e2) {
+  return Oi((t2) => {
+    const n2 = (function(e3) {
+      return wi.get(e3);
+    })(t2);
+    if (!n2) throw new TypeError("Illegal invocation");
+    return e2(n2);
+  });
+}
+var Ei = Bi(({ frame: e2, invoke: t2, subscribe: n2 }) => {
+  const r2 = /* @__PURE__ */ new Map(), i2 = /* @__PURE__ */ new Map();
+  return n2("ref.event", (e3) => {
+    const t3 = i2.get(e3.refId);
+    if (t3) for (const n3 of t3) n3(e3.data);
+  }), n2("refDispose", (e3) => {
+    r2.delete(e3.refId), i2.delete(e3.refId);
+  }), { get: async function(n3) {
+    const o2 = await t2({ type: "ref.get", name: n3 });
+    if (!o2) return;
+    const a2 = r2.get(o2.refId)?.deref();
+    if (a2) return a2;
+    const s2 = (function(n4) {
+      i2.has(n4) || i2.set(n4, []);
+      const r3 = i2.get(n4);
+      function o3(e3, r4, i3) {
+        return t2({ type: "ref.call", refId: n4, name: e3, data: r4 }, i3);
+      }
+      function a3(e3) {
+        return r3.push(e3), () => {
+          const t3 = r3.indexOf(e3);
+          t3 >= 0 && r3.splice(t3, 1);
+        };
+      }
+      return { frame: e2, invoke: o3, subscribe: a3 };
+    })(o2.refId);
+    var c2;
+    return r2.set(o2.refId, (c2 = s2, "undefined" != typeof WeakRef ? new WeakRef(c2) : { deref: () => c2 })), s2;
+  } };
+});
+function Ri(e2) {
+  return "function" == typeof Symbol ? Symbol(e2) : e2;
+}
+var ji = class {
+  concat() {
+    if (1 === this.list.length) return Ni(this.current);
+    const e2 = new Uint8Array(this.list.reduce((e3, t2) => e3 + t2.offset, 0));
+    return this.list.reduce((t2, n2) => (e2.set(new Uint8Array(Ni(n2)), t2), t2 + n2.offset), 0), e2.buffer;
+  }
+  ensureCapacity(e2) {
+    const t2 = this.current, n2 = t2.offset + e2;
+    if (n2 <= t2.size) return;
+    const r2 = t2.buffer;
+    !r2.resizable || n2 > r2.maxByteLength ? (this.current = this.createBufferItem(), this.list.push(this.current)) : (t2.size = Math.min(2 * t2.size, r2.maxByteLength), r2.resize(t2.size));
+  }
+  createBufferItem() {
+    const e2 = new ArrayBuffer(65536, { maxByteLength: 1048576 });
+    return { view: new DataView(e2), buffer: e2, size: e2.byteLength, offset: 0 };
+  }
+  constructor() {
+    J(this, "list", void 0), J(this, "current", void 0), this.current = this.createBufferItem(), this.list = [this.current];
+  }
+};
+function Ni(e2) {
+  return e2.offset >= e2.size ? e2.buffer : e2.buffer.resizable && e2.buffer.transfer ? e2.buffer.transfer(e2.offset) : e2.buffer.slice(0, e2.offset);
+}
+var Ui = -Math.pow(2, 31);
+var Vi = Math.pow(2, 31);
+function qi() {
+  return { buffer: new ji(), values: [], stringIndexMap: /* @__PURE__ */ new Map() };
+}
+function $i(e2, t2) {
+  e2.buffer.ensureCapacity(1);
+  const n2 = e2.buffer.current;
+  n2.view.setUint8(n2.offset, t2), n2.offset += 1;
+}
+function zi(e2, t2) {
+  e2.buffer.ensureCapacity(4);
+  const n2 = e2.buffer.current;
+  n2.view.setUint32(n2.offset, t2), n2.offset += 4;
+}
+function Fi(e2, t2) {
+  let n2 = e2.stringIndexMap.get(t2);
+  n2 || (n2 = e2.values.push(t2), e2.stringIndexMap.set(t2, n2)), zi(e2, n2 - 1);
+}
+function Ji(e2, t2) {
+  if (null !== t2) switch (typeof t2) {
+    case "number":
+      if ((function(e3) {
+        if (!Number.isInteger(e3)) return false;
+        return Ui <= e3 && e3 < Vi;
+      })(t2)) {
+        $i(e2, 1), (function(e3, t3) {
+          e3.buffer.ensureCapacity(4);
+          const n2 = e3.buffer.current;
+          n2.view.setInt32(n2.offset, t3), n2.offset += 4;
+        })(e2, t2);
+        break;
+      }
+      $i(e2, 2), (function(e3, t3) {
+        e3.buffer.ensureCapacity(8);
+        const n2 = e3.buffer.current;
+        n2.view.setFloat64(n2.offset, t3), n2.offset += 8;
+      })(e2, t2);
+      break;
+    case "string":
+      $i(e2, 6), Fi(e2, t2);
+      break;
+    case "boolean":
+      $i(e2, 3), $i(e2, t2 ? 1 : 0);
+      break;
+    case "undefined":
+      $i(e2, 5);
+      break;
+    default:
+      $i(e2, 6), (function(e3, t3) {
+        zi(e3, e3.values.push(t3) - 1);
+      })(e2, t2);
+  }
+  else $i(e2, 4);
+}
+var Gi = Ri("__WECOM_REFLECT_ID__");
+var Qi = Bi(({ invoke: e2 }) => {
+  const t2 = "function" == typeof FinalizationRegistry ? new FinalizationRegistry(function(e3) {
+    $i(a2, 3), zi(a2, e3), c2();
+  }) : null, n2 = /* @__PURE__ */ new WeakSet();
+  let r2 = 1;
+  const i2 = Promise.resolve();
+  let o2 = false, a2 = qi();
+  function s2(e3) {
+    n2.has(e3) ? ($i(a2, 2), zi(a2, e3[Gi])) : ($i(a2, 1), Ji(a2, e3));
+  }
+  function c2() {
+    o2 || (o2 = true, i2.then(u2));
+  }
+  function u2() {
+    o2 = false;
+    const t3 = { buffer: (n3 = a2).buffer.concat(), values: n3.values };
+    var n3;
+    a2 = qi(), e2({ type: "reflect.command", commands: t3 }, { serialize: false, dropResult: true, transfer: [t3.buffer] });
+  }
+  function f2() {
+    return r2++;
+  }
+  return { genReflectId: f2, bind: function(e3, r3 = f2()) {
+    return n2.has(e3) ? e3[Gi] : (e3[Gi] = r3, n2.add(e3), t2?.register(e3, r3), r3);
+  }, set: function(e3, t3, n3) {
+    const r3 = e3[Gi];
+    if (!r3) throw new TypeError("Illegal invocation");
+    $i(a2, 1), zi(a2, r3), Fi(a2, t3), s2(n3), c2();
+  }, call: function(e3, t3, n3, r3) {
+    const i3 = e3[Gi];
+    if (!i3) throw new TypeError("Illegal invocation");
+    $i(a2, 2), zi(a2, i3), Fi(a2, t3), zi(a2, (r3 ? r3[Gi] : 0) ?? 0), zi(a2, n3.length), n3.forEach(s2), c2();
+  } };
+});
+function Hi(e2, t2, n2) {
+  if (!t2.has(e2)) throw new TypeError("attempted to " + n2 + " private field on non-instance");
+  return t2.get(e2);
+}
+function Ki(e2, t2) {
+  return (function(e3, t3) {
+    return t3.get ? t3.get.call(e3) : t3.value;
+  })(e2, Hi(e2, t2, "get"));
+}
+function Zi(e2, t2, n2) {
+  !(function(e3, t3) {
+    if (t3.has(e3)) throw new TypeError("Cannot initialize the same private elements twice on an object");
+  })(e2, t2), t2.set(e2, n2);
+}
+function Xi(e2, t2, n2) {
+  return (function(e3, t3, n3) {
+    if (t3.set) t3.set.call(e3, n3);
+    else {
+      if (!t3.writable) throw new TypeError("attempted to set read only private field");
+      t3.value = n3;
+    }
+  })(e2, Hi(e2, t2, "set"), n2), n2;
+}
+var Yi = /* @__PURE__ */ new WeakMap();
+var eo = /* @__PURE__ */ new WeakMap();
+function to(e2, t2) {
+  Yi.set(e2, t2), eo.set(t2, e2);
+}
+function no(e2) {
+  return Yi.has(e2) ? Yi.get(e2) : e2;
+}
+function ro(e2) {
+  return eo.has(e2) ? eo.get(e2) : e2;
+}
+var io = null;
+var oo = /* @__PURE__ */ new WeakMap();
+var ao = /* @__PURE__ */ new WeakMap();
+var so = /* @__PURE__ */ new WeakMap();
+var co = Gi;
+var uo = class {
+  get src() {
+    return Ki(this, oo);
+  }
+  get loading() {
+    return !Ki(this, ao);
+  }
+  get complete() {
+    return Ki(this, ao);
+  }
+  get error() {
+    return Ki(this, so);
+  }
+  __handleSettled(e2) {
+    Xi(this, ao, true), Xi(this, so, e2), e2 ? L(this.onerror, e2) : L(this.onload, void 0);
+  }
+  constructor(e2) {
+    J(this, co, void 0), J(this, "onload", void 0), J(this, "onerror", void 0), Zi(this, oo, { writable: true, value: void 0 }), Zi(this, ao, { writable: true, value: false }), Zi(this, so, { writable: true, value: void 0 }), Xi(this, oo, e2), to(this, (io || (io = new Image(), io.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"), io));
+  }
+};
+var fo = Bi(({ frame: e2, invoke: t2, subscribe: n2 }) => {
+  const r2 = Qi(e2), i2 = /* @__PURE__ */ new Map();
+  function o2(e3, t3) {
+    return "string" == typeof e3 ? { type: "url", src: e3 } : { type: "arraybuffer", data: e3, mime: t3 };
+  }
+  return n2("image.settled", (e3) => {
+    const t3 = i2.get(e3.refId);
+    i2.delete(e3.refId), t3 && t3(e3);
+  }), { createImage: function(e3, n3) {
+    const a2 = new uo(e3), s2 = r2.bind(a2);
+    return t2({ type: "image.load", refId: s2, data: o2(e3, n3) }, { serialize: "string" == typeof e3 }), i2.set(s2, (e4) => {
+      a2.__handleSettled(e4.error);
+    }), a2;
+  } };
+});
+var lo = Oi((e2) => {
+  const t2 = /* @__PURE__ */ new Map();
+  return e2.subscribe((e3) => {
+    if ("event.trigger" !== e3.type) return;
+    const n2 = t2.get(`${e3.capture}|${e3.name}`);
+    if (!n2?.size) return;
+    const r2 = (function(e4) {
+      const t3 = new CustomEvent(e4.type, { detail: e4.detail });
+      for (const n3 of Object.keys(e4)) n3 in t3 || (t3[n3] = e4[n3]);
+      return Object.defineProperties(t3, { target: { value: e4.target }, currentTarget: { value: e4.currentTarget } }), t3;
+    })(e3.event);
+    for (const t3 of Array.from(n2)) L(t3, r2);
+  }), { addListener: function(n2, r2, i2) {
+    const o2 = "boolean" == typeof i2 ? i2 : !!i2?.capture;
+    t2.has(`${o2}|${n2}`) || t2.set(`${o2}|${n2}`, /* @__PURE__ */ new Set());
+    const a2 = t2.get(`${o2}|${n2}`);
+    a2.size || e2.invoke("event.subscribe", { name: n2, capture: o2 }), a2.add(r2);
+  }, removeListener: function(n2, r2, i2) {
+    const o2 = "boolean" == typeof i2 ? i2 : !!i2?.capture;
+    if (!t2.has(`${o2}|${n2}`)) return;
+    const a2 = t2.get(`${o2}|${n2}`);
+    a2.delete(r2), a2.size || e2.invoke("event.unsubscribe", { name: n2, capture: o2 });
+  } };
+});
+var po = /* @__PURE__ */ new WeakMap();
+var ho = /* @__PURE__ */ new WeakMap();
+var go = Gi;
+var mo = /* @__PURE__ */ new WeakMap();
+var wo = /* @__PURE__ */ new WeakMap();
+var vo = Gi;
+var yo = class {
+  addColorStop(e2, t2) {
+    Ki(this, wo).addColorStop(e2, t2), Ki(this, mo).call(this, "addColorStop", [e2, t2]);
+  }
+  constructor(e2, t2) {
+    J(this, vo, void 0), Zi(this, mo, { writable: true, value: void 0 }), Zi(this, wo, { writable: true, value: void 0 }), Xi(this, mo, e2), Xi(this, wo, t2), e2.bind(this), to(this, t2);
+  }
+};
+var Co = ["fillStyle", "filter", "globalAlpha", "globalCompositeOperation", "imageSmoothingEnabled", "imageSmoothingQuality", "shadowBlur", "shadowColor", "shadowOffsetX", "shadowOffsetY", "strokeStyle"];
+var bo = ["direction", "font", "fontKerning", "fontStretch", "fontVariantCaps", "letterSpacing", "lineCap", "lineDashOffset", "lineJoin", "lineWidth", "miterLimit", "textAlign", "textBaseline", "textRendering", "wordSpacing"];
+var ko = ["arc", "arcTo", "beginPath", "bezierCurveTo", "clip", "closePath", "ellipse", "lineTo", "moveTo", "quadraticCurveTo", "rect", "reset", "resetTransform", "restore", "rotate", "roundRect", "save", "scale", "setLineDash", "setTransform", "transform", "translate"];
+var So = ["clearRect", "drawFocusIfNeeded", "drawImage", "fill", "fillRect", "fillText", "stroke", "strokeRect", "strokeText"];
+var Io = ["getContextAttributes", "getLineDash", "getTransform", "isContextLost", "isPointInPath", "isPointInStroke", "measureText"];
+var xo = [["createConicGradient", yo], ["createLinearGradient", yo], ["createPattern", class {
+  setTransform(e2) {
+    Ki(this, ho).setTransform(e2), Ki(this, po).call(this, "setTransform", [e2]);
+  }
+  constructor(e2, t2) {
+    J(this, go, void 0), Zi(this, po, { writable: true, value: void 0 }), Zi(this, ho, { writable: true, value: void 0 }), Xi(this, po, e2), Xi(this, ho, t2), e2.bind(this), to(this, t2);
+  }
+}], ["createRadialGradient", yo]];
+var _o = Ri("__WECOM_INTERNAL__");
+var Ao = Oi((e2, t2, n2) => new Wo(e2, t2, n2));
+var Mo = _o;
+var To = Gi;
+var Wo = class {
+  constructor(e2, t2, n2) {
+    J(this, "canvas", void 0), J(this, Mo, void 0), J(this, To, void 0), this.canvas = e2, this[_o] = { store: t2, native: n2, props: /* @__PURE__ */ Object.create(null) }, t2.bind(this), to(this, n2);
+  }
+};
+var Lo = Wo.prototype;
+for (const ea of Co) Object.defineProperty(Lo, ea, { configurable: true, enumerable: true, get() {
+  const { native: e2, props: t2 } = this[_o];
+  return t2[ea] ?? ro(e2[ea]);
+}, set(e2) {
+  const { store: t2, props: n2 } = this[_o];
+  n2[ea] = no(e2), t2.set(this, ea, e2);
+} });
+for (const ea of bo) Object.defineProperty(Lo, ea, { configurable: true, enumerable: true, get() {
+  return ro(this[_o].native[ea]);
+}, set(e2) {
+  const { store: t2, native: n2 } = this[_o];
+  n2[ea] = no(e2), t2.set(this, ea, e2);
+} });
+for (const ea of Io) Lo[ea] = function(...e2) {
+  const { native: t2 } = this[_o];
+  return Po(t2, ea, e2);
+};
+for (const ea of ko) Lo[ea] = function(...e2) {
+  const { store: t2, native: n2 } = this[_o];
+  Po(n2, ea, e2), t2.call(this, ea, e2);
+};
+for (const ea of So) Lo[ea] = function(...e2) {
+  const { store: t2 } = this[_o];
+  t2.call(this, ea, e2);
+};
+for (const [ea, ta] of xo) Lo[ea] = function(...e2) {
+  const { store: t2, native: n2 } = this[_o], r2 = Po(n2, ea, e2), i2 = new ta(t2, r2);
+  return t2.call(this, ea, e2, i2), i2;
+};
+function Po(e2, t2, n2) {
+  switch (n2.length) {
+    case 1:
+      return e2[t2](n2[0]);
+    case 2:
+      return e2[t2](n2[0], n2[1]);
+    case 3:
+      return e2[t2](n2[0], n2[1], n2[2]);
+    case 4:
+      return e2[t2](n2[0], n2[1], n2[2], n2[3]);
+    case 5:
+      return e2[t2](n2[0], n2[1], n2[2], n2[3], n2[4]);
+    case 6:
+      return e2[t2](n2[0], n2[1], n2[2], n2[3], n2[4], n2[5]);
+    default:
+      return e2[t2](...n2);
+  }
+}
+var Do = /* @__PURE__ */ new WeakMap();
+var Oo = /* @__PURE__ */ new WeakMap();
+var Bo = /* @__PURE__ */ new WeakMap();
+var Eo = /* @__PURE__ */ new WeakMap();
+var Ro = /* @__PURE__ */ new WeakMap();
+var jo = Gi;
+var No = class {
+  get width() {
+    return Ki(this, Do).width;
+  }
+  set width(e2) {
+    Ki(this, Do).width = e2, Ki(this, Oo).set(this, "width", e2);
+  }
+  get height() {
+    return Ki(this, Do).height;
+  }
+  set height(e2) {
+    Ki(this, Do).height = e2, Ki(this, Oo).set(this, "height", e2);
+  }
+  createImage(e2, t2) {
+    return Ki(this, Bo).createImage(e2, t2);
+  }
+  getContext(e2, t2) {
+    if ("2d" !== e2) throw new Error(`Failed to execute 'getContext' on 'FrameCanvas': The provided value '${e2}' is not a valid enum value of type RenderingContextType`);
+    if (Ki(this, Ro)) return Ki(this, Ro);
+    const n2 = Ki(this, Do).getContext(e2, t2);
+    return Xi(this, Ro, Ao(this, Ki(this, Oo), n2)), Ki(this, Oo).call(this, "getContext", [e2, t2], Ki(this, Ro)), Ki(this, Ro);
+  }
+  addEventListener(e2, t2, n2) {
+    Ki(this, Eo).addListener(e2, t2, n2);
+  }
+  removeEventListener(e2, t2, n2) {
+    Ki(this, Eo).removeListener(e2, t2, n2);
+  }
+  constructor(e2, t2, n2) {
+    J(this, jo, void 0), Zi(this, Do, { writable: true, value: void 0 }), Zi(this, Oo, { writable: true, value: void 0 }), Zi(this, Bo, { writable: true, value: void 0 }), Zi(this, Eo, { writable: true, value: void 0 }), Zi(this, Ro, { writable: true, value: void 0 }), Xi(this, Do, new OffscreenCanvas(n2.width, n2.height)), Xi(this, Oo, Qi(e2.frame)), Ki(this, Oo).bind(this, t2), Xi(this, Bo, fo(e2.frame)), Xi(this, Eo, lo(e2)), to(this, Ki(this, Do));
+  }
+};
+var Uo = /* @__PURE__ */ new WeakMap();
+var Vo = Oi((e2) => {
+  const { genReflectId: t2 } = Qi(e2.frame);
+  return t2();
+});
+async function qo(e2, t2) {
+  const { get: n2 } = Ei(e2), r2 = await n2(t2);
+  if (!r2) return;
+  if (Uo.has(r2)) return Uo.get(r2);
+  const i2 = Vo(r2), o2 = await r2.invoke("bind", { refId: i2 });
+  return o2 ? (Uo.has(r2) || Uo.set(r2, new No(r2, i2, o2)), Uo.get(r2)) : void 0;
+}
+var $o = Oi((e2) => ({ scrollTo(t2) {
+  e2.invoke("scrollTo", t2);
+}, scrollIntoView(t2, n2) {
+  e2.invoke("scrollIntoView", { selector: t2, options: n2 });
+} }));
+async function zo(e2, t2) {
+  const { get: n2 } = Ei(e2), r2 = await n2(t2);
+  if (r2) return $o(r2);
+}
+async function Fo(e2, t2, n2) {
+  const { get: r2 } = Ei(e2), i2 = await r2(t2);
+  if (i2) return i2.invoke("nodeInfo.get", { fields: n2 });
+}
+function Jo(e2) {
+  return (function(e3) {
+    const t2 = "0123456789abcdef";
+    let n2, r2 = "";
+    for (let i2 = 0; i2 < e3.length; i2++) n2 = e3.charCodeAt(i2), r2 += t2.charAt(n2 >>> 4 & 15) + t2.charAt(15 & n2);
+    return r2;
+  })((function(e3) {
+    return (function(e4) {
+      let t2 = "";
+      for (let n2 = 0; n2 < 32 * e4.length; n2 += 8) t2 += String.fromCharCode(e4[n2 >> 5] >>> 24 - n2 % 32 & 255);
+      return t2;
+    })((function(e4, t2) {
+      e4[t2 >> 5] |= 128 << 24 - t2 % 32, e4[15 + (t2 + 64 >> 9 << 4)] = t2;
+      const n2 = new Array(80);
+      let r2 = 1732584193, i2 = -271733879, o2 = -1732584194, a2 = 271733878, s2 = -1009589776;
+      for (let c2 = 0; c2 < e4.length; c2 += 16) {
+        const t3 = r2, u2 = i2, f2 = o2, l2 = a2, d2 = s2;
+        for (let p2 = 0; p2 < 80; p2++) {
+          n2[p2] = p2 < 16 ? e4[c2 + p2] : Ko(n2[p2 - 3] ^ n2[p2 - 8] ^ n2[p2 - 14] ^ n2[p2 - 16], 1);
+          const t4 = Ho(Ho(Ko(r2, 5), Go(p2, i2, o2, a2)), Ho(Ho(s2, n2[p2]), Qo(p2)));
+          s2 = a2, a2 = o2, o2 = Ko(i2, 30), i2 = r2, r2 = t4;
+        }
+        r2 = Ho(r2, t3), i2 = Ho(i2, u2), o2 = Ho(o2, f2), a2 = Ho(a2, l2), s2 = Ho(s2, d2);
+      }
+      return [r2, i2, o2, a2, s2];
+    })((function(e4) {
+      const t2 = new Array(e4.length >> 2);
+      for (let n2 = 0; n2 < t2.length; n2++) t2[n2] = 0;
+      for (let n2 = 0; n2 < 8 * e4.length; n2 += 8) t2[n2 >> 5] |= (255 & e4.charCodeAt(n2 / 8)) << 24 - n2 % 32;
+      return t2;
+    })(e3), 8 * e3.length));
+  })(e2));
+}
+function Go(e2, t2, n2, r2) {
+  return e2 < 20 ? t2 & n2 | ~t2 & r2 : e2 < 40 ? t2 ^ n2 ^ r2 : e2 < 60 ? t2 & n2 | t2 & r2 | n2 & r2 : t2 ^ n2 ^ r2;
+}
+function Qo(e2) {
+  return e2 < 20 ? 1518500249 : e2 < 40 ? 1859775393 : e2 < 60 ? -1894007588 : -899497514;
+}
+function Ho(e2, t2) {
+  const n2 = (65535 & e2) + (65535 & t2);
+  return (e2 >> 16) + (t2 >> 16) + (n2 >> 16) << 16 | 65535 & n2;
+}
+function Ko(e2, t2) {
+  return e2 << t2 | e2 >>> 32 - t2;
+}
+function Zo(e2) {
+  let t2 = e2;
+  "string" == typeof e2 && (t2 = { ticket: e2 });
+  const n2 = t2.nonceStr || Dr(), r2 = t2.timestamp || Math.floor(Date.now() / 1e3), o2 = t2.url || i().split("#")[0];
+  return { timestamp: r2, nonceStr: n2, signature: Jo(`jsapi_ticket=${t2.ticket}&noncestr=${n2}&timestamp=${r2}&url=${o2}`) };
+}
+var Xo = { isWeChat: f, isWeCom: u };
+var Yo = true;
+
+// wecom.js
+async function sha1(str) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str);
+  const hashBuffer = await crypto.subtle.digest("SHA-1", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b2) => b2.toString(16).padStart(2, "0")).join("");
+}
+async function generateSignatureSomehow(ticket, url) {
+  const nonceStr = Math.random().toString(36).substring(2, 15);
+  const timestamp = Math.floor(Date.now() / 1e3);
+  const stringToSign = `jsapi_ticket=${ticket}&noncestr=${nonceStr}&timestamp=${timestamp}&url=${url}`;
+  const signature = await sha1(stringToSign);
+  return {
+    nonceStr,
+    timestamp,
+    signature
+  };
+}
+async function initWeComSDK(ticket, url) {
+  const signatureData = await generateSignatureSomehow(ticket, url);
+  te({
+    corpId: "ww123456...",
+    // ⚠️请替换为你的真实 CorpID
+    jsApiList: [
+      "selectExternalContact",
+      "renderConversation",
+      "getCurExternalContact"
+    ],
+    // 在这里添加你需要使用的接口列表
+    getConfigSignature: () => {
+      return {
+        timestamp: signatureData.timestamp,
+        nonceStr: signatureData.nonceStr,
+        signature: signatureData.signature
+      };
+    }
+  });
+  return wecom_prod_exports;
+}
+export {
+  initWeComSDK,
+  wecom_prod_exports as ww
+};

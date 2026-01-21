@@ -21,6 +21,7 @@ import {
 } from 'naive-ui'
 
 const props = defineProps({
+  metaType: { type: String, required: true },
   type: { type: String, required: true },
   pageTitle: { type: String, default: '' },
 })
@@ -36,7 +37,7 @@ const {
   deleteMetaData,
   reloadMetaDataList,
   addFormMetaData,
-} = useXmMeta([props.type])
+} = useXmMeta([props.type], props.metaType)
 
 const { submit: addSubmit, submitting: addSubmitting } = addFormMetaData()
 

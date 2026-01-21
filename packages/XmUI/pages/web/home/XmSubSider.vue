@@ -9,33 +9,24 @@ import {
     NMenu,
     NButton
 } from 'naive-ui'
+import { storeToRefs } from 'pinia' 
 import XmSvgIcon from '/components/icon/XmSvgIcon.vue'
-import { menuOptions } from "./XmSubMenu"
 import XmSvgIconify from '/components/icon/XmSvgIconify.vue'
 import { useMenuDataStore } from '/store/XmMenuData.js'
 
 const menuDataStore = useMenuDataStore()
+const { menuOptions } = storeToRefs(menuDataStore)
 
-/* ========================
- * 折叠（来自 store）
- * ======================== */
 const collapsed = computed({
     get: () => menuDataStore.menuCollapsed,
     set: (val) => menuDataStore.setMenuCollapsed(val)
 })
 
-/* ========================
- * 一级菜单选中
- * ======================== */
 const activeKey = computed({
     get: () => menuDataStore.menuKey,
     set: (key) => menuDataStore.setMenuKey(key)
 })
 
-
-/* ========================
- * 折叠按钮 icon
- * ======================== */
 const icon = computed(() =>
     collapsed.value
         ? 'line-md:menu-fold-right'

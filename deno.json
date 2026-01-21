@@ -10,9 +10,8 @@
     "@alicloud/tea-util": "npm:@alicloud/tea-util@^1.4.11",
     "@es-toolkit/es-toolkit": "jsr:@es-toolkit/es-toolkit@^1.43.0",
     "ali-oss": "npm:ali-oss@^6.23.0",
-    "hono": "npm:hono@^4.10.6",
-    "@vue/compiler-sfc": "npm:@vue/compiler-sfc",
     "@XmVendor": "./packages/XmVendor/mod.js",
+    "@vue/compiler-sfc": "npm:@vue/compiler-sfc",
     "@XmCore": "./packages/XmCore/mod.js",
     "@XmDBs": "./packages/XmDBs/mod.js",
     "@XmTableData": "./packages/XmTableData/mod.js",
@@ -25,8 +24,11 @@
     "@XmRuntime": "./packages/XmRuntime/mod.js",
     "@XmControl": "./packages/XmControl/mod.js",
     "mongodb": "npm:mongodb@^7.0.0",
+    "naive-ui": "npm:naive-ui@^2.43.2",
+    "pinia": "npm:pinia@^3.0.4",
     "sequelize": "npm:sequelize@^6.37.7",
     "vue": "npm:vue@^3.5.26",
-    "xlsx-js-style": "npm:xlsx-js-style@^1.2.0"
+    "xlsx-js-style": "npm:xlsx-js-style@^1.2.0",
+    "/components/": "./packages/XmUI/components/"
   }
 }

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Xunma WebNN CPU Hello World - Matrix Mul + ReLU</title>
+  <style>
+    body { margin:0; font-family:sans-serif; background:#111; color:#eee; padding:20px; }
+    pre { background:#222; padding:15px; border-radius:8px; overflow:auto; }
+    button { padding:10px 20px; margin:10px 0; font-size:16px; }
+  </style>
+</head>
+<body>
+  <h2>WebNN on CPU: 矩阵乘法 + ReLU</h2>
+  <p>输入 A (2×3) × B (3×4) → 输出 C (2×4)</p>
+  <button onclick="run()">运行 (强制 CPU 后端)</button>
+  <pre id="output">点击按钮运行...</pre>
+
+  <script type="module">
+    async function run() {
+      const output = document.getElementById("output");
+      output.textContent = "正在初始化...\n";
+
+      if (!navigator.ml) {
+        output.textContent = "浏览器不支持 WebNN API（需最新 Chrome/Edge，启用实验性功能）";
+        return;
+      }
+
+      let context;
+      try {
+        // 明确指定 CPU 后端（如果失败会 fallback）
+        context = await navigator.ml.createContext({ deviceType: "cpu" });
+        output.textContent += "成功创建 CPU 上下文！\n";
+      } catch (e) {
+        output.textContent += "CPU 上下文创建失败: " + e.message + "\n尝试默认上下文...\n";
+        try {
+          context = await navigator.ml.createContext();
+          output.textContent += "使用默认上下文（可能是 CPU/GPU/NPU 中的一个）\n";
+        } catch (err) {
+          output.textContent += "完全失败: " + err.message;
+          return;
+        }
+      }
+
+      const builder = new MLGraphBuilder(context);
+
+      // 定义输入：A (2×3), B (3×4)
+      const a = builder.input("a", { dataType: "float32", dimensions: [2, 3] });
+      const b = builder.input("b", { dataType: "float32", dimensions: [3, 4] });
+
+      // 核心操作：矩阵乘法 + ReLU
+      let c = builder.matmul(a, b);
+      c = builder.relu(c);  // 负值变 0，正值不变
+
+      // 构建图，输出名为 "c"
+      const graph = await builder.build({ c });
+
+      // 准备输入数据
+      const aData = new Float32Array([
+        1, 2, 3,
+        4, 5, 6
+      ]);
+      const bData = new Float32Array([
+        7,  8,  9, 10,
+        11, 12, 13, 14,
+        15, 16, 17, 18
+      ]);
+
+      const inputs = {
+        a: new MLTensor(aData, { dimensions: [2, 3] }),
+        b: new MLTensor(bData, { dimensions: [3, 4] })
+      };
+
+      // 输出张量
+      const outputTensor = await context.createTensor({
+        dataType: "float32",
+        dimensions: [2, 4]
+      });
+      const outputs = { c: outputTensor };
+
+      output.textContent += "正在计算...\n";
+
+      // 执行推理
+      await graph.compute(inputs, outputs);
+
+      // 读取结果
+      const resultBuffer = await context.readTensor(outputTensor);
+      const resultArray = new Float32Array(resultBuffer);
+
+      output.textContent += "\n结果 C (A × B 后 ReLU):\n";
+      for (let i = 0; i < 2; i++) {
+        const row = [];
+        for (let j = 0; j < 4; j++) {
+          row.push(resultArray[i * 4 + j].toFixed(1));
+        }
+        output.textContent += row.join(", ") + "\n";
+      }
+
+      output.textContent += "\n计算完成！(使用 CPU 后端)";
+    }
+  </script>
+</body>
+</html>

@@ -1,9 +1,11 @@
-import { Hono } from "hono";
+import { hono } from "@XmVendor";
+
 import { XmMap } from "@XmService";
+const { Hono } = hono;
 
 export class XmRouters {
   constructor() {
-    this.router = new Hono();
+    this.router = new Hono.Hono();
   }
 
   init(control) {

@@ -15,7 +15,8 @@ import {
 } from 'naive-ui'
 import { createTextVNode, defineComponent, h } from 'vue'
 import { ThemePresets } from '/theme/index.js'
-
+import { useLayoutPersist } from '/store/XmLayoutPersist'
+import {  ww } from "wecom"; // 假设这些是你从后端 API 拿到的
 defineOptions({
   name: 'XmApp'
 })
@@ -33,9 +34,30 @@ const msg = "Hello Xunma!"
 const time = ref(new Date().toLocaleTimeString())
 
 onMounted(() => {
-  setInterval(() => {
-    time.value = new Date().toLocaleTimeString()
-  }, 1000)
+  const persist = useLayoutPersist()
+  // setInterval(() => {
+  //   time.value = new Date().toLocaleTimeString()
+  // }, 1000)
+  // const wwLogin = ww.createWWLoginPanel({
+  //   el: "#ww_login",
+  //   params: {
+  //     login_type: "CorpApp",
+  //     appid: "wwbbb6a7b539f2xxxxx",
+  //     agentid: "10000xx",
+  //     redirect_uri: "https://work.weixin.qq.com",
+  //     state: "loginState",
+  //     redirect_type: "callback",
+  //   },
+  //   onCheckWeComLogin({ isWeComLogin }) {
+  //     console.log(isWeComLogin);
+  //   },
+  //   onLoginSuccess({ code }) {
+  //     console.log({ code });
+  //   },
+  //   onLoginFail(err) {
+  //     console.log(err);
+  //   },
+  // });
 })
 
 const watermarkProps = computed(() => ({
@@ -83,5 +105,6 @@ const ContextHolder = defineComponent({
         </NDialogProvider>
       </NLoadingBarProvider>
     </NConfigProvider>
+    <div id="ww_login"/>
   </div>
 </template>

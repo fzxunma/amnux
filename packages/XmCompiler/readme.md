@@ -1,0 +1,1 @@
+bunx jsr add --bun @std/path

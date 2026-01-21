@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>Xunma WebGPU Hello Triangle</title>
+  <style>
+    body { margin:0; display:flex; justify-content:center; align-items:center; height:100vh; background:#111; }
+    canvas { border:1px solid #444; }
+  </style>
+</head>
+<body>
+  <canvas width="640" height="480"></canvas>
+
+  <script type="module">
+    async function main() {
+      if (!navigator.gpu) {
+        alert("你的浏览器不支持 WebGPU（需要 Chrome/Edge 113+、Safari 17.2+ 等）");
+        return;
+      }
+
+      // 1. 获取 GPU 适配器和设备
+      const adapter = await navigator.gpu.requestAdapter();
+      if (!adapter) {
+        alert("无法获取 GPU 适配器");
+        return;
+      }
+
+      const device = await adapter.requestDevice();
+
+      // 2. 配置 canvas
+      const canvas = document.querySelector("canvas");
+      const context = canvas.getContext("webgpu");
+
+      const presentationFormat = navigator.gpu.getPreferredCanvasFormat();
+      context.configure({
+        device,
+        format: presentationFormat,
+        alphaMode: "premultiplied",
+      });
+
+      // 3. WGSL 着色器（顶点 + 片元）
+      const shaderModule = device.createShaderModule({
+        code: `
+          struct VertexOut {
+            @builtin(position) position : vec4f,
+            @location(0) color : vec4f,
+          };
+
+          @vertex
+fn vs_main(@builtin(vertex_index) vertexIndex : u32) -> VertexOut {
+    let pos = array(
+        vec2f(-0.7, -0.7),
+        vec2f(0.7, -0.7),
+        vec2f(0.0, 0.8)
+    );
+
+    var output: VertexOut;
+    output.position = vec4f(pos[vertexIndex], 0.0, 1.0);
+
+    // 使用 if 语句代替条件运算符
+    if (vertexIndex == 0) {
+        output.color = vec4f(1.0, 0.0, 0.0, 1.0); // 红色
+    } else if (vertexIndex == 1) {
+        output.color = vec4f(0.0, 1.0, 0.0, 1.0); // 绿色
+    } else {
+        output.color = vec4f(0.0, 0.0, 1.0, 1.0); // 蓝色
+    }
+
+    return output;
+}
+
+
+          @fragment
+          fn fs_main(@location(0) color : vec4f) -> @location(0) vec4f {
+            return color;
+          }
+        `,
+      });
+
+      // 4. 创建渲染管线
+      const pipeline = device.createRenderPipeline({
+        layout: "auto",
+        vertex: {
+          module: shaderModule,
+          entryPoint: "vs_main",
+        },
+        fragment: {
+          module: shaderModule,
+          entryPoint: "fs_main",
+          targets: [{ format: presentationFormat }],
+        },
+        primitive: {
+          topology: "triangle-list",
+        },
+      });
+
+      // 5. 渲染函数
+      function render() {
+        const commandEncoder = device.createCommandEncoder();
+        const textureView = context.getCurrentTexture().createView();
+
+        const renderPass = commandEncoder.beginRenderPass({
+          colorAttachments: [{
+            view: textureView,
+            clearValue: { r: 0.1, g: 0.1, b: 0.15, a: 1.0 },
+            loadOp: "clear",
+            storeOp: "store",
+          }],
+        });
+
+        renderPass.setPipeline(pipeline);
+        renderPass.draw(3);           // 画 3 个顶点 → 1 个三角形
+        renderPass.end();
+
+        device.queue.submit([commandEncoder.finish()]);
+      }
+
+      render();
+
+      // 如果想动画循环，可以改成 requestAnimationFrame(render);
+    }
+
+    main().catch(console.error);
+  </script>
+</body>
+</html>

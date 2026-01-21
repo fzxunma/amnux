@@ -3,6 +3,7 @@ import { h } from 'vue'
 import { NFormItem, NGrid, NGridItem } from 'naive-ui'
 import { renderField } from './XmFieldRenderer.js'
 
+
 export function renderFields({
   list,
   meta,
@@ -20,22 +21,21 @@ export function renderFields({
     const style = f.width
       ? `width:${typeof f.width === 'number' ? f.width + 'px' : f.width}`
       : 'width:100%'
-
     return h(
       NFormItem,
       {
         key: f.key,
+            path: f.key,
+
         label: meta.showLabel === false ? '' : f.label,
         showLabel: meta.showLabel ?? true,
         style
       },
-      () =>
-        h(renderField, {
-          field: f,
-          modelValue: formModel[f.key],
-          'onUpdate:modelValue': v => updateField(f, v),
-          ...resolveFieldProps(f, exprCtx)
-        })
+    
+      () => renderField(f, formModel, updateField, exprCtx)
+    ,
+        
+        
     )
   }
 
@@ -62,3 +62,6 @@ export function renderFields({
   // 普通布局
   return list.map(renderItem)
 }
+
+export default renderFields
+

@@ -4,13 +4,14 @@ const { normalize, fromFileUrl } = stdpath;
 
 export class XmMetaDataManager {
   constructor(kvPath = undefined) {
-    const absolutePath = normalize(fromFileUrl(new URL(kvPath , import.meta.url)));
+    const absolutePath = normalize(
+      fromFileUrl(new URL(kvPath, import.meta.url)),
+    );
     this.kvPromise = Deno.openKv(absolutePath);
     this.cache = new Map(); // keyStr → { data, versionstamp }
   }
 
   async kv() {
-    
     return await this.kvPromise;
   }
 
@@ -49,11 +50,15 @@ export class XmMetaDataManager {
       }
       // 关键：每段内部禁止包含 / 或 \ （因为 / 是我们用来分隔层级的）
       if (/[\/\\]/.test(trimmed)) {
-        throw new Error(`路径段 "${trimmed}" 不能包含 / 或 \\，如需创建子目录，请在 ID 中使用 / 分隔（如 folder/sub）`);
+        throw new Error(
+          `路径段 "${trimmed}" 不能包含 / 或 \\，如需创建子目录，请在 ID 中使用 / 分隔（如 folder/sub）`,
+        );
       }
       // 推荐：严格字符集（防止奇怪字符）
       if (!/^[a-zA-Z0-9._-]+$/.test(trimmed)) {
-        throw new Error(`路径段 "${trimmed}" 只能包含字母、数字、下划线、短横线和点号`);
+        throw new Error(
+          `路径段 "${trimmed}" 只能包含字母、数字、下划线、短横线和点号`,
+        );
       }
       if (trimmed.length > 128) {
         throw new Error(`路径段 "${trimmed}" 太长（最多128字符）`);
@@ -96,8 +101,9 @@ export class XmMetaDataManager {
     } else if (Array.isArray(raw)) {
       raw.forEach((item) => {
         if (Array.isArray(item)) item.forEach(add);
-        else if (typeof item === "string") item.split("/").filter(Boolean).forEach(add);
-        else add(item);
+        else if (typeof item === "string") {
+          item.split("/").filter(Boolean).forEach(add);
+        } else add(item);
       });
     }
 
@@ -164,10 +170,10 @@ export class XmMetaDataManager {
       const relativeParts = entry.key.slice(prefix.length);
       if (relativeParts.length === 0) continue;
 
-      const id = relativeParts.join('/');  // 如 "test/sdfsf"
+      const id = relativeParts.join("/"); // 如 "test/sdfsf"
 
       const entity = structuredClone(entry.value);
-      entity.id = relativeParts[relativeParts.length - 1];  // 或保留完整路径
+      entity.id = relativeParts[relativeParts.length - 1]; // 或保留完整路径
 
       result[id] = entity;
 
@@ -207,7 +213,9 @@ export class XmMetaDataManager {
       data: validated,
       versionstamp: commit.versionstamp,
     });
-    console.log(`Saved entity at ${keyStr} (versionstamp: ${commit.versionstamp})`);
+    console.log(
+      `Saved entity at ${keyStr} (versionstamp: ${commit.versionstamp})`,
+    );
     return structuredClone(validated);
   }
 
@@ -290,29 +298,32 @@ export class XmMetaDataManager {
 
     try {
       switch (opt) {
-        case "get":
+        case "get": {
           const entity = await this.get(keyPath);
           return this.ctxOk(ctx, entity ?? {});
-
+        }
         case "list": // ⭐ 新增操作：前端列表依赖这个
+        {
           const listData = await this.list(keyPath);
           return this.ctxOk(ctx, listData);
-
-        case "set":
+        }
+        case "set": {
           if (value === undefined) return this.ctxError(ctx, "set 需要 value");
           const saved = await this.set(keyPath, value);
           return this.ctxOk(ctx, saved);
-
-        case "update":
+        }
+        case "update": {
           if (!path) return this.ctxError(ctx, "update 需要 path");
-          if (value === undefined) return this.ctxError(ctx, "update 需要 value");
+          if (value === undefined) {
+            return this.ctxError(ctx, "update 需要 value");
+          }
           const updated = await this.update(keyPath, path, value);
           return this.ctxOk(ctx, updated);
-
-        case "del":
+        }
+        case "del": {
           await this.del(keyPath, { force: value?.force });
           return this.ctxOk(ctx, { deleted: true });
-
+        }
         default:
           return this.ctxError(ctx, `未知 opt: ${opt}`);
       }

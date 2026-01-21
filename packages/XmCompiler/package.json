@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "@vueuse/core": "^14.1.0",
+    "@wecom/jssdk": "^2.3.3",
+    "echarts": "^6.0.0",
+    "hono": "^4.11.4",
     "vue-draggable-plus": "^0.6.0"
   }
 }

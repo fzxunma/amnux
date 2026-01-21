@@ -89,7 +89,7 @@ const groupTypeOptions = [
   { label: '普通 Form 模式', value: 'default' },
   { label: 'Table 模式', value: 'table' },
   { label: 'Card 模式', value: 'card' },
-  { label: 'CardList 模式', value: 'cardlist' }
+  { label: 'CardList 模式', value: 'cardlist' },
 ]
 </script>
 
@@ -99,4 +99,5 @@ const groupTypeOptions = [
     </n-select>
   </div>
   <XmLowCodeUI :meta="meta" :model-value="meta.data" />
+  <div >11111</div>
 </template>

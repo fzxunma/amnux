@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import XmMetaEditor from './XmMetaEditor.vue'
 import { useXmMeta } from '/composables/useXmMeta'
-
-const { xmMetaTreeData } = useXmMeta([])  // 空数组 → list(["xm"])
+const metaType = "meta"
+const { xmMetaTreeData } = useXmMeta([],metaType)  // 空数组 → list(["xm"])
 const activeType = ref('')
 
 const handleSelect = (keys) => {
@@ -35,6 +35,7 @@ const handleSelect = (keys) => {
 
       <n-layout-content style="padding: 24px; background: #fcfcfc;">
         <XmMetaEditor
+          :metaType="metaType"
           :key="activeType"
           :type="activeType"
           :page-title="`${activeType} 配置管理`"

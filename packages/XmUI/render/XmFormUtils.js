@@ -4,7 +4,9 @@ export function createGroupMap(fields) {
   fields.forEach(f => {
     const g = f.group || '_default'
     if (!map[g]) map[g] = []
-    map[g].push(f)
+    if (f.show !== false) {
+      map[g].push(f)
+    }
   })
   return map
 }
@@ -14,8 +16,9 @@ export function getGroupNames(groupMap) {
 }
 
 export function resolveFieldProps(f, exprCtx) {
-  const p = {}
-  ;[
+  const p = {};
+  
+  [
     'clearable', 'placeholder', 'maxlength', 'minlength', 'showCount',
     'min', 'max', 'step', 'size', 'precision',
     'showPassword', 'allowInput'

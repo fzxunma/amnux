@@ -1,12 +1,6 @@
-import { Hono } from "hono";
-import { serveStatic } from "hono/deno";
-import { compress } from "hono/compress";
-import { cors } from "hono/cors";
-import { requestId } from "hono/request-id";
-import { secureHeaders } from "hono/secure-headers";
-import { bodyLimit } from "hono/body-limit";
-import { csrf } from "hono/csrf";
-import { HTTPException } from "hono/http-exception";
+import {
+  hono
+} from "@XmVendor";
 
 import { XmRouters } from "./XmRouters.js";
 import { XmConfig } from "@XmConfig";
@@ -15,6 +9,17 @@ import { XmTableRouters } from "@XmTableData";
 import { XmControl } from "@XmControl";
 import { getKVFS } from "@XmProKVFS";
 import { XmRuntimeServer } from "@XmRuntime"; // 你的新类
+const {
+  bodyLimit,
+  compress,
+  cors,
+  csrf,
+  Hono,
+  HTTPException,
+  requestId,
+  secureHeaders,
+  serveStatic,
+} = hono;
 
 export class XmServer {
   constructor() {
@@ -22,8 +27,7 @@ export class XmServer {
       return this.Instance;
     }
     this.Instance = this;
-
-    this.app = new Hono();
+    this.app = new Hono.Hono();
 
     this.xmRouters = new XmRouters();
     this.xmMetaRouter = new XmMetaRouters("../../data/xmm", "../../data/xmd");
@@ -139,6 +143,16 @@ export class XmServer {
         serveStatic({ root: "apps/XmWebUI/", index: "index.html" }),
       );
     });
+      ["XmGpu", "XmNpu", "XmCpu"].forEach((name) => {
+      this.app.use(
+        `/${name}/*`,
+        serveStatic({ root: `apps/`, index: "index.html" }),
+      );
+      this.app.use(
+        `/${name}`,
+        serveStatic({ root: `apps/`, index: "index.html" }),
+      );
+    });
     // 5. 主请求路由
     // app.get("/", async (c) => {
     //   return serveIndexHtml(c);
@@ -159,8 +173,8 @@ export class XmServer {
   }
   initRouter() {
     //this.app.use('/api', this.xmRouters.routes());
-    this.app.post("/api/meta", this.xmMetaRouter.meta());
-    this.app.post("/api/metaData", this.xmMetaRouter.metaData());
+    this.app.post("/xmapi/meta", this.xmMetaRouter.meta());
+    this.app.post("/xmapi/metaData", this.xmMetaRouter.metaData());
     //this.app.use('/api/table', this.xmTableRouter.routes());
   }
   initProxy() {
@@ -185,7 +199,10 @@ export class XmServer {
     this.initRouter();
     this.initProxy();
     // 启动服务器并处理热更新
-    Deno.serve({  hostname: "0.0.0.0",port: XmConfig.getConfig("listen") }, this.app.fetch);
+    Deno.serve(
+      { hostname: "0.0.0.0", port: XmConfig.getConfig("listen") },
+      this.app.fetch,
+    );
 
     console.log("XmRuntimeServer 已启动！", XmConfig.getConfig("listen"));
   }

@@ -1,78 +1,154 @@
 // XmFormRenderer.js
-import { h, computed, provide } from 'vue'
-import { NForm } from 'naive-ui'
+import { computed, h, provide } from "vue";
+import { NForm } from "naive-ui";
 
-import { createExprContext } from './XmExpr.js'
-import { renderFields } from './XmFormFields.js'
-import { useXmFormState } from './XmFormState.js'
-import { useXmFormGroups } from './XmFormGroups.js'
-import { renderXmFormActions } from './XmFormActions.js'
-import { createGroupMap, getGroupNames, resolveFieldProps } from './XmFormUtils.js'
+import { createExprContext } from "./XmExpr.js";
+import { renderFields } from "./XmFormFields.js";
+import { useXmFormState } from "./XmFormState.js";
+import { useXmFormGroups } from "./XmFormGroups.js";
+import { renderXmFormActions } from "./XmFormActions.js";
+import {
+  createGroupMap,
+  getGroupNames,
+  resolveFieldProps,
+} from "./XmFormUtils.js";
 
 export default {
-  name: 'XmFormRenderer',
+  name: "XmFormRenderer",
   props: {
-    meta: { type: Object, default: () => ({ fields: [], showActions: true, showGroupTitle: true }) },
-    modelValue: { type: Object, default: () => ({}) }
+    meta: {
+      type: Object,
+      default: () => ({ fields: [], inline: true, showActions: true, showGroupTitle: true, labelPlacement, required }),
+    },
+    modelValue: { type: Object, default: () => ({}) },
   },
-  emits: ['update:modelValue','submit','reset','cancel','stepChange','autoSave'],
+  emits: [
+    "update:modelValue",
+    "submit",
+    "reset",
+    "cancel",
+    "stepChange",
+    "autoSave",
+  ],
 
   setup(props, { emit }) {
-    const fields = computed(() => props.meta.fields || [])
+    const fields = computed(() => props.meta.fields || []);
+    // ======== 根据字段生成 Naive UI rules ========
+    const rules = computed(() => {
+      const r = {};
+      fields.value.forEach((field) => {
+        if (!field.required || field.show === false) return;
+
+        r[field.key] = {
+          required: true,
+          message: `${field.label || field.key} 为必填`,
+          trigger:
+            field.validateTrigger === "both"
+              ? ["input", "blur"]
+              : field.validateTrigger || "blur",
+        };
+      });
+      return r;
+    });
+
 
     // ========== form 状态 ==========
-    const { formModel, init, updateField } = useXmFormState(props, emit)
-    init(fields.value)
+    const { formModel, init, updateField } = useXmFormState(props, emit);
+    init(fields.value);
 
-    const exprCtx = createExprContext(formModel)
-    provide('xmFormCtx', { formModel, exprCtx })
+    const exprCtx = createExprContext(formModel);
+    provide("xmFormCtx", { formModel, exprCtx });
 
     // ========== 分组 ==========
-    const groupMap = computed(() => createGroupMap(fields.value))
-    const groupNames = computed(() => getGroupNames(groupMap.value))
+    const groupMap = computed(() => createGroupMap(fields.value));
+    const groupNames = computed(() => getGroupNames(groupMap.value));
 
     // ========== useXmFormGroups (Tab/Step 模式) ==========
     const groups = useXmFormGroups({
       meta: props.meta,
       fields: fields.value,
-      renderFields: list => renderFields({ list, meta: props.meta, formModel, exprCtx, updateField, resolveFieldProps }),
-      submit: data => emit('submit', data),
-      stepChange: v => emit('stepChange', v)
-    })
+      renderFields: (list) =>
+        renderFields({
+          list,
+          meta: props.meta,
+          formModel,
+          exprCtx,
+          updateField,
+          resolveFieldProps,
+        }),
+      submit: (data) => emit("submit", data),
+      stepChange: (v) => emit("stepChange", v),
+    });
 
     // ========== 渲染入口 ==========
     return () => {
-      const type = props.meta.groupType || 'default'
-      const showGroupTitle = props.meta.showGroupTitle !== false
+      const type = props.meta.groupType || "default";
+      const showGroupTitle = props.meta.showGroupTitle !== false;
 
       // Tab / Step 模式
-      if (type === 'tab' || type === 'step') {
-        return h(NForm, { model: formModel, showLabel: props.meta.showLabel, inline: props.meta.inline }, () => [
+      if (type === "tab" || type === "step") {
+        return h(NForm, {
+          model: formModel,
+          rules: rules.value,              // 新增
+
+          showLabel: props.meta.showLabel,
+          inline: props.meta.inline,
+          labelWidth: "auto",
+          required: props.meta.required,
+          'show-require-mark': props.meta.required,
+          labelPlacement: props.meta.labelPlacement,
+          requireMarkPlacement: "left",
+        }, () => [
           groups.render(),
-          props.meta.showActions ? renderXmFormActions(props.meta, () => init(fields.value), emit) : null
-        ])
+          props.meta.showActions
+            ? renderXmFormActions(props.meta, () => init(fields.value), emit)
+            : null,
+        ]);
       }
 
       // Default / Card 模式 → 按组渲染
-      return h(NForm, { model: formModel, showLabel: props.meta.showLabel, inline: props.meta.inline }, () => {
-        const nodes = []
+      return h(NForm, {
+        model: formModel,
+        rules: rules.value,              // 新增
 
-        groupNames.value.forEach(g => {
-          const fieldsInGroup = groupMap.value[g] || []
-          if (!fieldsInGroup.length) return
+        showLabel: props.meta.showLabel,
+        inline: props.meta.inline,
+        labelWidth: "auto",
+        required: props.meta.required,
+        'show-require-mark': props.meta.required,
+        labelPlacement: props.meta.labelPlacement,
+        requireMarkPlacement: "left",
+      }, () => {
+        const nodes = [];
 
-          const groupNode = h('div', { class: 'mb-4 border rounded p-4' }, [
-            (showGroupTitle && (g !== '_default' || showGroupTitle)) ? h('div', { class: 'font-bold mb-2' }, g) : null,
-            renderFields({ list: fieldsInGroup, meta: props.meta, formModel, exprCtx, updateField, resolveFieldProps })
-          ])
-          nodes.push(groupNode)
-        })
+        groupNames.value.forEach((g) => {
+          const fieldsInGroup = groupMap.value[g] || [];
+          if (!fieldsInGroup.length) return;
 
-        const actionsNode = props.meta.showActions ? renderXmFormActions(props.meta, () => init(fields.value), emit) : null
-        if (actionsNode) nodes.push(actionsNode)
+          const groupNode = h("div", { class: "mb-4 border rounded p-4" }, [
+            (showGroupTitle && (g !== "_default" || showGroupTitle))
+              ? h("div", { class: "font-bold mb-2" }, g)
+              : null,
+            renderFields({
+              list: fieldsInGroup,
+              meta: props.meta,
+              formModel,
+              exprCtx,
+              updateField,
+              resolveFieldProps,
+            }),
+          ]);
 
-        return nodes
-      })
-    }
-  }
-}
+          nodes.push(groupNode);
+        });
+
+        const actionsNode = props.meta.showActions
+          ? renderXmFormActions(props.meta, () => init(fields.value), emit)
+          : null;
+        if (actionsNode) nodes.push(actionsNode);
+
+        return nodes;
+      });
+    };
+  },
+};

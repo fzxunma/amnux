@@ -1,4 +1,6 @@
-import { Hono } from "hono";
+import { hono } from "@XmVendor";
+const { Hono } = hono;
+
 export class XmServerApi {
   constructor() {
     if (this.Instance) {

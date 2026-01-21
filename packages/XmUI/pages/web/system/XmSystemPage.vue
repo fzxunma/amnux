@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useMessage } from 'naive-ui'
 
 const message = useMessage()
-const API_BASE = '/api/meta'
+const API_BASE = '/xmapi/meta'
 
 async function metaRequest(payload) {
   try {

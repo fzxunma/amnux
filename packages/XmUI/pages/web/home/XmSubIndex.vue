@@ -1,24 +1,26 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { storeToRefs } from 'pinia' 
 import {
-  NLayout,
-  NLayoutSider,
-  NLayoutContent,
-  NMenu,
-  NCard
+  NLayout, NLayoutSider, NLayoutContent, NMenu, NCard,
+  NDrawer, NDrawerContent
 } from 'naive-ui'
-import { menuOptionsMap } from "./XmSubMenu"
-
-import XmLowCode from '/components/lowcode/XmIndex.vue'
+import XmSvgIcon from '/components/icon/XmSvgIcon.vue'
+import XmBreadcrumb from '/components/breadcrumb/XmBreadcrumb.vue'
+import XmLayoutView from '/components/layout/XmLayoutView.vue'  // 假設已改成 props 驅動版本
+import XmLayoutEditor from '/components/layout/XmLayoutEditor.vue'
 import { useMenuDataStore } from '/store/XmMenuData.js'
-import { vDraggable } from 'vue-draggable-plus'
+import { useLayoutData } from '/store/XmLayoutData'
+
+const layoutStore = useLayoutData()
 
 const menuDataStore = useMenuDataStore()
+const { menuOptionsMap, menuKey } = storeToRefs(menuDataStore)
 
-/* ========================
- * 工具函数
- * ======================== */
-
+// ── 側邊欄相關邏輯（保持不變） ──
+const subMenuOptions = computed(() => {
+  return menuOptionsMap.value[menuKey.value] || []
+})
 
 function findFirstLeaf(options) {
   for (const item of options) {
@@ -32,39 +34,42 @@ function findFirstLeaf(options) {
   return ''
 }
 
-/* ========================
- * 当前二级 options
- * ======================== */
-const menuOptions = computed(
-  () => menuOptionsMap[menuDataStore.menuKey] || []
-)
+function findParentsPath(tree, targetKey, currentPath = []) {
+  if (!tree) return null
+  for (const node of tree) {
+    if (node.key === targetKey) return currentPath
+    if (node.children && node.children.length > 0) {
+      const foundPath = findParentsPath(node.children, targetKey, [...currentPath, node.key])
+      if (foundPath) return foundPath
+    }
+  }
+  return null
+}
 
-/* ========================
- * 二级展开状态
- * ======================== */
 const expandedKeys = ref([])
+const drawerVisible = ref(false)
 
-
-/* ========================
- * 二级选中
- * ======================== */
 const selectedKey = computed({
   get: () => menuDataStore.getMenuSubKey() || null,
   set: (val) => val && menuDataStore.setMenuSubKey(val)
 })
 
-/* ========================
- * 切换一级时：默认选中第一个二级
- * ======================== */
 watch(
   () => menuDataStore.menuKey,
   (key) => {
-    const options = menuOptionsMap[key] || []
-    expandedKeys.value = options.filter(i => i.children)?.map(i => i.key) || []
+    const options = menuOptionsMap.value[key] || []
+    let activeKey = menuDataStore.getMenuSubKey()
+    
+    if (!activeKey) {
+      activeKey = findFirstLeaf(options)
+      if (activeKey) menuDataStore.setMenuSubKey(activeKey)
+    }
 
-    if (!menuDataStore.menuSubKey) {
-      const first = findFirstLeaf(options)
-      if (first) menuDataStore.setMenuSubKey(first)
+    if (activeKey) {
+      const path = findParentsPath(options, activeKey)
+      expandedKeys.value = path || []
+    } else {
+      expandedKeys.value = []
     }
   },
   { immediate: true }
@@ -73,94 +78,66 @@ watch(
 const collapsed = computed({
   get() {
     const key = menuDataStore.menuKey
-    return menuDataStore.menuSubCollapsed[key] ?? true
+    return menuDataStore.menuSubCollapsed[key] ?? false 
   },
   set(val) {
-    console.log(val)
     const key = menuDataStore.menuKey
     menuDataStore.setMenuSubCollapsed(key, val)
   }
 })
-const nameRef = ref(1)
-const panelsRef = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
 
-function handleClose(name) {
-  const { value: panels } = panelsRef
-  if (panels.length === 1) {
-    return
-  }
-  const index = panels.findIndex(v => name === v)
-  panels.splice(index, 1)
-  if (nameRef.value === name) {
-    nameRef.value = panels[index]
-  }
-}
-
-const name = nameRef
-const panels = panelsRef
-const activeTab = ref('oasis')
-
-const tabs = ref([
-  { key: 'oasis', label: 'Oasis' },
-  { key: 'beatles', label: 'The Beatles' },
-  { key: 'jay', label: 'Jay Chou' },
-  { key: 'oasis1', label: 'Oasis 1' },
-  { key: 'beatles1', label: 'The Beatles 1' },
-  { key: 'jay1', label: 'Jay Chou 1' }
-])
-
-function handleTabClose(key) {
-  const index = tabs.value.findIndex(t => t.key === key)
-  if (index === -1) return
-
-  tabs.value.splice(index, 1)
-
-  if (activeTab.value === key) {
-    activeTab.value = tabs.value[index]?.key || tabs.value[index - 1]?.key || null
-  }
-}
 </script>
 
 <template>
   <NLayout has-sider class="h-screen">
-    <NLayoutSider bordered collapse-mode="width" :collapsed-width="64" :width="240" show-trigger :collapsed="collapsed"
-      v-model:collapsed="collapsed">
-      <NMenu :options="menuOptions" v-model:value="selectedKey" :expanded-keys="expandedKeys"
-        @update:expanded-keys="expandedKeys = $event" :collapsed-width="64" :collapsed-icon-size="22" />
+    <NLayoutSider 
+      bordered 
+      collapse-mode="width" 
+      :collapsed-width="64" 
+      :width="240" 
+      show-trigger 
+      :collapsed="collapsed"
+      @update:collapsed="(val) => collapsed = val"
+    >
+      <NMenu 
+        :options="subMenuOptions" 
+        v-model:value="selectedKey" 
+        :expanded-keys="expandedKeys"
+        @update:expanded-keys="expandedKeys = $event" 
+        :collapsed-width="64" 
+        :collapsed-icon-size="22" 
+      />
     </NLayoutSider>
 
-    <NLayoutContent class="h-full">
-      <NCard :bordered="false" :segmented="{ content: true }" size="small" class="h-full overflow-hidden"
-        content-style=" height: 100%; overflow: auto;" footer-style="padding:0">
+    <NLayoutContent class="h-full" id="drawer-target">
+      <NCard 
+        :bordered="false" 
+        :segmented="{ content: true }" 
+        size="small" 
+        class="h-full overflow-hidden"
+        content-style="height: 100%; overflow: auto;" 
+        footer-style="padding:0"
+      >
         <template #header>
-          <n-breadcrumb>
-            <n-breadcrumb-item>消息</n-breadcrumb-item>
-            <n-breadcrumb-item>消息看板</n-breadcrumb-item>
-          </n-breadcrumb>
+          <XmBreadcrumb/>
         </template>
-        <XmLowCode />
-        <!-- <template #footer>
-
-          <n-tabs v-draggable="[
-            tabs,
-            {
-              animation: 150,
-            }
-          ]" v-model:value="activeTab" type="card" closable animated placement="bottom" @close="handleTabClose">
-            <template #prefix>
-              < </template>
-
-                <template #suffix>
-                  >
-                </template>
-                <template #default>
-                  <n-tab :name="element.key" :tab="element.label" v-for="element in tabs" :key="element.key">
-
-                  </n-tab>
-                </template>
-          </n-tabs>
-        </template> -->
+        <template #header-extra>
+          <span @click="drawerVisible = true" class="cursor-pointer">
+            <XmSvgIcon name="settings" class="w-6 h-6 block" />
+          </span>
+        </template>
+       
+        <!-- 修改為 props 驅動的 XmLayoutView -->
+        <XmLayoutView 
+          :panels="layoutStore.rootPanels"
+        />
       </NCard>
+      
+      <NDrawer v-model:show="drawerVisible" width="100%" to="#drawer-target">
+        <NDrawerContent title="设置" closable>
+          <XmLayoutEditor />
+        </NDrawerContent>
+      </NDrawer>
     </NLayoutContent>
   </NLayout>
 </template>

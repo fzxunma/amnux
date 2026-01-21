@@ -28,6 +28,7 @@ export class XmMeta {
     const data = await XmFetch[metaFetch]({ opt: "get", keyPath: normalized });
     return data || {};
   }
+
   static async saveEntity(keyPath, value, metaFetch = "metaDataFetch") {
     const normalized = this.normalizeKeyPath(keyPath);
     if (normalized.length === 0) throw new Error("keyPath 不能为空");
@@ -45,9 +46,10 @@ export class XmMeta {
         throw new Error(`keyPath 部分 "${part}" 包含非法控制字符或分隔符`);
       }
 
-      // ⭐ 强烈建议保留：严格字符集限制（不影响多级目录）
-      if (!/^[\/a-zA-Z0-9._-]+$/.test(part)) {
-        throw new Error(`keyPath 部分 "${part}" 只能包含字母、数字、下划线、短横线和点号（建议遵守）`);
+      // ⭐ 【已修复】扩展正则，允许中文字符 (\u4e00-\u9fa5)
+      // 原代码: if (!/^[\/a-zA-Z0-9._-]+$/.test(part))
+      if (!/^[\/a-zA-Z0-9._\-\u4e00-\u9fa5]+$/.test(part)) {
+        throw new Error(`keyPath 部分 "${part}" 包含非法字符（允许：字母、数字、下划线、中文、点号）`);
       }
 
       // 可选：长度限制
@@ -97,6 +99,7 @@ export class XmMeta {
       return true;
     }
   }
+
   static async deleteEntityforce(keyPath, metaFetch = "metaDataFetch", { force = false } = {}) {
     const normalized = this.normalizeKeyPath(keyPath);
     if (normalized.length === 0) {

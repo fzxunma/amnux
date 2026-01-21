@@ -1,138 +1,175 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import { NTabs, NTabPane, NButton, NSpace, useMessage, NPopconfirm } from 'naive-ui';
+
+// 1. 导入 Store (用于保存后通知更新，以及获取 rawDefaults)
+import { useMenuDataStore } from '/store/XmMenuData.js';
+
+// 2. 导入子组件和工具
+import XmMenuTableTab from './XmMenuTableTab.vue';
+import XmMenuSubTab from './XmMenuSubTab.vue';
+import { transformToEditable, useCodeGenerator } from '/store/XmMenuEditData';
+import { useXmMeta } from '/composables/useXmMeta.js';
+
+const message = useMessage();
+const { generateAndCopy } = useCodeGenerator();
+const menuStore = useMenuDataStore();
+
+// ================= 后端配置 =================
+const CONFIG_ID = 'sys_menu_config_v1';
+const {
+  saveMetaData,
+  loadMetaData,
+  xmMetaDataCurrent
+} = useXmMeta('SystemMenuConfig', 'metaData');
+
+// ================= 状态 =================
+const activeTab = ref('main');
+const mainMenus = ref([]);
+const rightMenus = ref([]);
+const subMenuMap = ref({});
+const generatedCode = ref('');
+
+/**
+ * 加载纯本地默认值
+ */
+const loadLocalDefaults = () => {
+  // 从 Store 中解构出原始默认值 (纯 JSON 格式)
+  const { main, right, sub } = menuStore.rawDefaults;
+
+  mainMenus.value = transformToEditable(main);
+  rightMenus.value = transformToEditable(right);
+  subMenuMap.value = transformToEditable(sub);
+
+  message.info('已加载本地默认配置');
+}
+
+/**
+ * 初始化数据 (编辑器核心逻辑)
+ */
+const initData = async () => {
+  try {
+    await loadMetaData(CONFIG_ID);
+    const entity = xmMetaDataCurrent.value || {};
+    const serverData = entity.content;
+
+    // 获取默认值备用
+    const { main: defMain, right: defRight, sub: defSub } = menuStore.rawDefaults;
+
+    if (serverData) {
+      console.log("📝 编辑器：发现远程配置，正在合并...");
+
+      // 1. 主菜单：远程有值用远程，否则用默认
+      const rawMain = (serverData.main && serverData.main.length > 0)
+        ? serverData.main
+        : defMain;
+      mainMenus.value = transformToEditable(rawMain);
+
+      // 2. 右侧菜单：远程有值用远程，否则用默认
+      const rawRight = (serverData.right && serverData.right.length > 0)
+        ? serverData.right
+        : defRight;
+      rightMenus.value = transformToEditable(rawRight);
+
+      // 3. 子菜单：远程有 key 用远程，否则用默认
+      // 注意：serverData.sub 可能是空对象 {}
+      const hasRemoteSub = serverData.sub && Object.keys(serverData.sub).length > 0;
+      const rawSub = hasRemoteSub ? serverData.sub : defSub;
+      subMenuMap.value = transformToEditable(rawSub);
+
+    } else {
+      console.log("📝 编辑器：远程无配置，加载默认");
+      loadLocalDefaults();
+    }
+  } catch (e) {
+    console.warn("编辑器加载异常:", e);
+    loadLocalDefaults();
+  }
+};
+
+const isSaving = ref(false);
+const handleSave = async () => {
+  if (isSaving.value) return;
+  isSaving.value = true;
+  const contentPayload = {
+    main: mainMenus.value,
+    right: rightMenus.value,
+    sub: subMenuMap.value,
+    updatedAt: new Date().toISOString()
+  };
+
+  const entity = {
+    id: CONFIG_ID,
+    title: 'SysMenuConfig',
+    content: contentPayload
+  };
+
+  try {
+    await saveMetaData(CONFIG_ID, entity);
+    await menuStore.initMenuData();
+    //message.success('保存成功并已更新菜单');
+  } catch (e) {
+    console.error(e);
+    message.error('保存失败: ' + e.message);
+  } finally {
+    isSaving.value = false;
+  }
+};
+
+const handleGenerate = () => {
+  const code = generateAndCopy(mainMenus.value, rightMenus.value, subMenuMap.value, message);
+  generatedCode.value = code;
+};
+
+onMounted(() => {
+  initData();
+});
+</script>
+
 <template>
-  <n-space vertical>
-    <n-switch v-model:value="collapsed" />
-    <n-layout has-sider>
-      <n-layout-sider
-        bordered
-        collapse-mode="width"
-        :collapsed-width="64"
-        :width="240"
-        :collapsed="collapsed"
-        show-trigger
-        @collapse="collapsed = true"
-        @expand="collapsed = false"
-      >
-        <n-menu
-          :collapsed="collapsed"
-          :collapsed-width="64"
-          :collapsed-icon-size="22"
-          :options="menuOptions"
-          :render-label="renderMenuLabel"
-          :render-icon="renderMenuIcon"
-          :expand-icon="expandIcon"
-        />
-      </n-layout-sider>
-      <n-layout>
-   <NIcon>
-    <ion-icon name="caret-down-outline"></ion-icon>
-  </NIcon>
+  <div class="h-full flex flex-col">
+    <NTabs v-model:value="activeTab" type="line" animated class="flex-1 h-0">
+      <!-- <template #suffix>
+        <NSpace size="small" align="center" style="padding-bottom: 2px;">
+          <NPopconfirm @positive-click="loadLocalDefaults">
+            <template #trigger>
+              <NButton size="tiny" tertiary type="warning">重置默认</NButton>
+            </template>
+确定要丢弃修改并恢复默认吗？
+</NPopconfirm>
 
-  <!-- 其他图标示例 -->
-  <NIcon size="24">
-    <ion-icon name="bookmark-outline"></ion-icon>
-  </NIcon>
+<NButton type="primary" size="tiny" @click="handleSave">
+  保存并应用
+</NButton>
 
-  <ion-icon name="heart-outline" class="text-red-500 w-6 h-6"></ion-icon>
-      </n-layout>
-    </n-layout>
-  </n-space>
+<NButton type="success" secondary size="tiny" @click="handleGenerate">
+  复制JSON
+</NButton>
+</NSpace>
+</template> -->
+
+      <NTabPane name="main" tab="一级侧栏">
+        <XmMenuTableTab title="" :data-list="mainMenus" @trigger-save="handleSave" />
+      </NTabPane>
+
+      <NTabPane name="sub" tab="子菜单配置">
+        <XmMenuSubTab :main-menus="mainMenus" :sub-menu-map="subMenuMap" @trigger-save="handleSave" />
+      </NTabPane>
+
+      <NTabPane name="right" tab="右侧栏">
+        <XmMenuTableTab title="" :data-list="rightMenus" @trigger-save="handleSave" />
+      </NTabPane>
+
+    </NTabs>
+  </div>
 </template>
 
-<script setup>
-import { NIcon } from "naive-ui";
-import { h, ref } from "vue";
-const menuOptions = [
-  {
-    label: "且听风吟",
-    key: "hear-the-wind-sing",
-    href: "https://baike.baidu.com/item/%E4%B8%94%E5%90%AC%E9%A3%8E%E5%90%9F/3199"
-  },
-  {
-    label: "1973年的弹珠玩具",
-    key: "pinball-1973",
-    disabled: true,
-    children: [
-      {
-        label: "鼠",
-        key: "rat"
-      }
-    ]
-  },
-  {
-    label: "寻羊冒险记",
-    key: "a-wild-sheep-chase",
-    disabled: true
-  },
-  {
-    label: "舞，舞，舞",
-    key: "dance-dance-dance",
-    children: [
-      {
-        type: "group",
-        label: "人物",
-        key: "people",
-        children: [
-          {
-            label: "叙事者",
-            key: "narrator"
-          },
-          {
-            label: "羊男",
-            key: "sheep-man"
-          }
-        ]
-      },
-      {
-        label: "饮品",
-        key: "beverage",
-        children: [
-          {
-            label: "威士忌",
-            key: "whisky",
-            href: "https://baike.baidu.com/item/%E5%A8%81%E5%A3%AB%E5%BF%8C%E9%85%92/2959816?fromtitle=%E5%A8%81%E5%A3%AB%E5%BF%8C&fromid=573&fr=aladdin"
-          }
-        ]
-      },
-      {
-        label: "食物",
-        key: "food",
-        children: [
-          {
-            label: "三明治",
-            key: "sandwich"
-          }
-        ]
-      },
-      {
-        label: "过去增多，未来减少",
-        key: "the-past-increases-the-future-recedes"
-      }
-    ]
-  }
-];
-
-const collapsed = ref(true);
-
-function renderMenuLabel(option) {
-  if ("href" in option) {
-    return h(
-      "a",
-      { href: option.href, target: "_blank" },
-      option.label
-    );
-  }
-  return option.label;
+<style scoped>
+:deep(.n-tabs-pane-wrapper) {
+  height: 100%;
 }
 
-function renderMenuIcon(option) {
-  if (option.key === "sheep-man")
-    return true;
-  if (option.key === "food")
-    return null;
-  return h(NIcon, null, { default: () => h("ion-icon", { name: "bookmark-outline" }) });
+:deep(.n-tabs-nav-scroll-wrapper) {
+  align-items: center;
 }
-
-function expandIcon() {
-  return h(NIcon, null, { default: () => h("ion-icon", { name: "caret-down-outline" }) });
-}
-</script>
+</style>

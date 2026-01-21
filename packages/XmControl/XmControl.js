@@ -1,7 +1,9 @@
-import { jwt } from "hono/jwt";
 import { XmDbs } from "@XmDBs";
 import { XmConfig } from "@XmConfig";
 import { XmSmsAliyun } from "@XmService";
+import { hono } from "@XmVendor";
+
+const { jwt } = hono;
 
 export class XmControl {
   constructor() {
